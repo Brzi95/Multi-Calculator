@@ -1,6 +1,6 @@
 <header>
         <ul>
-        <li><a href="homepage.php">Homepage</a></li>
+        <li><a href="friday13thPage.php">Friday the 13th Calculator</a></li>
         <li><a href="ageCalculatorPage.php">Age Calculator</a></li>
         <li><a href="birthdayCounterPage.php">Birthday Counter</a></li>
         <li><a>Services</a></li>

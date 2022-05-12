@@ -1,6 +1,6 @@
 <?php
 
-class ageCalculator {
+class AgeCalculator {
     protected $year;
     protected $month;
     protected $day;

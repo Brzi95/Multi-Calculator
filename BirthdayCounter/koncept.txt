@@ -1,4 +1,4 @@
-birth Counter racuna koliko je meseci, dana, sati i minuta preostalo do naseg rodjendana
+birth Counter racuna koliko je meseci i dana preostalo do naseg rodjendana
 
 forma bi se sastojala od sledecih inputa:
 
@@ -6,19 +6,11 @@ Rodjendan:
 -godina
 -mesec
 -dan
--sat (neobavezno polje)
--minut (neobavezno polje)
 
 -godina
 uz pomoc diff funckije uporediti sledeci rodjendan sa danasnjim datumom koji se nece manuelno unositi,
 nepotrebno je porediti godine jer ce razlika uvek biti manja od godinu dana, merice se najvise u mesecima,
-pored racunice koliko nam je preostalo vremena do rodjendana, bilo bi pozeljno da dobijemo info i koliko godina punimo
+pored racunice koliko nam je preostalo vremena do rodjendana, i info koliko godina punimo
 
 -meseci i dani
 podesiti ukoliko je preostalo manje od punog meseca/punog dana do rodjendana, da counter ne prikaze 0 meseca/0 dana do rodjendana
-
--sekunde
-input za sekunde je besmisleno unositi jer ovo nije live counter vec se podaci menjaju nakon svakog refresha
-
-
-rezultat se prikazuje 

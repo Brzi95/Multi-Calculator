@@ -17,8 +17,8 @@ class ageCalculator {
 
     function calcMethod() {
         date_default_timezone_set("Europe/Belgrade");
-        $date = date('Y-m-d H:i:s');
-        $currentDate = date_create($date);
+        $date = date('Y-m-d H:i:s'); // string type date
+        $currentDate = date_create($date); // DateTime type date, the type that is needed for the diff function
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";

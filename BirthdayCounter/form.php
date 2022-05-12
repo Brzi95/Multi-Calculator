@@ -17,8 +17,6 @@
     <input type="number" name='month' placeholder='12'><br>
     <input type="number" name='day' placeholder='31'><br><br>
 
-    <input type="number" name='hour' placeholder='16h'> <i>You can leave this empty</i><br> 
-    <input type="number" name='minute' placeholder='34min'> <i>You can leave this empty</i><br><br>
     <input type="submit" name="submit_button" value="Submit"/><br><br>
 </form>
 

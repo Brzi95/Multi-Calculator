@@ -4,15 +4,11 @@ class BirthdayCounter {
     protected $year;
     protected $month;
     protected $day;
-    protected $hour;
-    protected $minute;
 
-    function __construct($year, $month, $day, $hour, $minute) {
+    function __construct($year, $month, $day) {
         $this->year = $year;
         $this->month = $month;
         $this->day = $day;
-        $this->hour = $hour;
-        $this->minute = $minute;
     }
 
     function calcMethod() {
@@ -36,40 +32,7 @@ class BirthdayCounter {
             $nextBirthday = date_create($nextBirthday0);
             $diffNext = $currentDate->diff($nextBirthday);
             $years = "You'll be ". ($diff->y+1). " years old";
-            $l_date = date("l", mktime(0,0,0,$this->month, $this->day,$this->year));
-            $l_day_echo = "In case you didn't know, you were born on a ". $l_date;
-                    if ($this->hour == '' && $this->minute== '') {
-                    echo "$diffNext->m months and $diffNext->d days left till your birthday! <br> $years";
-                    $l_day_echo. "<br>";
-                        } elseif ($this->hour == '' && !($this->minute== '')) {
-                            echo "Hours are required if you enter the minutes!";
-                        } elseif (!($this->hour == '') && !($this->minute == '')) {
-                            if($this->minute < 0 || $this->minute > 59) {
-                                echo $this->minute. " ?? Enter the minutes again! ";
-                            } elseif($this->hour < 0 || $this->hour > 23) {
-                                echo $this->hour. " ?? Enter the hours again! ";
-                            } else {
-                                $birthday = date_create("$this->day-$this->month-$this->year $this->hour:$this->minute");
-                                $diff = $birthday->diff($currentDate);
-                                $hours = $diff->h. ' hours ';
-                                $minutes = $diff->i. ' minutes ';
-                                echo $yearsMonthsDays. "<br>".
-                                $hours. $minutes. "<br>".
-                                $l_day_echo;
-                        }
-                        
-                    } elseif (!($this->hour == '') && $this->minute == '') {
-                        if($this->hour < 0 || $this->hour > 23) {
-                            echo $this->hour. " ?? Enter the hours again! ";
-                        } else {
-                        $birthday = date_create("$this->day-$this->month-$this->year $this->hour:00");
-                        $diff = $birthday->diff($currentDate);
-                        $hours = $diff->h. ' hours ';
-                        echo $yearsMonthsDays. "<br>".
-                        $hours. "<br>".
-                        $l_day_echo;
-                    } 
-                }
-            }
+                    echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
         }
     }
+}

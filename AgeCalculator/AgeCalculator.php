@@ -39,7 +39,7 @@ class ageCalculator {
                      $l_day_echo. "<br>";
                         } elseif ($this->hour == '' && $this->minute !== '') {
                             echo "Hours are required if you enter the minutes!";
-                        } elseif ($this->hour !== '' && !($this->minute == '')) {
+                        } elseif ($this->hour !== '' && $this->minute !== '') {
                             if($this->minute < 0 || $this->minute > 59) {
                                 echo $this->minute. " ?? Enter the minutes again! ";
                             } elseif($this->hour < 0 || $this->hour > 23) {

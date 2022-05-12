@@ -15,6 +15,13 @@ class BirthdayCounter {
         date_default_timezone_set("Europe/Belgrade");
         $date = date('Y-m-d H:i:s');
         $currentDate = date_create($date);
+        $birthday = date_create("$this->day-$this->month-$this->year");
+        $diff = $birthday->diff($currentDate);
+        $yearsMonthsDays = $diff->y. ' years '. $diff->m. ' months '. $diff->d. ' days';
+        $nextBirthday0 = date("Y-$this->month-$this->day H:i");
+        $nextBirthday = date_create($nextBirthday0);
+        $diffNext = $currentDate->diff($nextBirthday);
+        $years = "You'll be ". ($diff->y+1). " years old";
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
@@ -25,14 +32,12 @@ class BirthdayCounter {
         } elseif ($this->day < 1 || $this->day > 31) {
             echo $this->day. " ?? Enter the day again!";
         } else {
-            $birthday = date_create("$this->day-$this->month-$this->year");
-            $diff = $birthday->diff($currentDate);
-            $yearsMonthsDays = $diff->y. ' years '. $diff->m. ' months '. $diff->d. ' days';
-            $nextBirthday0 = date("Y-$this->month-$this->day H:i");
-            $nextBirthday = date_create($nextBirthday0);
-            $diffNext = $currentDate->diff($nextBirthday);
-            $years = "You'll be ". ($diff->y+1). " years old";
-                    echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
+            if ($diffNext->m > 0) {
+                echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
+            }
+            elseif ($diffNext->m == 0) {
+                echo ($diffNext->d+1). " days left till your birthday! <br> $years";
+            }
         }
     }
 }

@@ -38,33 +38,31 @@ class AgeCalculator {
         } elseif ($this->day < 1 || $this->day > 31) {
             echo $this->day. " ?? Enter the day again!";
         } else {
-                    if ($this->hour == '' && $this->minute == '') {
-                     echo $yearsMonthsDays. "<br>".
-                     $l_day_echo. "<br>";
-                        } elseif ($this->hour == '' && $this->minute !== '') {
-                            echo "Hours are required if you enter the minutes!";
-                        } elseif ($this->hour !== '' && $this->minute !== '') {
-                            if($this->minute < 0 || $this->minute > 59) {
-                                echo $this->minute. " ?? Enter the minutes again! ";
-                            } elseif($this->hour < 0 || $this->hour > 23) {
-                                echo $this->hour. " ?? Enter the hours again! ";
-                            } else {
-                                echo $yearsMonthsDays. "<br>".
-                                $hours. $minutes. "<br>".
-                                $l_day_echo;
-                        }
-                        
-                        } elseif ($this->hour !== '' && $this->minute == '') {
-                            if($this->hour < 0 || $this->hour > 23) {
-                                echo $this->hour. " ?? Enter the hours again! ";
-                            } else {
-                            echo $yearsMonthsDays. "<br>".
-                            $hours. "<br>".
-                            $l_day_echo;
-                        } 
-                }
+            if ($this->hour == '' && $this->minute == '') {
+                echo $yearsMonthsDays. "<br>".
+                $l_day_echo. "<br>";
+            } elseif ($this->hour == '' && $this->minute !== '') {
+                echo "Hours are required if you enter the minutes!";
+            } else { 
+                if ($this->hour < 0 || $this->hour > 23) {
+                    echo $this->hour. " ?? Enter the hours again! ";
+                } elseif ($this->hour !== '' && $this->minute == '') {
+                    echo $yearsMonthsDays. "<br>".
+                    $hours. "<br>".
+                    $l_day_echo;
+                } elseif ($this->hour !== '' && $this->minute !== '') {
+                    if($this->minute < 0 || $this->minute > 59) {
+                        echo $this->minute. " ?? Enter the minutes again! ";
+                    } else {
+                        echo $yearsMonthsDays. "<br>".
+                        $hours. $minutes. "<br>".
+                        $l_day_echo;
+                    }
+                            
+                } 
             }
         }
     }
+}
 
 ?>

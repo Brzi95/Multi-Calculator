@@ -19,6 +19,15 @@ class AgeCalculator {
         date_default_timezone_set("Europe/Belgrade");
         $date = date('Y-m-d H:i:s'); // string type date
         $currentDate = date_create($date); // DateTime type date, the type that is needed for the diff function
+        $_hour = $this->hour === '' ? '00' : $this->hour;
+        $_minute = $this->minute === '' ? '00' : $this->minute;
+        $birthday = date_create("$this->day-$this->month-$this->year $_hour:$_minute");
+        $diff = $birthday->diff($currentDate);
+        $yearsMonthsDays = $diff->y. ' years '. $diff->m. ' months '. $diff->d. ' days';
+        $hours = $diff->h. ' hours ';
+        $minutes = $diff->i. ' minutes ';
+        $l_date = date("l", mktime(0,0,0,$this->month, $this->day,$this->year));
+        $l_day_echo = "In case you didn't know, you were born on a ". $l_date;
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
@@ -29,12 +38,7 @@ class AgeCalculator {
         } elseif ($this->day < 1 || $this->day > 31) {
             echo $this->day. " ?? Enter the day again!";
         } else {
-            $birthday = date_create("$this->day-$this->month-$this->year");
-            $diff = $birthday->diff($currentDate);
-            $yearsMonthsDays = $diff->y. ' years '. $diff->m. ' months '. $diff->d. ' days';
-            $l_date = date("l", mktime(0,0,0,$this->month, $this->day,$this->year));
-            $l_day_echo = "In case you didn't know, you were born on a ". $l_date;
-                    if ($this->hour == '' && $this->minute== '') {
+                    if ($this->hour == '' && $this->minute == '') {
                      echo $yearsMonthsDays. "<br>".
                      $l_day_echo. "<br>";
                         } elseif ($this->hour == '' && $this->minute !== '') {
@@ -45,10 +49,6 @@ class AgeCalculator {
                             } elseif($this->hour < 0 || $this->hour > 23) {
                                 echo $this->hour. " ?? Enter the hours again! ";
                             } else {
-                                $birthday = date_create("$this->day-$this->month-$this->year $this->hour:$this->minute");
-                                $diff = $birthday->diff($currentDate);
-                                $hours = $diff->h. ' hours ';
-                                $minutes = $diff->i. ' minutes ';
                                 echo $yearsMonthsDays. "<br>".
                                 $hours. $minutes. "<br>".
                                 $l_day_echo;
@@ -58,9 +58,6 @@ class AgeCalculator {
                             if($this->hour < 0 || $this->hour > 23) {
                                 echo $this->hour. " ?? Enter the hours again! ";
                             } else {
-                            $birthday = date_create("$this->day-$this->month-$this->year $this->hour:00");
-                            $diff = $birthday->diff($currentDate);
-                            $hours = $diff->h. ' hours ';
                             echo $yearsMonthsDays. "<br>".
                             $hours. "<br>".
                             $l_day_echo;

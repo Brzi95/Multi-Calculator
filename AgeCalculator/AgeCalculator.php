@@ -58,7 +58,6 @@ class AgeCalculator {
                         $hours. $minutes. "<br>".
                         $l_day_echo;
                     }
-                            
                 } 
             }
         }

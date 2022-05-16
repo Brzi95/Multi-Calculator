@@ -43,6 +43,10 @@ ul > li:hover {
     transform: scale(1.3);
 }
 
+.active-link {
+    background-color: aqua;
+}
+
 
 header {
     grid-column: 1/2;

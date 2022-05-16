@@ -16,7 +16,7 @@ include 'header, footer, sidebar/sidebar.php';
 <div class="content-container">
     <div class="form-container">
                 <div class="form-input">
-                    <?php include 'Friday13th/form.php'; ?>
+                    <?php include 'Friday13th/form.phtml'; ?>
                 </div>
                 <div class="echo-result">
                     <?php include 'Friday13th/echo.php'; ?>

@@ -16,7 +16,7 @@ include 'header, footer, sidebar/sidebar.php';
 <div class="content-container">
     <div class="form-container">
                 <div class="form-input">
-                    <?php include 'BirthdayCounter/form.php'; ?>
+                    <?php include 'BirthdayCounter/form.phtml'; ?>
                 </div>
                 <div class="echo-result">
                     <?php include 'BirthdayCounter/echo.php'; ?>

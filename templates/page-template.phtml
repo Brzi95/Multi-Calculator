@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="website.css">
-    <title>Age Calculator</title>
+    <title><?php echo $title ?></title>
 </head>
 <body>
 <header>
@@ -28,10 +28,10 @@
 <div class="content-container">
     <div class="form-container">
                 <div class="form-input">
-                    <?php include 'AgeCalculator/form.phtml'; ?>
+                    <?php include $form; ?>
                 </div>
                 <div class="echo-result">
-                    <?php include 'AgeCalculator/echo.php'; ?>
+                    <?php include $echo; ?>
                 </div>            
     </div>
 </div>

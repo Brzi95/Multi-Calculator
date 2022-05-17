@@ -31,11 +31,11 @@ class AgeCalculator {
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
-        } elseif ($this->year < 1900 || $this->year > 2022) {
+        } elseif (!in_array($this->year, range(1900, 2022))) {
             echo $this->year. " ?? Enter the year between 1900 and 2022!";
-        } elseif ($this->month < 1 || $this->month > 12) {
+        } elseif (!in_array($this->month, range(1, 12))) {
             echo $this->month. " ?? Enter the month again!";
-        } elseif ($this->day < 1 || $this->day > 31) {
+        } elseif (!in_array($this->day, range(1, 31))) {
             echo $this->day. " ?? Enter the day again!";
         } else {
             if ($this->hour == '' && $this->minute == '') {

@@ -19,8 +19,8 @@ class AgeCalculator {
         date_default_timezone_set("Europe/Belgrade");
         $date = date('Y-m-d H:i:s'); // string type date
         $currentDate = date_create($date); // DateTime type date, the type that is needed for the diff function
-        $_hour = $this->hour === '' ? '00' : $this->hour;
-        $_minute = $this->minute === '' ? '00' : $this->minute;
+        $_hour = $this->hour === '' ? '0' : $this->hour;
+        $_minute = $this->minute === '' ? '0' : $this->minute;
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
@@ -33,6 +33,12 @@ class AgeCalculator {
             return false;
         } elseif (!in_array($this->day, range(1, 31))) {
             echo $this->day. " ?? Enter the day again!";
+            return false;
+        } elseif (!in_array($_hour, range(0, 23))) {
+            echo $_hour. " ?? Enter the hours again!";
+            return false;
+        } elseif (!in_array($_minute, range(0, 59))) {
+            echo $_minute. " ?? Enter the minutes again!";
             return false;
         }
 
@@ -50,20 +56,14 @@ class AgeCalculator {
         } elseif ($this->hour == '' && $this->minute !== '') {
             echo "Hours are required if you enter the minutes!";
         } else { 
-            if ($this->hour < 0 || $this->hour > 23) {
-                echo $this->hour. " ?? Enter the hours again! ";
-            } elseif ($this->hour !== '' && $this->minute == '') {
+            if ($this->hour !== '' && $this->minute == '') {
                 echo $yearsMonthsDays. "<br>".
                 $hours. "<br>".
                 $l_day_echo;
             } elseif ($this->hour !== '' && $this->minute !== '') {
-                if($this->minute < 0 || $this->minute > 59) {
-                    echo $this->minute. " ?? Enter the minutes again! ";
-                } else {
-                    echo $yearsMonthsDays. "<br>".
-                    $hours. $minutes. "<br>".
-                    $l_day_echo;
-                }
+                echo $yearsMonthsDays. "<br>".
+                $hours. $minutes. "<br>".
+                $l_day_echo;
             } 
         }
     }

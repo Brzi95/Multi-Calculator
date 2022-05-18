@@ -15,6 +15,21 @@ class BirthdayCounter {
         date_default_timezone_set("Europe/Belgrade");
         $date = date('Y-m-d H:i:s');
         $currentDate = date_create($date);
+
+        if ($this->year == '' || $this->month == '' || $this->day == '') {
+            echo "Year, month and day are must fields!";
+            return false;
+        } elseif (!in_array($this->year, range(1900, 2022))) {
+            echo $this->year. " ?? Enter the year between 1900 and 2022!";
+            return false;
+        } elseif (!in_array($this->month, range(1, 12))) {
+            echo $this->month. " ?? Enter the month again!";
+            return false;
+        } elseif (!in_array($this->day, range(1, 31))) {
+            echo $this->day. " ?? Enter the day again!";
+            return false;
+        }
+
         $birthday = date_create("$this->day-$this->month-$this->year");
         $diff = $birthday->diff($currentDate);
         $nextBirthday0 = date("Y-$this->month-$this->day H:i");
@@ -22,21 +37,13 @@ class BirthdayCounter {
         $diffNext = $currentDate->diff($nextBirthday);
         $years = "You'll be ". ($diff->y+1). " years old";
 
-        if ($this->year == '' || $this->month == '' || $this->day == '') {
-            echo "Year, month and day are must fields!";
-        } elseif ($this->year < 1900 || $this->year > 2022) {
-            echo $this->year. " ?? Enter the year between 1900 and 2022!";
-        } elseif ($this->month < 1 || $this->month > 12) {
-            echo $this->month. " ?? Enter the month again!";
-        } elseif ($this->day < 1 || $this->day > 31) {
-            echo $this->day. " ?? Enter the day again!";
-        } else {
-            if ($diffNext->m > 0) {
-                echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
-            }
-            elseif ($diffNext->m == 0) {
-                echo ($diffNext->d+1). " days left till your birthday! <br> $years";
-            }
+        if ($diffNext->m == 0 && $diffNext->d == 0) {
+            echo "Happy birthday! Congratulations to your ". ($diff->y+1) . " birthday!";
+        } elseif ($diffNext->m !== 0 && $diffNext->d !== 0) {
+            echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
+        }
+        elseif ($diffNext->m == 0 && $diffNext->d !== 0) {
+            echo ($diffNext->d). " days left till your birthday! <br> $years";
         }
     }
 }

@@ -35,15 +35,14 @@ class BirthdayCounter {
         $nextBirthday0 = date("Y-$this->month-$this->day H:i");
         $nextBirthday = date_create($nextBirthday0);
         $diffNext = $currentDate->diff($nextBirthday);
-        $years = "You'll be ". ($diff->y+1). " years old";
 
         if ($diffNext->m == 0 && $diffNext->d == 0) {
-            echo "Happy birthday! Congratulations to your ". ($diff->y+1) . " birthday!";
+            echo "Happy birthday! Congratulations to your ". ($diff->y) . " birthday!";
         } elseif ($diffNext->m !== 0 && $diffNext->d !== 0) {
-            echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> $years";
+            echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> You'll be ". ($diff->y+1). " years old";
         }
-        elseif ($diffNext->m == 0 && $diffNext->d !== 0) {
-            echo ($diffNext->d). " days left till your birthday! <br> $years";
+        elseif ($diffNext->m == 0 && $diffNext->d > 0) {
+            echo ($diffNext->d). " days left till your birthday! <br> You'll be ". ($diff->y+1). " years old";
         }
     }
 }

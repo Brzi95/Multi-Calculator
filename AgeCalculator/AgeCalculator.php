@@ -25,7 +25,7 @@ class AgeCalculator {
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
             return false;
-        } elseif (!in_array($this->year, range(1900, 2022))) {
+        } elseif (!in_array($this->year, range(1900, date("Y")))) {
             echo $this->year. " ?? Enter the year between 1900 and 2022!";
             return false;
         } elseif (!in_array($this->month, range(1, 12))) {

@@ -1,8 +1,8 @@
 <header>
         <ul>
-        <li class="<?php if ($page == 'friday') {echo 'current';} ?>"><a href="index.php?page=friday">Friday the 13th Calculator</a></li>
-        <li class="<?php if ($page == 'age') {echo 'current';} ?>"><a href="index.php?page=age">Age Calculator</a></li>
-        <li class="<?php if ($page == 'birthday') {echo 'current';} ?>"><a href="index.php?page=birthday">Birthday Counter</a></li>
+        <li class="<?= ($page == 'friday') ? 'active' : '' ?>"><a href="index.php?page=friday">Friday the 13th Calculator</a></li>
+        <li class="<?= ($page == 'age') ? 'active' : '' ?>"><a href="index.php?page=age">Age Calculator</a></li>
+        <li class="<?= ($page == 'birthday') ? 'active' : '' ?>"><a href="index.php?page=birthday">Birthday Counter</a></li>
         <li><a>Services</a></li>
         <li><a>Contact Me</a></li>
         </ul>

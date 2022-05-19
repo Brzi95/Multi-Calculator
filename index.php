@@ -1,6 +1,6 @@
 <?php
 $page = isset($_GET['page']) ? $_GET['page'] : null;
-$title = 'index';
+$title = 'Multicalculator';
 
 include 'components/head.phtml';
 include 'components/header.phtml';

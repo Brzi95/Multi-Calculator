@@ -3,6 +3,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : null;
 $title = 'index';
 include 'components/head.phtml';
 include 'components/header.phtml';
+include 'components/sidebar.phtml';
+
 
 switch ($page) {
     case 'age':

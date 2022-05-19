@@ -1,15 +1,10 @@
 <?php
 $page = isset($_GET['page']) ? $_GET['page'] : null;
 $title = 'index';
-$current_id = ' id="current"';
+
 include 'components/head.phtml';
 include 'components/header.phtml';
 include 'components/sidebar.phtml';
-
-if (!isset($_GET['page'])) {
-    echo "WELCOME TO THE MULTI CALCULATOR!";
-}
-
 
 switch ($page) {
     case 'age':
@@ -31,7 +26,7 @@ switch ($page) {
         break;
     
     default:
-        # code...
+        echo "WELCOME TO THE MULTI CALCULATOR!";
         break;
 }
 

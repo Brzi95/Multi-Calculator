@@ -43,7 +43,7 @@ ul > li:hover {
     transform: scale(1.3);
 }
 
-#current {
+.current {
     background-color: aqua;
 }
 

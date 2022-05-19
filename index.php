@@ -5,6 +5,10 @@ include 'components/head.phtml';
 include 'components/header.phtml';
 include 'components/sidebar.phtml';
 
+if (!isset($_GET['page'])) {
+    echo "WELCOME TO THE MULTI CALCULATOR!";
+}
+
 
 switch ($page) {
     case 'age':

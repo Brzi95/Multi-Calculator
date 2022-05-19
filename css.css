@@ -13,7 +13,7 @@ body{
 }
 
 .content-container {
-    height: 80vh;
+    height: 100%;
 }
 
 header, footer {
@@ -22,8 +22,16 @@ header, footer {
     justify-content: center;
 }
 
-header > ul, footer > ul {
+header > ul {
+    width: 95%;
+    padding: 4px;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 
+footer > ul {
     width: 95%;
     padding: 4px;
     list-style-type: none;

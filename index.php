@@ -6,19 +6,26 @@ include 'components/header.phtml';
 
 switch ($page) {
     case 'age':
-        echo 'age calculator';
+        $form = "AgeCalculator/form.phtml";
+        $echo = "AgeCalculator/echo.php";
+        include "components/content_div.phtml";
         break;
 
     case 'friday':
-        include "Friday13th/form.phtml";
-        include "Friday13th/echo.php";
+        $form = "Friday13th/form.phtml";
+        $echo = "Friday13th/echo.php";
+        include "components/content_div.phtml";
         break;
 
-    case 'friday':
-        echo 'friday 13th';
+    case 'birthday':
+        $form = "BirthdayCounter/form.phtml";
+        $echo = "BirthdayCounter/echo.php";
+        include "components/content_div.phtml";
         break;
     
     default:
         # code...
         break;
 }
+
+include 'components/footer.phtml';

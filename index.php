@@ -1,6 +1,7 @@
 <?php
 $page = isset($_GET['page']) ? $_GET['page'] : null;
 $title = 'index';
+$current_id = ' id="current"';
 include 'components/head.phtml';
 include 'components/header.phtml';
 include 'components/sidebar.phtml';

@@ -37,7 +37,7 @@ class BirthdayCounter {
         $diffNext = $currentDate->diff($nextBirthday);
 
         if ($diffNext->m == 0 && $diffNext->d == 0) {
-            echo "Happy birthday! Congratulations to your ". ($diff->y) . " birthday!";
+            echo "Happy birthday! Congratulations to your ". ($diff->y) . ".". " birthday!";
         } elseif ($diffNext->m !== 0 && $diffNext->d !== 0) {
             echo "$diffNext->m months and ". ($diffNext->d+1). " days left till your birthday! <br> You'll be ". ($diff->y+1). " years old";
         }

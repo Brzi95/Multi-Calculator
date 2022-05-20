@@ -31,15 +31,15 @@ class BirthdayCounter {
         }
 
         $birthday = date_create("$this->year-$this->month-$this->day");
-        $diff = $birthday->diff($currentDate);
+        $diff_CurrentDate = $birthday->diff($currentDate);
         $nextBirthday_0 = date("Y-$this->month-$this->day H:i");
         $nextBirthday_CurrentYear = date_create($nextBirthday_0);
-        $diffNext_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
+        $diff_Next_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
 
         $nextYear = date("Y") + 1;
         $nextBirthday_1 = date("$nextYear-$this->month-$this->day H:i");
         $nextBirthday_NextYear = date_create($nextBirthday_1);
-        $diffNext_NextYear = $currentDate->diff($nextBirthday_NextYear);
+        $diff_Next_NextYear = $currentDate->diff($nextBirthday_NextYear);
         $age = date("Y") - $this->year;
 
         if ($diffNext_CurrentYear->m == 0 && $diffNext_CurrentYear->d == 0) {

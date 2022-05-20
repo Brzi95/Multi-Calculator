@@ -37,7 +37,7 @@ class BirthdayCounter {
         $nextBirthday_CurrentYear = date_create($nextBirthday_0);
         $diffNext_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
 
-        $nextYear = date("Y") + 1;
+        $nextYearr = date("Y") + 1;
         $nextBirthday_1 = date("$nextYear-$this->month-$this->day H:i");
         $nextBirthday_NextYear = date_create($nextBirthday_1);
         $diffNext_NextYear = $currentDate->diff($nextBirthday_NextYear);

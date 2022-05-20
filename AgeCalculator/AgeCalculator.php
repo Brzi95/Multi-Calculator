@@ -51,8 +51,12 @@ class AgeCalculator {
         $l_day_echo = "In case you didn't know, you were born on a ". $l_date;
 
         if ($this->hour == '' && $this->minute == '') {
-            echo $yearsMonthsDays. "<br>".
-            $l_day_echo. "<br>";
+            if ($this->month == date("m") && $this->day == date("d")) {
+                echo "HAPPY BIRTHDAY!!! YOU TURNED " . date("Y")-$this->year . " TODAY! :)";
+            } else {
+                echo $yearsMonthsDays. "<br>".
+                $l_day_echo. "<br>";
+            }
         } elseif ($this->hour == '' && $this->minute !== '') {
             echo "Hours are required if you enter the minutes!";
         } else { 

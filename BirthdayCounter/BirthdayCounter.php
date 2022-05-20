@@ -13,7 +13,7 @@ class BirthdayCounter {
 
     function calcMethod() {
         date_default_timezone_set("Europe/Belgrade");
-        $date = date('Y-m-d H:i');
+        $date = date('Y-m-d H:i:s');
         $currentDate = date_create($date);
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
@@ -30,9 +30,8 @@ class BirthdayCounter {
             return false;
         }
 
-        $birthday = date_create("$this->year-$this->month-$this->day H:i");
+        $birthday = date_create("$this->year-$this->month-$this->day");
         $diff = $birthday->diff($currentDate);
-
         $nextBirthday_0 = date("Y-$this->month-$this->day H:i");
         $nextBirthday_CurrentYear = date_create($nextBirthday_0);
         $diffNext_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
@@ -43,26 +42,16 @@ class BirthdayCounter {
         $diffNext_NextYear = $currentDate->diff($nextBirthday_NextYear);
         $age = date("Y") - $this->year;
 
-        if ($diffNext->m > 0) {
-            if ($diffNext->d == 0) {
-                echo "$diffNext->m months left till your birthday! <br> 
-                You'll be ". $age. " years old";
-            } else {
-                echo "$diffNext->m months and ". ($diffNext->d). " days left till your birthday! <br> 
-                You'll be ". $age. " years old";
-            }
+        if ($diffNext_CurrentYear->m == 0 && $diffNext_CurrentYear->d == 0) {
+            echo "Happy birthday! Congratulations to your ". ($diff->y) . ".". " birthday!";
+        } elseif ($diffNext_CurrentYear->m !== 0 && $diffNext_CurrentYear->d !== 0) {
+            echo "$diffNext_CurrentYear->m months and ". ($diffNext_CurrentYear->d+1). " days left till your birthday! <br> You'll be ". ($diff->y+1). " years old";
         }
-        elseif ($diffNext->m == 0) {
-            if ($diffNext->d > 0) {
-                echo ($diffNext->d). " days left till your birthday! <br> 
-                You'll be ". $age. " years old --diff->m /---->>". ($diff->m). ' '. ($diffNext->m). $nextYear;
-            } elseif ($diffNext->d == 0) {
-                echo "HAPPY BIRTHDAY!!! <br> 
-                We wish you all the best for your ". $age. '.'. " birthday! <br>
-                $diff->m ". " $diffNext->m";                
-            }
+        elseif ($diffNext_CurrentYear->m == 0 && $diffNext_CurrentYear->d > 0) {
+            echo ($diffNext_CurrentYear->d). " days left till your birthday! <br> You'll be ". ($diff->y+1). " years old";
         }
     }
 }
+
 
 ?>

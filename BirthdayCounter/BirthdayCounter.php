@@ -36,24 +36,26 @@ class BirthdayCounter {
         $nextBirthday_CurrentYear = date_create($nextBirthday_0);
         $diff_Next_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
 
+        $currentDay = date("d");
+        $currentMonth = date("m");
         $nextYear = date("Y") + 1;
+        $age = date("Y") - $this->year;
         $nextBirthday_1 = date("$nextYear-$this->month-$this->day H:i");
         $nextBirthday_NextYear = date_create($nextBirthday_1);
         $diff_Next_NextYear = $currentDate->diff($nextBirthday_NextYear);
-        $age = date("Y") - $this->year;
 
-        if (date("m") < $this->month) {
+        if ($currentMonth < $this->month) {
             echo $diff_Next_CurrentYear->m . ' months and ' . $diff_Next_CurrentYear->d+1 . ' days left till your birthday! <br>
             You turn ' . $age . '!';
-        } elseif (date("m") > $this->month) {
+        } elseif ($currentMonth > $this->month) {
             echo $diff_Next_NextYear->m . ' months and ' . $diff_Next_NextYear->d+1 . ' days left till your birthday! <br>
             You turn ' . $age+1 . '!'; 
         } else {
-            if (date("d") < $this->day) {
+            if ($currentDay < $this->day) {
                 echo $diff_Next_CurrentYear->m . ' months and ' . $diff_Next_CurrentYear->d+1 . ' days left till your birthday! <br>
                 You turn ' . $age . '!';
-            } elseif (date("d") > $this->day) {
-                echo $diff_Next_NextYear->m . ' months and ' . $diff_Next_NextYear->d . ' days left till your birthday! <br>
+            } elseif ($currentDay > $this->day) {
+                echo $diff_Next_NextYear->m . ' months and ' . $diff_Next_NextYear->d+1 . ' days left till your birthday! <br>
                 You turn ' . $age+1 . '!'; 
             } else {
                 echo "HAPPY BIRTHDAY!!! YOU TURNED " . $age . " TODAY! :)";

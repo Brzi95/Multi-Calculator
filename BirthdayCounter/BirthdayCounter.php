@@ -15,11 +15,16 @@ class BirthdayCounter {
         date_default_timezone_set("Europe/Belgrade");
         $date = date('Y-m-d H:i:s');
         $currentDate = date_create($date);
+        $currentDay = date("d");
+        $currentMonth = date("m");
+        $currentYear = date("Y");
+        $nextYear = $currentYear + 1;
+        $age = $currentYear - $this->year;
 
         if ($this->year == '' || $this->month == '' || $this->day == '') {
             echo "Year, month and day are must fields!";
             return false;
-        } elseif (!in_array($this->year, range(1900, date("Y")))) {
+        } elseif (!in_array($this->year, range(1900, $currentYear))) {
             echo $this->year. " ?? Enter the year between 1900 and 2022!";
             return false;
         } elseif (!in_array($this->month, range(1, 12))) {
@@ -36,10 +41,6 @@ class BirthdayCounter {
         $nextBirthday_CurrentYear = date_create($nextBirthday_0);
         $diff_Next_CurrentYear = $currentDate->diff($nextBirthday_CurrentYear);
 
-        $currentDay = date("d");
-        $currentMonth = date("m");
-        $nextYear = date("Y") + 1;
-        $age = date("Y") - $this->year;
         $nextBirthday_1 = date("$nextYear-$this->month-$this->day H:i");
         $nextBirthday_NextYear = date_create($nextBirthday_1);
         $diff_Next_NextYear = $currentDate->diff($nextBirthday_NextYear);

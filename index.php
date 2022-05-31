@@ -23,9 +23,15 @@ switch ($page) {
         $echo = "BirthdayCounter/echo.php";
         include "components/content_div.phtml";
         break;
+
+    case 'tablefootball':
+        $form = "TableFootball/form.phtml";
+        $echo = "TableFootball/echo.php";
+        include "components/index_table_football.phtml";
+        break;
     
     default:
-        echo "WELCOME TO THE MULTI CALCULATOR!";
+        echo "WELCOME TO THE MULTICALCULATOR!";
         break;
 }
 

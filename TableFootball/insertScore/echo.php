@@ -1,6 +1,6 @@
 <?php
 
-if ($_POST && $_POST['action'] == 'addScore') {
+if ($_POST && $_POST['action'] == 'updateScore') {
     $id = $_POST['id'];
     $win = $_POST['win'];
     $loss = $_POST['loss'];

@@ -1,12 +1,13 @@
 <div class="content-container">
     
     <div class="w3-bar w3-black">
-        <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'London')">London</button>
-        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Paris')">Paris</button>
-        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'Tokyo')">Tokyo</button>
+        <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'newPlayer')">New Player</button>
+        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'updateScore')">Update Score</button>
+        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'showScore')">Show Score</button>
+        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'insertScore')">Insert Score</button>
     </div>
     
-    <div id="London" class="w3-container w3-border city">
+    <div id="newPlayer" class="w3-container w3-border city">
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/newPlayer/form.phtml'; ?>
@@ -18,19 +19,19 @@
         </div>
     </div>
 
-    <div id="Paris" class="w3-container w3-border city" style="display:none">
+    <div id="updateScore" class="w3-container w3-border city" style="display:none">
         <div class="form-container">
             <div class="form-input">
-                <?php include 'TableFootball/addScore/form.phtml'; ?>
+                <?php include 'TableFootball/updateScore/form.phtml'; ?>
             </div>
             <div class="echo-result">
                 <?php include 'TableFootball/tableFootball.php'; ?>
-                <?php include 'TableFootball/addScore/echo.php'; ?>
+                <?php include 'TableFootball/updateScore/echo.php'; ?>
             </div>
         </div>
     </div>
 
-    <div id="Tokyo" class="w3-container w3-border city" style="display:none"> 
+    <div id="showScore" class="w3-container w3-border city" style="display:none"> 
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/showScore/form.phtml'; ?>
@@ -38,6 +39,18 @@
             <div class="echo-result">
                 <?php include 'TableFootball/tableFootball.php'; ?>
                 <?php include 'TableFootball/showScore/echo.php'; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="insertScore" class="w3-container w3-border city" style="display:none"> 
+        <div class="form-container">
+            <div class="form-input">
+                <?php include 'TableFootball/insertScore/form.phtml'; ?>
+            </div>
+            <div class="echo-result">
+                <?php include 'TableFootball/tableFootball.php'; ?>
+                <?php include 'TableFootball/insertScore/echo.php'; ?>
             </div>
         </div>
     </div>

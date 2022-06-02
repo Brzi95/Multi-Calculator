@@ -4,6 +4,10 @@
 <form action="index.php?page=tablefootball" method="post">
     <input type="text" name="date1" placeholder="yyyy-mm-dd"><br>
     <input type="text" name="date2" placeholder="yyyy-mm-dd"><br>
+    <input type="radio" name="score" value="separate" checked>
+    <label for="separate">Score separated by dates</label><br>
+    <input type="radio" name="score" value="sum">
+    <label for="sum">Summarized score</label><br>
     <input type="hidden" name="action" value="showScore">
     <input type="submit" value="submit"><br><br>
 </form>

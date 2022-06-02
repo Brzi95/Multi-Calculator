@@ -17,12 +17,12 @@ if ($_POST && $_POST['action'] == 'insertScore') {
     if ($lastDatePlayedOn == $currentDate) {
         $sql_Update = "UPDATE `brzi-gorance` SET brzi=brzi+$win1, gorance=gorance+$win2 WHERE playedOn='$lastDatePlayedOn'";
         mysqli_query($conn, $sql_Update);
-        echo "Score has been updated!";
+       // echo "Score has been updated!";
     } else {
         $sql_Insert = "INSERT INTO `brzi-gorance` (`playedOn`, `brzi`, `gorance`) VALUES ('$currentDate', '$win1', '$win2')";
         mysqli_query($conn, $sql_Insert);
-        echo "Score has been updated!";
-    }
+       // echo "Score has been updated!";
+    }   echo "Score has been updated!"; // tekst je isti i za if i else, da ga ne bi duplo posali, moze se napisati i posle elsa
 } else {
     echo "Update your score!";
 }

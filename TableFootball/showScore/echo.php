@@ -12,13 +12,17 @@ while ($row_Sum = mysqli_fetch_assoc($sum_Result)) {
 }
 
 if ($_POST && $_POST['action'] == 'showScore') {
-    $date = date($_POST['date1']);
-    $sql = "SELECT * FROM `brzi-gorance` WHERE `playedOn` = '$date'";
+    $inputDate1 = date($_POST['date1']);
+    $inputDate2 = date($_POST['date2']);
+    $sql = "SELECT * FROM `brzi-gorance` WHERE `playedOn` BETWEEN '$inputDate1' AND '$inputDate2'";
     $result = mysqli_query($conn, $sql);
     $resultCheck = mysqli_num_rows($result);
+
+        echo "between $inputDate1 and $inputDate2 <br><br>
+        BRZI VS. GORANCE <br><br>";
     while ($row = mysqli_fetch_assoc($result)) {
-        echo "BRZI VS. GORANCE <br>" . $row['brzi'] . " : " . $row['gorance'] . "<br> $date";
-    }
+        echo $row['brzi'] . " : " . $row['gorance'] . ' --> ' . $row['playedOn'] . "<br>";
+    }   
 } else {
     echo "<br><br><br>
     Enter date to see their score!";

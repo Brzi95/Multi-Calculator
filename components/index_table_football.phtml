@@ -2,7 +2,6 @@
     
     <div class="w3-bar w3-black">
         <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'newPlayer')">New Player</button>
-        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'updateScore')">Update Score</button>
         <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'showScore')">Show Score</button>
         <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'insertScore')">Insert Score</button>
     </div>
@@ -15,18 +14,6 @@
             <div class="echo-result">
                 <?php include 'TableFootball/tableFootball.php'; ?>
                 <?php include 'TableFootball/newPlayer/echo.php'; ?>
-            </div>
-        </div>
-    </div>
-
-    <div id="updateScore" class="w3-container w3-border city" style="display:none">
-        <div class="form-container">
-            <div class="form-input">
-                <?php include 'TableFootball/updateScore/form.phtml'; ?>
-            </div>
-            <div class="echo-result">
-                <?php include 'TableFootball/tableFootball.php'; ?>
-                <?php include 'TableFootball/updateScore/echo.php'; ?>
             </div>
         </div>
     </div>

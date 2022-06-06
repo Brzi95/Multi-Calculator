@@ -6,7 +6,7 @@ $sum_Result = mysqli_query($conn, $sql_Sum);
 $sum_ResultCheck = mysqli_num_rows($sum_Result);
 while ($row_Sum = mysqli_fetch_assoc($sum_Result)) {
     echo "THE ETERNAL DERBY <br> 
-    ALL MATCHES SINCE BING BANG <br><br> 
+    ALL MATCHES SINCE BIG BANG <br><br> 
     BRZI VS. GORANCE <br>" . 
     $row_Sum['SUM(brzi)'] . ' : ' . $row_Sum['SUM(gorance)'] . '<br><br><br><br>';
 }
@@ -22,16 +22,40 @@ if ($_POST && $_POST['action'] == 'showScore') {
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         echo $dateRange;
+        echo 
+        '<table class="border"> 
+            <tr>
+                <th> Game ID </th>
+                <th> Brzi </th>
+                <th> Gorance </th>
+                <th> Date Played </th>
+            </tr>';
         while ($row = mysqli_fetch_assoc($result)) {
-            echo $row['brzi'] . " : " . $row['gorance'] . ' --> ' . $row['playedOn'] . "<br>";
+        echo    '<tr>';
+        echo        "<td>" . $row['game-id'] . "</td>";
+        echo        "<td>" . $row['brzi'] . "</td>";
+        echo        "<td>" . $row['gorance'] . "</td>";
+        echo        "<td>" . $row['playedOn'] . "</td>";
+        echo    "</tr>";
         }
+        echo "</table>";
     } else {
         $sql = "SELECT SUM(brzi), SUM(gorance) FROM `brzi-gorance` WHERE `playedOn` BETWEEN '$inputDate1' AND '$inputDate2'";
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         echo $dateRange;
         while ($row = mysqli_fetch_assoc($result)) {
-            echo $row['SUM(brzi)'] . " : " . $row['SUM(gorance)'] . "<br>";
+            echo '<table class="border"> 
+            <tr>
+                <th> Brzi </th>
+                <th> Gorance </th>
+            </tr>';
+
+            echo '<tr>';
+            echo    '<td>' . $row['SUM(brzi)'] . '</td>';
+            echo    '<td>' . $row['SUM(gorance)'] . '</td>';
+            echo '</tr>';
+            echo '</table>';
         }
     }
 

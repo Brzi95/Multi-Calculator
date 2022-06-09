@@ -27,4 +27,5 @@ Uneti datume "od -> do" i dobiti zbir brzijevih i gorancetovih pobeda
 Ideja: uz inpute za datume moze stajati i radio input gde bismo izabrali da li hocemo prvu ili drugu varijantu
 
 *BONUS: polje u koje unosimo ID ili ime igraca i dobijamo samo one redove gde je dati igrac imao veci broj pobeda. Dodati jos igraca tako da treba takodje da se oznaci koji par je u pitanju (tipa brzi vs. pera ili brzi vs. gorance), pa potom ime igraca kako bi dobili rezulate za odgovarajuci par. 
+
 BONUS: LIVE STATS: svakim novim reloadom ce se iznova prikazati odnos zbira svih brzijevih i gorancetovih pobeda sa porukom: "BRZI/GORANCE VODI!"

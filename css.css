@@ -40,11 +40,23 @@ footer > ul {
     align-items: center;
 }
 
-header > ul > li, footer > ul > li {
+header > ul > li, footer > ul > li  {
     padding: 5px;
     border: solid 3px  rgb(207, 90, 225);
     border-radius: 10px;
     transition: .4s;
+}
+
+.tab-style {
+    padding: 3px;
+    border: solid 3px  rgb(207, 90, 225);
+    border-radius: 10px;
+    /* transition: .4s; */
+    cursor: pointer;
+}
+
+.table-tabs {
+    display: flex;
 }
 
 ul > li:hover {
@@ -113,3 +125,4 @@ table.border td {
     border: 1px solid #000;
     /* border-right: 1px solid #000; */
 }
+

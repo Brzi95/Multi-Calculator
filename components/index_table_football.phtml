@@ -1,12 +1,12 @@
 <div class="content-container">
     
-    <div class="w3-bar w3-black">
-        <button class="w3-bar-item w3-button tablink w3-red" onclick="openCity(event,'newPlayer')">New Player</button>
-        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'showScore')">Show Score</button>
-        <button class="w3-bar-item w3-button tablink" onclick="openCity(event,'insertScore')">Insert Score</button>
+    <div class="table-tabs">
+        <div class="tab-style tablink active" onclick="openTab(event,'newPlayer')">New Player</div>
+        <div class="tab-style tablink" onclick="openTab(event,'showScore')">Show Score</div>
+        <div class="tab-style tablink" onclick="openTab(event,'insertScore')">Insert Score</div>
     </div>
     
-    <div id="newPlayer" class="w3-container w3-border city">
+    <div id="newPlayer" class="w3-container w3-border tab">
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/newPlayer/form.phtml'; ?>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div id="showScore" class="w3-container w3-border city" style="display:none"> 
+    <div id="showScore" class="w3-container w3-border tab" style="display:none"> 
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/showScore/form.phtml'; ?>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div id="insertScore" class="w3-container w3-border city" style="display:none"> 
+    <div id="insertScore" class="w3-container w3-border tab" style="display:none"> 
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/insertScore/form.phtml'; ?>

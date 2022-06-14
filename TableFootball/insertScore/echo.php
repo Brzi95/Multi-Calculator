@@ -2,15 +2,14 @@
 
 if ($_POST && $_POST['action'] == 'insertScore') {
     $currentDate = date('Y-m-d');
-    // $nick1 = $_POST['nick1'];
-    $win1 = $_POST['win1'];
-    // $nick1 = $_POST['nick1'];
-    $win2 = $_POST['win2'];
+    $nick1 = $_POST['nick1'];
+    $winScore1 = $_POST['win1'];
+    $nick2 = $_POST['nick2'];
+    $winScore2 = $_POST['win2'];
     $sql_Select = "SELECT `playedOn` 
     FROM `brzi_vs_gorance` 
     WHERE `game-id`=(SELECT max(`game-id`) FROM `brzi_vs_gorance`);";
     $result_Select = mysqli_query($conn, $sql_Select);
-    $resultCheck_Select = mysqli_num_rows($result_Select);
     $row_Select = mysqli_fetch_assoc($result_Select);
     $lastDatePlayedOn = $row_Select['playedOn'];
 

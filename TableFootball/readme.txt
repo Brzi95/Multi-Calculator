@@ -18,22 +18,20 @@ Ako danas (recimo 01.06.2022) jos nismo uneli nista, nakon submita ce se kreirat
 
 *NEW PLAYER
 Nakon dodavanja novog igraca, on ce imati svoj ID i Nick. 
-BONUS: Nick i ID poslati na mail (dodatno polje za mail)
+BONUS: Pored toga sto korisniku treba da budu prikazani ID i Nick nakon toga sto se prijavi, moze postojati opcija da se automatski Player ID i Nick posalju na mail; ukljucuje dodatan field sa mailom
 
 
 *INSERT SCORE
 Nepotrebno je da se dodaju automatski tabele tj. dueli sa svim postojecim igracima prilikom dodavanja Playera. Tabela se treba kreirati prilikom unosenja scorova i tom prilikom proveriti:
 
-1. Da li dati igraci (cije smo Nickove ili ID-jeve smo uneli) postoje u tabeli Players.
+1. Da li dati igraci (cije smo Nickove ili ID-jeve uneli) postoje u tabeli Players.
 2. Ukoliko postoje onda program proverava da li tabela tj duel izmedju ta dva igraca postoji, ako ne
 
-- program napravi novu tabelu sa svim neophodnim, unapred podesenim kolonama (uneti nickovi trebaju biti imena kolona) i insertuje score
+- program napravi novu tabelu sa svim neophodnim, unapred podesenim kolonama (uneti nickovi trebaju biti imena kolona) i insertuje score,
 ime tabele treba da se sastoji iz Nickova: aleksa97_vs_gorance
 iako npr unesemo ID-jeve, tabela treba opet sadrzati Nickove (vazi i za kolone)
 
 - ako tabela postoji, onda se samo updateuje score.
-
-BONUS: Pored toga sto korisniku treba da budu prikazani ID i Nick nakon toga sto se prijavi, moze postojati opcija da se automatski Player ID i Nick posalju na mail; ukljucuje dodatan field sa mailom
 
 
 

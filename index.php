@@ -35,4 +35,8 @@ switch ($page) {
         break;
 }
 
+echo "<br>";
+
+
+
 include 'components/footer.phtml';

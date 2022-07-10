@@ -85,7 +85,7 @@ if ($_POST && $_POST['action'] == 'showScore') {
         }
         echo "</table>";
 
-        // summarized score from date1 to date2
+        // summarized score from date1 to date2 2
     } else {
         $sql = "SELECT SUM($input_player_nick1), SUM($input_player_nick2) FROM `$table_name` WHERE `$playedOn` BETWEEN '$inputDate1' AND '$inputDate2'";
         $result = mysqli_query($conn, $sql);

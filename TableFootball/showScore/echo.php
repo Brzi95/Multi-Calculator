@@ -9,7 +9,7 @@ if ($_POST && $_POST['action'] == 'showScore') {
     $inputRadio = $_POST['score'];
     $check_table_name1 = $input_player_nick1 . "_vs_" . $input_player_nick2;
     $check_table_name2 = $input_player_nick2 . "_vs_" . $input_player_nick1;
-    $game_id = "game-id";
+    $game_id = "game_id";
     $playedOn = "playedOn";
 
     // checking if the inputs/nicknames exist in the players table

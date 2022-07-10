@@ -26,7 +26,7 @@ if ($_POST && $_POST['action'] == 'addPlayer') {
     $players_Table_Result = mysqli_query($conn, $sql_Players_Table);
     while ($row_Players_Table = mysqli_fetch_assoc($players_Table_Result)) {
         echo    "<tr>";
-        echo        "<td>" . $row_Players_Table['player-id'] . "</td>";
+        echo        "<td>" . $row_Players_Table['player_id'] . "</td>";
         echo        "<td>" . $row_Players_Table['first_name'] . "</td>";
         echo        "<td>" . $row_Players_Table['last_name'] . "</td>";
         echo        "<td>" . $row_Players_Table['dateJoined'] . "</td>";

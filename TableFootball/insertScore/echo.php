@@ -49,7 +49,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
     // otherwise, the code below will be skipped and score will be updated to an existing table (else)
     if (!isset($table_name)) {
         $sql_Create_Table = "CREATE TABLE `$check_table_name1` (
-           `game-id` int(20) PRIMARY KEY AUTO_INCREMENT,
+           `game_id` int(20) PRIMARY KEY AUTO_INCREMENT,
            `playedOn` date,
            `$input_player_nick1` int(20), 
            `$input_player_nick2` int(20));";
@@ -65,7 +65,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
         // Score will be updated/inserted to existing table
         $sql_Select = "SELECT `playedOn` 
         FROM `$table_name` 
-        WHERE `game-id`=(SELECT max(`game-id`) FROM `$table_name`);";
+        WHERE `game_id`=(SELECT max(`game_id`) FROM `$table_name`);";
         $result_Select = mysqli_query($conn, $sql_Select);
         $row_Select = mysqli_fetch_assoc($result_Select);
         $lastDatePlayedOn = $row_Select['playedOn'];

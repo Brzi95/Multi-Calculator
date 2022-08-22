@@ -98,7 +98,7 @@ footer {
 
 .echo-result {
     /* if error, red letters, if succeed green letter, black when page is loaded */
-    color: green;
+    color: #000;
     display: grid;
     place-content: center;
 }

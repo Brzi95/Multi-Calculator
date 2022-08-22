@@ -98,9 +98,13 @@ footer {
 
 .echo-result {
     /* if error, red letters, if succeed green letter, black when page is loaded */
-    color: #000;
     display: grid;
     place-content: center;
+}
+
+.echo-result p {
+    color: green;
+    margin: 2px 0;
 }
 
 .animate-bottom {

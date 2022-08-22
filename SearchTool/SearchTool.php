@@ -54,5 +54,7 @@ class SearchTool {
             }
             $count_search_in_single_word = 0; // reseting the counter so that counting for the next word starts from zero again
         }
+
+        }
     }
-}
+

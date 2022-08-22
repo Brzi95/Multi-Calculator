@@ -29,6 +29,12 @@ switch ($page) {
         $echo = "TableFootball/echo.php";
         include "components/index_table_football.phtml";
         break;
+
+    case 'searchtool':
+        $form = "SearchTool/form.phtml";
+        $echo = "SearchTool/echo.php";
+        include "components/content_div.phtml";
+        break;
     
     default:
         echo "WELCOME TO THE MULTICALCULATOR!";

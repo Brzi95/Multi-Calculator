@@ -5,7 +5,7 @@ if ($_POST && $_POST['action'] == 'addPlayer') {
     $lastName = $_POST['last'];
     $nickName = strtolower($_POST['nick']);
     $dateJoined = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO `Players` (`first_name`, `last_name`, `nick_name`, `dateJoined`) VALUES ('$firstName', '$lastName', '$nickName', '$dateJoined')";
+    $sql = "INSERT INTO `Players` (`first_name`, `last_name`, `nick_name`, `date_joined`) VALUES ('$firstName', '$lastName', '$nickName', '$dateJoined')";
     mysqli_query($conn, $sql);
     echo "Player has been added! <br>";
 
@@ -29,7 +29,7 @@ if ($_POST && $_POST['action'] == 'addPlayer') {
         echo        "<td>" . $row_Players_Table['player_id'] . "</td>";
         echo        "<td>" . $row_Players_Table['first_name'] . "</td>";
         echo        "<td>" . $row_Players_Table['last_name'] . "</td>";
-        echo        "<td>" . $row_Players_Table['dateJoined'] . "</td>";
+        echo        "<td>" . $row_Players_Table['date_joined'] . "</td>";
         echo        "<td>" . $row_Players_Table['nick_name'] . "</td>";
         echo    "</tr>";
     }

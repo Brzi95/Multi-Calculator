@@ -58,3 +58,8 @@ Posto je logicno da redosled unetih podataka treba biti nebitan (vec da budu isp
 BONUS: LIVE STATS: svakim submitom ce se pored rezultata za unete datume prikazati i ukupan rezultat od prve do poslednje partije
 
 
+
+
+*NOVO 
+Insert Score 
+Uneti Nick/PlayerID i score i updatovati tabelu game_results. Kada se unesu Nickovi ili PlayerID-evi sa scorom, automatski treba na osnovu njih da se prepozna njihov pair_id i da se insertuje novi row (ili da se updatuje postojeci ako se unosi score po drugi put u danu)

@@ -1,129 +1,62 @@
 <?php
 
-    // Show the Scores - code starts after the form is submited
 if ($_POST && $_POST['action'] == 'showScore') {
-    $input_player_nick1 = strtolower($_POST['player_nick1']);
-    $input_player_nick2 = strtolower($_POST['player_nick2']);
+    $first_player_id = $_POST['first_player_id'];
+    $second_player_id = $_POST['second_player_id'];
     $inputDate1 = date($_POST['date1']);
     $inputDate2 = date($_POST['date2']);
     $inputRadio = $_POST['score'];
-    $check_table_name1 = $input_player_nick1 . "_vs_" . $input_player_nick2;
-    $check_table_name2 = $input_player_nick2 . "_vs_" . $input_player_nick1;
-    $game_id = "game_id";
-    $playedOn = "playedOn";
+    $dateGame = "date_of_game";
 
-    // checking if the inputs/nicknames exist in the players table
-    $sql_Nicknames = "SELECT NICK_NAME FROM Players";
-    $nicknames_Result = mysqli_query($conn, $sql_Nicknames);
-    while ($row_Nicknames = mysqli_fetch_assoc($nicknames_Result)) {
-        if ($row_Nicknames['NICK_NAME'] == $input_player_nick1) {
-            $check_nick1 = $input_player_nick1;
-        }
-        if ($row_Nicknames['NICK_NAME'] == $input_player_nick2) {
-            $check_nick2 = $input_player_nick2;
-        }
-    }
-    if (!isset($check_nick1)) {
-        echo "$input_player_nick1 isn't in the Players list or you made a typing mistake! <br>
-        Please add $input_player_nick1 or type it again!";
-        return false;
-    } elseif (!isset($check_nick2)) {
-        echo "$input_player_nick2 isn't in the Players list or you made a typing mistake! <br>
-        Please add $input_player_nick2 or type it again!";
-        return false;
+    $sql_get_nick1 = "SELECT nick_name
+    FROM players
+    WHERE player_id = '$first_player_id'
+    ;";
+    $result_get_nick1 = mysqli_query($conn, $sql_get_nick1);
+    while ($row_get_nick1 = mysqli_fetch_assoc($result_get_nick1)) {
+        $nick1 = $row_get_nick1['nick_name'];
     }
 
-    // checking if the two players played with each other (if a table with their score exists)
-    $sql_Table_Names = "SELECT TABLE_NAME 
-    FROM INFORMATION_SCHEMA.TABLES 
-    WHERE TABLE_SCHEMA = 'table football';";
-    $table_names_Result = mysqli_query($conn, $sql_Table_Names);
-    while ($row_Table_Names = mysqli_fetch_assoc($table_names_Result)) {
-        if ($row_Table_Names['TABLE_NAME'] == $check_table_name1) {
-            $table_name = $check_table_name1;
-        }
-        if ($row_Table_Names['TABLE_NAME'] == $check_table_name2) {
-            $table_name = $check_table_name2;
-        }
-    }
-    if (!isset($table_name)) {
-        echo "$input_player_nick1 and $input_player_nick2 didn't play with each other!";
-        return false;
+    $sql_get_nick2 = "SELECT nick_name
+    FROM players
+    WHERE player_id = '$second_player_id'
+    ;";
+    $result_get_nick2 = mysqli_query($conn, $sql_get_nick2);
+    while ($row_get_nick2 = mysqli_fetch_assoc($result_get_nick2)) {
+        $nick2 = $row_get_nick2['nick_name'];
     }
 
-    // sum of scores all matches
-    $sql_Sum = "SELECT SUM($input_player_nick1), SUM($input_player_nick2) FROM `$table_name`";
-    $sum_Result = mysqli_query($conn, $sql_Sum);
-    while ($row_Sum = mysqli_fetch_assoc($sum_Result)) {
-        echo "THE ETERNAL DERBY <br> 
-        ALL MATCHES SINCE BIG BANG <br><br> 
-        $input_player_nick1 VS. $input_player_nick2 <br>" . 
-        $row_Sum["SUM($input_player_nick1)"] . ' : ' . $row_Sum["SUM($input_player_nick2)"] . '<br><br><br><br>';
-    }
-    $dateRange = "between $inputDate1 and $inputDate2 <br><br>";
-    echo $dateRange;
-
-    // seperated scores from date1 to date2
     if ($inputRadio == 'separate') {
             echo "<table class='border'>
                 <tr>
-                    <th> $game_id </th>
-                    <th> $playedOn </th>
-                    <th> $input_player_nick1 </th>
-                    <th> $input_player_nick2 </th>
+                    <th> Pair ID </th>
+                    <th> $nick1 </th>
+                    <th> $nick2 </th>
+                    <th> Date </th>
+                    <th> Game ID </th>
                 </tr>";
                     
-        $sql = "SELECT * FROM `$table_name` WHERE `$playedOn` BETWEEN '$inputDate1' AND '$inputDate2'";
-        $result = mysqli_query($conn, $sql);
+        $sql_show_score = "SELECT pairs.pair_id, pairs.first_player_id, pairs.second_player_id, results.first_player_score, results.second_player_score, results.date_of_game, results.game_id
+        FROM game_results results
+        LEFT JOIN player_pairs pairs ON results.pair_id = pairs.pair_id
+        WHERE results.date_of_game BETWEEN '$inputDate1' AND '$inputDate2'
+          AND (
+              (pairs.first_player_id = '$first_player_id' AND pairs.second_player_id = '$second_player_id')
+              OR
+              (pairs.first_player_id = '$second_player_id' AND pairs.second_player_id = '$first_player_id')
+          )
+        ;";
+        $result = mysqli_query($conn, $sql_show_score);
         while ($row = mysqli_fetch_assoc($result)) {
         echo    "<tr>
-                <td> $row[$game_id] </td>
-                <td> $row[$playedOn] </td>
-                <td> $row[$input_player_nick1] </td>
-                <td> $row[$input_player_nick2] </td>
+                <td> $row[pair_id] </td>
+                <td> $row[first_player_score] </td>
+                <td> $row[second_player_score] </td>
+                <td> $row[date_of_game] </td>
+                <td> $row[game_id] </td>
             </tr>";
         }
         echo "</table>";
-
-        // summarized score from date1 to date2
-    } else {
-        $sql = "SELECT SUM($input_player_nick1), SUM($input_player_nick2) FROM `$table_name` WHERE `$playedOn` BETWEEN '$inputDate1' AND '$inputDate2'";
-        $result = mysqli_query($conn, $sql);
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<table class='border'> 
-            <tr>
-                <th> $input_player_nick1 </th>
-                <th> $input_player_nick2 </th>
-            </tr>";
-            
-            echo '<tr>';
-            echo    '<td>' . $row["SUM($input_player_nick1)"] . '</td>';
-            echo    '<td>' . $row["SUM($input_player_nick2)"] . '</td>';
-            echo '</tr>';
-            echo '</table>';
-        }
     }
-
-    // table names of all player pairs - visible before submiting the form
-} else {
-    $sql_Table_Names = "SELECT TABLE_NAME 
-    FROM INFORMATION_SCHEMA.TABLES 
-    WHERE TABLE_SCHEMA = 'table football';";
-    $table_names_Result = mysqli_query($conn, $sql_Table_Names);
-        echo "<table class='border'>";
-    while ($row_Table_Names = mysqli_fetch_assoc($table_names_Result)) {
-        echo '<tr>';
-        echo '<td>' . $row_Table_Names['TABLE_NAME'] . '<td>';
-        echo '</tr>';
-    }
-        echo '</table>';
-
-    echo "<br><br><br>
-    Enter nicknames and dates to see their score!";
-    }
-
-
-       /* 
-    $input1 = $inputDate1 === '' ? $inputDate2 : $inputDate1;
-    $input2 = $inputDate2 === '' ? $inputDate1 : $inputDate2; */
+}
 ?>

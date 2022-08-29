@@ -56,27 +56,23 @@ if ($_POST && $_POST['action'] == 'insertScore') {
                     WHERE pair_id=$pair_id 
                     AND date_of_game='$last_date_played_on'";
                     mysqli_query($conn, $sql_Update);
-                    echo "Score has been updated! (if-if)";
                 } elseif ($first_player_id > $second_player_id) {
                     $sql_Update = "UPDATE `$game_results_table` 
                     SET $first_player_score = $first_player_score + $winScore2, $second_player_score = $second_player_score + $winScore1 
                     WHERE pair_id=$pair_id 
                     AND date_of_game='$last_date_played_on'";
                     mysqli_query($conn, $sql_Update);
-                    echo "Score has been updated! (elseif-if)";
                   }
             } else {
                 if ($first_player_id < $second_player_id) {
                     $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore1', '$winScore2')";
                     mysqli_query($conn, $sql_Insert);
-                    echo "Score has been updated! (insert-if)";
                 } elseif ($first_player_id > $second_player_id) {
                     $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore2', '$winScore1')";
-                mysqli_query($conn, $sql_Insert);
-                echo "Score has been updated! (insert-elseif)";
+                    mysqli_query($conn, $sql_Insert);
                 }
             }   
-                
+            echo "Score has been updated!";
         }
     }
 else {

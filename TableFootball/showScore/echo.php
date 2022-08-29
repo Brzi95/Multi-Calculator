@@ -71,5 +71,7 @@ if ($_POST && $_POST['action'] == 'showScore') {
                 echo "</table>";
         }
     }
+} else {
+    echo "Select a pair and view their score!";
 }
 ?>

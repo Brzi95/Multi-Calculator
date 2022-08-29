@@ -36,23 +36,47 @@ if ($_POST && $_POST['action'] == 'insertScore') {
         WHERE `pair_id`= $pair_id 
         AND `game_id`=(SELECT max(`game_id`) FROM `$game_results_table`);";
         $result_last_date = mysqli_query($conn, $sql_last_date);
-        $row_last_date = mysqli_fetch_assoc($result_last_date);
-        if ($row_last_date["$date_of_game"] = NULL) { // if the players have never played with each other
-            $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore1', '$winScore2')";
-            mysqli_query($conn, $sql_Insert);
-        } else {
-        $lastDatePlayedOn = $row_last_date["$date_of_game"];
-            if ($lastDatePlayedOn == $currentDate) {
-                $sql_Update = "UPDATE `$game_results_table` 
-                SET $first_player_score = $first_player_score + $winScore1, $second_player_score = $second_player_score + $winScore2 
-                WHERE pair_id=$pair_id 
-                AND date_of_game='$lastDatePlayedOn'";
-                mysqli_query($conn, $sql_Update);
-            } else {
+        while ($row_last_date = mysqli_fetch_assoc($result_last_date)) {
+            $last_date_played_on = $row_last_date['date_of_game'];
+        }
+        
+        if ($last_date_played_on = NULL) { // if the players have never played with each other
+            if ($first_player_id < $second_player_id) {
                 $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore1', '$winScore2')";
                 mysqli_query($conn, $sql_Insert);
+            } elseif ($first_player_id > $second_player_id) {
+                $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore2', '$winScore1')";
+                mysqli_query($conn, $sql_Insert);
+            }
+        } else {
+            if ($last_date_played_on == $currentDate) {
+                if ($first_player_id < $second_player_id) {
+                    $sql_Update = "UPDATE `$game_results_table` 
+                    SET $first_player_score = $first_player_score + $winScore1, $second_player_score = $second_player_score + $winScore2 
+                    WHERE pair_id=$pair_id 
+                    AND date_of_game='$last_date_played_on'";
+                    mysqli_query($conn, $sql_Update);
+                    echo "Score has been updated! (if-if)";
+                } elseif ($first_player_id > $second_player_id) {
+                    $sql_Update = "UPDATE `$game_results_table` 
+                    SET $first_player_score = $first_player_score + $winScore2, $second_player_score = $second_player_score + $winScore1 
+                    WHERE pair_id=$pair_id 
+                    AND date_of_game='$last_date_played_on'";
+                    mysqli_query($conn, $sql_Update);
+                    echo "Score has been updated! (elseif-if)";
+                  }
+            } else {
+                if ($first_player_id < $second_player_id) {
+                    $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore1', '$winScore2')";
+                    mysqli_query($conn, $sql_Insert);
+                    echo "Score has been updated! (insert-if)";
+                } elseif ($first_player_id > $second_player_id) {
+                    $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore2', '$winScore1')";
+                mysqli_query($conn, $sql_Insert);
+                echo "Score has been updated! (insert-elseif)";
+                }
             }   
-                echo "Score has been updated!";
+                
         }
     }
 else {

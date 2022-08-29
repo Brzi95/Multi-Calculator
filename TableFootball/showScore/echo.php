@@ -47,16 +47,29 @@ if ($_POST && $_POST['action'] == 'showScore') {
           )
         ;";
         $result = mysqli_query($conn, $sql_show_score);
-        while ($row = mysqli_fetch_assoc($result)) {
-        echo    "<tr>
-                <td> $row[pair_id] </td>
-                <td> $row[first_player_score] </td>
-                <td> $row[second_player_score] </td>
-                <td> $row[date_of_game] </td>
-                <td> $row[game_id] </td>
-            </tr>";
+        if ($first_player_id < $second_player_id) {
+            while ($row = mysqli_fetch_assoc($result)) {
+            echo    "<tr>
+                    <td> $row[pair_id] </td>
+                    <td> $row[first_player_score] </td>
+                    <td> $row[second_player_score] </td>
+                    <td> $row[date_of_game] </td>
+                    <td> $row[game_id] </td>
+                </tr>";
+            }
+            echo "</table>";
+        } elseif ($first_player_id > $second_player_id) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo    "<tr>
+                        <td> $row[pair_id] </td>
+                        <td> $row[second_player_score] </td>
+                        <td> $row[first_player_score] </td>
+                        <td> $row[date_of_game] </td>
+                        <td> $row[game_id] </td>
+                    </tr>";
+                }
+                echo "</table>";
         }
-        echo "</table>";
     }
 }
 ?>

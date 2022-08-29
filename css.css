@@ -98,8 +98,8 @@ footer {
 
 .echo-result {
     /* if error, red letters, if succeed green letter, black when page is loaded */
-    display: grid;
-    place-content: center;
+    display: block;
+    margin: auto;
 }
 
 .echo-result p {
@@ -130,3 +130,13 @@ table.border td {
     /* border-right: 1px solid #000; */
 }
 
+p {
+    margin: 0;
+}
+
+span {
+    margin: 0; 
+    color: black; 
+    background-color: yellow; 
+    width: fit-content;'
+}

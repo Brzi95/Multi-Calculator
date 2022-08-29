@@ -16,7 +16,7 @@ class BirthdayCounter {
             echo "Year, month and day are must fields!";
             return false;
         }
-        if (!in_array($this->year, range(1900, $currentYear))) {
+        if (!in_array($this->year, range(1900, date("Y")))) {
             echo $this->year. " ?? Enter the year between 1900 and 2022!";
             return false;
         } 

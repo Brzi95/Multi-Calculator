@@ -77,7 +77,6 @@ if ($_POST && $_POST['action'] == 'insertScore') {
                     $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore2', '$winScore1')";
                     mysqli_query($conn, $sql_Insert);
                     echo "> INSERT elseif <br>";
-                    echo $last_date_played_on = $row_last_date['date_of_game'];;
                 }
             }   
             // echo "Score has been updated!";

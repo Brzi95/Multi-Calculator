@@ -40,7 +40,8 @@ if ($_POST && $_POST['action'] == 'insertScore') {
             $last_date_played_on = $row_last_date['date_of_game'];
         }
         
-        if ($last_date_played_on = NULL) { // if the players have never played with each other
+        // if the players have never played with each other
+        if ($last_date_played_on = NULL) { 
             if ($first_player_id < $second_player_id) {
                 $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$currentDate', '$winScore1', '$winScore2')";
                 mysqli_query($conn, $sql_Insert);

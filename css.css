@@ -138,5 +138,9 @@ span {
     margin: 0; 
     color: black; 
     background-color: yellow; 
-    width: fit-content;'
+    width: fit-content;
+}
+
+.table_football_background {
+    background: url(images/foosball.webp);
 }

@@ -70,7 +70,10 @@ if ($_POST && $_POST['action'] == 'showScore') {
                 }
                 echo "</table>";
         }
+    } else {
+        // summarized score
     }
+
 } else {
     echo "Select a pair and view their score!";
 }

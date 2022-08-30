@@ -1,19 +1,17 @@
 <?php
 
-    // player_pairs table columns
-    $player_pairs = 'player_pairs';
-    $pair_id_column = 'pair_id';
-    $first_player_id_column = 'first_player_id';
-    $second_player_id_column = 'second_player_id';
+// player_pairs table columns
+$player_pairs = 'player_pairs';
+$pair_id_column = 'pair_id';
+$first_player_id_column = 'first_player_id';
+$second_player_id_column = 'second_player_id';
 
-    // game_results table columns
-    $game_results_table = 'game_results';
-    $date_of_game = 'date_of_game';
-    $first_player_score = 'first_player_score';
-    $second_player_score = 'second_player_score';
+// game_results table columns
+$game_results_table = 'game_results';
+$date_of_game = 'date_of_game';
+$first_player_score = 'first_player_score';
+$second_player_score = 'second_player_score';
 
-
-    // Insert the Scores - code starts after the form is submited
 if ($_POST && $_POST['action'] == 'insertScore') {
     $current_date = date('Y-m-d');
     $first_player_id_input = $_POST['first_player_id'];
@@ -36,6 +34,8 @@ if ($_POST && $_POST['action'] == 'insertScore') {
         $does_pair_id_exist = $row_pair_id_exist['pair_id'];
     }
 
+    // if they've never played with each other (pair_id doesn't exist)
+    // creating a pair_id for them
     if ($does_pair_id_exist == NULL) {
         if ($first_player_id_input < $second_player_id_input) {
             $sql_insert_new_pair_id = "INSERT INTO $player_pairs (`$first_player_id_column`, `$second_player_id_column`) VALUES ($first_player_id_input, $second_player_id_input);";
@@ -46,7 +46,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
         }
     }
 
-    // getting the pairID with the help of playerID inputs
+    // getting the pairID with their unique player_ids
     $sql_get_pair_id = "SELECT DISTINCT pair_id
     FROM player_pairs
     WHERE (
@@ -72,7 +72,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
             $last_date_played_on = $row_last_date['date_of_game'];
         }
         
-        // if the players have never played with each other
+        // if the players have never played with each other (inserting their first row in table game_results)
         if ($last_date_played_on == NULL) { 
             if ($first_player_id_input < $second_player_id_input) {
                 $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$current_date', '$winScore1', '$winScore2')";
@@ -84,6 +84,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
                 echo "NULL elseif <br>";
             }
         } else {
+            // if they already played on todays date (updating the scores on existing row)
             if ($last_date_played_on == $current_date) {
                 if ($first_player_id_input < $second_player_id_input) {
                     $sql_Update = "UPDATE `$game_results_table` 
@@ -100,6 +101,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
                     mysqli_query($conn, $sql_Update);
                     echo "> UPDATE elseif <br>";
                   }
+            // if they didn't play on todays date (inserting a new row for the current date)
             } else {
                 if ($first_player_id_input < $second_player_id_input) {
                     $sql_Insert = "INSERT INTO `$game_results_table` (`pair_id`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$current_date', '$winScore1', '$winScore2')";

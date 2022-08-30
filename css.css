@@ -3,7 +3,7 @@
     text-decoration: none;
 }
 
-body{
+body {
     margin: 0 30px;
     height: 100vh;
     display: grid;
@@ -142,5 +142,8 @@ span {
 }
 
 .table_football_background {
-    background: url(images/foosball.webp);
+    /* background: url(images/foosball.webp); */
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
 }

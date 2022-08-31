@@ -1,10 +1,59 @@
 <div class="content-container">
 <h1 style = color:blue; >Friday 13th Calculator !</h1>
-<h3>Please enter the 'start year' and 'end year'!</h3><br><br>
+<h3>Please choose the day, start year and end year!</h3><br><br>
 
 <form action="index.php?page=friday" method="post">
+    <select name="day_week">
+        <optgroup label="Choose the day">
+            <?php
+                $days = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
+                for ($i = 0; $i <= count($days) - 1; $i++) { 
+                    echo "<option>" . $days[$i] . "</option>";
+                }
+            ?>
+        </optgroup>
+    </select><br>
+
+    <select name="day_num">
+        <optgroup label="Choose the day">
+            <?php
+                for ($i = 1; $i <= 31; $i++) { 
+                    echo "<option>$i</option>";
+                }
+            ?>
+        </optgroup>
+    </select><br>
+
+    <select name="start_year">
+        <optgroup label="Choose the start year">
+            <?php
+                for ($i = date('Y'); $i >= 1900; $i--) { 
+                    echo "<option>$i</option>";
+                }
+            ?>
+        </optgroup>
+    </select>
+    
+    <?php echo "From to ->" ?><br>
+
+    <select name="end_year">
+        <optgroup label="Choose the end year">
+            <?php
+                for ($i = date('Y'); $i >= 1900; $i--) { 
+                    echo "<option>$i</option>";
+                }
+            ?>
+        </optgroup>
+    </select><br>
+
+    <input type="submit" name="submit_button" value="Submit"/><br><br>
+</form>
+
+<br><br><br>
+
+<!-- <form action="index.php?page=friday" method="post">
     <input type="number" name='startYear' placeholder="Start Year"><br>
     <input type="number" name='endYear' placeholder="End Year"><br>
     <input type="submit" name="submit_button" value="Submit"/><br><br>
-</form>
+</form> -->
 </div>

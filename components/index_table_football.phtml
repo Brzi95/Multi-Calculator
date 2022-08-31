@@ -1,12 +1,12 @@
 <div class="content-container">
     
     <div class="table-tabs">
-        <div class="tab-style tablink active" onclick="openTab(event,'newPlayer')">New Player</div>
-        <div class="tab-style tablink" onclick="openTab(event,'showScore')">Show Score</div>
-        <div class="tab-style tablink" onclick="openTab(event,'insertScore')">Insert Score</div>
+        <div class="tab-style tablink active" onclick="openTab(event, 'newplayer')">New Player</div>
+        <div class="tab-style tablink" onclick="openTab(event, 'showscore')">Show Score</div>
+        <div class="tab-style tablink" onclick="openTab(event, 'insertscore')">Insert Score</div>
     </div>
     
-    <div id="newPlayer" class="w3-container w3-border tab">
+    <div id="newplayer" class="w3-container w3-border tab" style="display: block;">
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/newPlayer/form.phtml'; ?>
@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div id="showScore" class="w3-container w3-border tab" style="display:none"> 
+    <div id="showscore" class="w3-container w3-border tab" style="display: none;"> 
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/showScore/form.phtml'; ?>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div id="insertScore" class="w3-container w3-border tab" style="display:none"> 
+    <div id="insertscore" class="w3-container w3-border tab" style="display: none;"> 
         <div class="form-container">
             <div class="form-input">
                 <?php include 'TableFootball/insertScore/form.phtml'; ?>

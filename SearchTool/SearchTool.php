@@ -12,19 +12,21 @@ class SearchTool {
     function calcMethod() {
         $text_length = strlen($this->text);
         $search_length = strlen($this->search_for);
-        $subtring_length = $search_length;
+        $substring_length = $search_length;
         $count = 0;
 
         for ($start_point = 0; $start_point < $text_length; $start_point++) {
-            $subtring_from_string = strtolower(substr($this->text, $start_point, $subtring_length));
+            $subtring_from_string = strtolower(substr($this->text, $start_point, $substring_length));
             if ($subtring_from_string == strtolower($this->search_for)) {
                 $count += 1;
             }
         }
+        // message how many characters in text
         echo "There are $count <span>$this->search_for</span>'s in the following text: <br><br>";
         for ($i = 0; $i < $text_length; $i++) { 
-            if (substr($this->text, $i, $subtring_length) == $this->search_for) {
-                echo "<span>". substr($this->text, $i, $subtring_length) . "</span>";
+            if (substr($this->text, $i, $substring_length) == $this->search_for) {
+                echo "<span>". substr($this->text, $i, $substring_length) . "</span>";
+                $i += $substring_length -1;
             } else {
                 echo substr($this->text, $i, 1);
             }
@@ -35,10 +37,10 @@ class SearchTool {
         $words = str_word_count($this->text, 1);
         $num_of_words = str_word_count($this->text);
 
-        if ($search_length < 2) {
+        if ($search_length < 2) { // if one single character is searched
             echo "<br> Words that contain character '$this->search_for' are: <br>";
         } else {
-            echo "<br>'$this->search_for' appears $count times: <br>";
+            echo "<br>'<span>$this->search_for</span>' appears $count times: <br>";
         }
 
         $row_count = 0;
@@ -54,24 +56,24 @@ class SearchTool {
                         $count_searched_char_in_single_word += 1;
                     }
                 }
-                if ($count_searched_char_in_single_word > 1) {
+                if ($count_searched_char_in_single_word > 1) { // in this case the counter will be printed
                     echo '. ';
-                    for ($char = 0; $char < $word_length; $char++) {
-                        if (substr($word, $char, $subtring_length) == $this->search_for) {
-                            echo "<span>" . substr($word, $char, 1) . "</span>";
+                    for ($i = 0; $i < $word_length; $i++) {
+                        if (substr($word, $i, $substring_length) == $this->search_for) {
+                            echo "<span>" . substr($word, $i + $substring_length - 1, $substring_length) . "</span>";
                         } else {
-                            echo substr($word, $char, 1);
+                            echo substr($word, $i, 1);
                         }
                     }
-                    echo " ($count_searched_char_in_single_word". 'x)';
+                    echo " ($count_searched_char_in_single_word". 'x)'; // counter
                     echo "<br>";
                 } else {
                     echo '. ';
-                    for ($char = 0; $char < $word_length; $char++) {
-                        if (substr($word, $char, $subtring_length) == $this->search_for) {
-                            echo "<span>" . substr($word, $char, 1) . "</span>";
+                    for ($i = 0; $i < $word_length; $i++) {
+                        if (substr($word, $i, $substring_length) == $this->search_for) {
+                            echo "<span>" . substr($word, $i, $substring_length) . "</span>";
                         } else {
-                            echo substr($word, $char, 1);
+                            echo substr($word, $i + $substring_length - 1, 1);
                         }
                     }
                     echo "<br>";

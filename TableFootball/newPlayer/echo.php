@@ -13,7 +13,7 @@ if ($_POST && $_POST['action'] == 'addPlayer') {
 } else {
     $sql_column_names = "SELECT COLUMN_NAME 
     FROM INFORMATION_SCHEMA.COLUMNS 
-    WHERE TABLE_NAME='Players'";
+    WHERE TABLE_NAME='game_results'";
     $result_column_names = mysqli_query($conn, $sql_column_names);
         echo '<table class="border">';
         echo    '<tr>';
@@ -22,15 +22,16 @@ if ($_POST && $_POST['action'] == 'addPlayer') {
         }
         echo    "</tr>";
 
-    $sql_Players_Table = "SELECT * FROM `Players`";
-    $players_Table_Result = mysqli_query($conn, $sql_Players_Table);
-    while ($row_Players_Table = mysqli_fetch_assoc($players_Table_Result)) {
+    $sql_game_results_table = "SELECT * FROM `game_results`
+    WHERE `game_id`= 1;"; // between dates, chage it
+    $game_results_table_result = mysqli_query($conn, $sql_game_results_table);
+    while ($row_game_results_table = mysqli_fetch_assoc($game_results_table_result)) {
         echo    "<tr>";
-        echo        "<td>" . $row_Players_Table['player_id'] . "</td>";
-        echo        "<td>" . $row_Players_Table['first_name'] . "</td>";
-        echo        "<td>" . $row_Players_Table['last_name'] . "</td>";
-        echo        "<td>" . $row_Players_Table['date_joined'] . "</td>";
-        echo        "<td>" . $row_Players_Table['nick_name'] . "</td>";
+        echo        "<td>" . $row_game_results_table['pair_id'] . "</td>";
+        echo        "<td>" . $row_game_results_table['date_of_game'] . "</td>";
+        echo        "<td>" . $row_game_results_table['first_player_score'] . "</td>";
+        echo        "<td>" . $row_game_results_table['second_player_score'] . "</td>";
+        echo        "<td>" . $row_game_results_table['game_id'] . "</td>";
         echo    "</tr>";
     }
         echo "</table>";

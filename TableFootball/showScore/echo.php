@@ -53,7 +53,6 @@ if ($_POST && $_POST['action'] == 'showScore') {
     }*/
 
     // checking if the players have played between inputed dates
-
     // $sql_matches_between_dates = 
 
 

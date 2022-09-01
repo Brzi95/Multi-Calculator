@@ -23,7 +23,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
     $second_player_score_input = $_POST['win2'];
 
     // checking if the players played with each other (if a pair_id exist with their player_id's)
-    $sql_does_pair_id_exist = "SELECT DISTINCT $pair_id_column
+    $sql_does_pair_id_exist = "SELECT $pair_id_column
     FROM $player_pairs
     WHERE (
           ($first_player_id_column = '$first_player_id_input' AND $second_player_id_column = '$second_player_id_input')
@@ -33,6 +33,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
     ;";
 
     $does_exist = mysqli_query($conn, $sql_does_pair_id_exist);
+    $does_pair_id_exist = null;
     while ($row_pair_id_exist = mysqli_fetch_assoc($does_exist)) {
         $does_pair_id_exist = $row_pair_id_exist["$pair_id_column"];
     }
@@ -48,6 +49,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
             mysqli_query($conn, $sql_insert_new_pair_id);
         }
     }
+    echo "Score has been updated!";
 
     // getting the pairID with their unique player_ids
     $sql_get_pair_id = "SELECT DISTINCT $pair_id_column
@@ -71,6 +73,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
         WHERE `$pair_id_column`= $pair_id 
         AND `$game_id`=(SELECT max(`$game_id`) FROM `$game_results_table`);";
         $result_last_date = mysqli_query($conn, $sql_last_date);
+        $last_date_played_on = null;
         while ($row_last_date = mysqli_fetch_assoc($result_last_date)) {
             $last_date_played_on = $row_last_date["$date_of_game"];
         }

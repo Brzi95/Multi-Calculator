@@ -24,7 +24,7 @@ class SearchTool {
         // message how many characters in text
         echo "There are $count <span>$this->search_for</span>'s in the following text: <br><br>";
         for ($i = 0; $i < $text_length; $i++) { 
-            if (substr($this->text, $i, $substring_length) == $this->search_for) {
+            if (strtolower(substr($this->text, $i, $substring_length)) == strtolower($this->search_for)) {
                 echo "<span>". substr($this->text, $i, $substring_length) . "</span>";
                 $i += $substring_length -1;
             } else {
@@ -59,7 +59,7 @@ class SearchTool {
                 if ($count_searched_char_in_single_word > 1) { // in this case the counter will be printed
                     echo '. ';
                     for ($i = 0; $i < $word_length; $i++) {
-                        if (substr($word, $i, $substring_length) == $this->search_for) {
+                        if (strtolower(substr($word, $i, $substring_length)) == strtolower($this->search_for)) {
                             echo "<span>" . substr($word, $i + $substring_length - 1, $substring_length) . "</span>";
                         } else {
                             echo substr($word, $i, 1);
@@ -70,7 +70,7 @@ class SearchTool {
                 } else {
                     echo '. ';
                     for ($i = 0; $i < $word_length; $i++) {
-                        if (substr($word, $i, $substring_length) == $this->search_for) {
+                        if (strtolower(substr($word, $i, $substring_length)) == strtolower($this->search_for)) {
                             echo "<span>" . substr($word, $i, $substring_length) . "</span>";
                         } else {
                             echo substr($word, $i + $substring_length - 1, 1);
@@ -84,11 +84,3 @@ class SearchTool {
 
         }
     }
-//  . " ($count_searched_char_in_single_word". 'x)'
-
-/*
-
-echo "<span style='margin:0; color:black; background-color: yellow; width:fit-content;'>" . substr($word, $char, 1) . "</span>";
-
-*/
-

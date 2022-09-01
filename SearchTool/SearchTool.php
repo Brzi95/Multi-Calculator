@@ -29,13 +29,14 @@ class SearchTool {
             } else {
                 echo substr($this->text, $i, 1);
             }
-        }    
+        }
 
         echo "<br><br>";
 
         $words = str_word_count($this->text, 1);
         $num_of_words = str_word_count($this->text);
 
+        echo "Text contains " . '<b>' . str_word_count($this->text) . '</b>' . " words.";
         if ($search_length < 2) { // if one single character is searched
             echo "<br> Words that contain character '$this->search_for' are: <br>";
         } else {

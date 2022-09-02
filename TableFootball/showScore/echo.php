@@ -71,8 +71,7 @@ if ($_POST && $_POST['action'] == 'showScore') {
     if ($does_pair_id_exist == false) {
         echo "$nick1 and $nick2 didn't play with each other yet!";
     } elseif ($sql_games_between_dates == false) {
-        echo "$nick1 and $nick2 didn't play with each other between $inputDate1 and $inputDate1!<br>
-        Games exist between ";
+        echo "$nick1 and $nick2 didn't play with each other between $inputDate1 and $inputDate1 !";
     } else {
         if ($inputRadio == 'separate') {    
             $sql_show_score = "SELECT pairs.pair_id, pairs.first_player_id, pairs.second_player_id, results.first_player_score, results.second_player_score, results.date_of_game, results.game_id

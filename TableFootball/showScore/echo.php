@@ -66,8 +66,6 @@ if ($_POST && $_POST['action'] == 'showScore') {
         $sql_games_between_dates = $row_games_between_dates['pair_id'];
     }
 
-    
-
     if ($does_pair_id_exist == false) {
         echo "$nick1 and $nick2 didn't play with each other yet!";
     } elseif ($sql_games_between_dates == false) {

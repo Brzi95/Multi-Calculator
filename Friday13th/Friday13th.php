@@ -15,21 +15,26 @@ class Friday13thCalculator {
 
     function calcMethod() {
         $counter = 0;
-        if ($year1 <= $year2) {
-            for($year = $this->year1; $year <= $this->year2; $year++) {
-                for($month = 1; $month <= 12; $month++) {
-                    $date = date_create("$year-$month-$this->day_num");
-                    $x_th = date_format($date, "$this->day_num/M/Y");
-                    $l_day = date('l', mktime(0,0,0,$month,$this->day_num,$year)); 
-                    if($l_day == $this->day_week) {
-                        echo $l_day. " the ". $x_th. " ". "<br>";
-                        $counter += 1;
-                    }
+        if ($this->year1 <= $this->year2) {
+            $start_year = $this->year1;
+            $end_year = $this->year2;
+        } else {
+            $start_year = $this->year2;
+            $end_year = $this->year1;
+        }
+        for($year = $start_year; $year <= $end_year; $year++) {
+            for($month = 1; $month <= 12; $month++) {
+                $date = date_create("$year-$month-$this->day_num");
+                $x_th = date_format($date, "$this->day_num/M/Y");
+                $l_day = date('l', mktime(0,0,0,$month,$this->day_num,$year)); 
+                if($l_day == $this->day_week) {
+                    echo $l_day. " the ". $x_th. " ". "<br>";
+                    $counter += 1;
                 }
-                echo $counter . "x $this->day_week" . "s in $year" . "<br>";
-                $counter = 0;
-                echo "<br>";
             }
+            echo $counter . "x $this->day_week" . "s in $year" . "<br>";
+            $counter = 0;
+            echo "<br>";
         }
     }
 }

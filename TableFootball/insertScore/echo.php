@@ -14,7 +14,7 @@ $first_player_score = 'first_player_score';
 $second_player_score = 'second_player_score';
 $game_id = 'game_id';
 
-// following code starts after submiting the form
+// after submiting the form, following code starts 
 if ($_POST && $_POST['action'] == 'insertScore') {
     $current_date = date('Y-m-d');
     $first_player_id_input = $_POST['first_player_id'];
@@ -48,8 +48,9 @@ if ($_POST && $_POST['action'] == 'insertScore') {
             $sql_insert_new_pair_id = "INSERT INTO $player_pairs (`$first_player_id_column`, `$second_player_id_column`) VALUES ($second_player_id_input, $first_player_id_input);";
             mysqli_query($conn, $sql_insert_new_pair_id);
         }
+        echo "Score has been updated!";
     }
-    echo "Score has been updated!";
+    
 
     // getting the pairID with their unique player_ids
     $sql_get_pair_id = "SELECT DISTINCT $pair_id_column
@@ -87,6 +88,7 @@ if ($_POST && $_POST['action'] == 'insertScore') {
                 $sql_Insert = "INSERT INTO `$game_results_table` (`$pair_id_column`, `$date_of_game`, `$first_player_score`, `$second_player_score`) VALUES ($pair_id, '$current_date', '$second_player_score_input', '$first_player_score_input')";
                 mysqli_query($conn, $sql_Insert);
             }
+            echo "Score has been updated!";
         } else {
             // if they already played on todays date (updating the scores on existing row)
             if ($last_date_played_on == $current_date) {

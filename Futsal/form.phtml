@@ -5,7 +5,16 @@
     <label for="">Odaberi kolo:</label>
     <select name="" id="">
         <optgroup label="Sva kola od 1. do 13.">
-            
+            <?php
+                $sql_select_match = "SELECT * FROM matches";
+                if ($result = mysqli_query($conn, $sql_select_match)) {
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo '<option value="' . $row['game_id'] . '">' . $row['nick_name'] . '</option>';
+                        }
+                    }
+                }
+            ?>
         </optgroup>
     </select>
 </form>

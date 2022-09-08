@@ -43,13 +43,13 @@ class SearchTool {
             echo "<br>'<span>$this->search_for</span>' appears $count times: <br>";
         }
 
-        $row_count = 0;
+        $row_count = 1;
         $count_searched_char_in_single_word = 0;
         foreach ($words as $word) {
             $word_length = strlen($word);
             $search_length = strlen($this->search_for);
             if (str_contains(strtolower($word), strtolower($this->search_for))) {
-                echo $row_count += 1;
+                echo $row_count++ . '. ';
                 for ($start_point = 0; $start_point < $word_length; $start_point++) {
                     $subtring_from_word = strtolower(substr($word, $start_point, $search_length));
                     if ($subtring_from_word == strtolower($this->search_for)) {
@@ -57,10 +57,10 @@ class SearchTool {
                     }
                 }
                 if ($count_searched_char_in_single_word > 1) { // in this case the counter will be printed
-                    echo '. ';
                     for ($i = 0; $i < $word_length; $i++) {
                         if (strtolower(substr($word, $i, $search_length)) == strtolower($this->search_for)) {
-                            echo "<span>" . substr($word, $i + $search_length - 1, $search_length) . "</span>";
+                            echo "<span>" . strtolower($this->search_for) . "</span>";
+                            $i += strlen($this->search_for) - 1;
                         } else {
                             echo substr($word, $i, 1);
                         }
@@ -71,7 +71,8 @@ class SearchTool {
                     echo '. ';
                     for ($i = 0; $i < $word_length; $i++) {
                         if (strtolower(substr($word, $i, $search_length)) == strtolower($this->search_for)) {
-                            echo "<span>" . substr($word, $i, $search_length) . "</span>";
+                            echo "<span>" . strtolower($this->search_for) . "</span>";
+                            $i += strlen($this->search_for) - 1;
                         } else {
                             echo substr($word, $i + $search_length - 1, 1);
                         }

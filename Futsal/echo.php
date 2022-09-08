@@ -14,8 +14,8 @@ if ($_POST && $_POST['action'] == 'showMatch') {
     <br><br><br>";
 
     echo "TIM 1
-    <br><br>";
-    echo $th;
+    <br><br>
+    $th";
     $sql_submited_match = 
     "SELECT first_name, last_name, goals, assists 
     FROM matches m
@@ -39,8 +39,8 @@ if ($_POST && $_POST['action'] == 'showMatch') {
     echo "<br><br>";
 
     echo "TIM 2
-    <br><br>";
-    echo $th;
+    <br><br>
+    $th";
     $sql_submited_match = 
     "SELECT first_name, last_name, goals, assists 
     FROM matches m

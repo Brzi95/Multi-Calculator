@@ -2,12 +2,13 @@
 <h3>Prikaži rezultate mečeva!</h3><br><br>
 
 <?php // last match ID
-    $sql_select_num_match = "SELECT game_id FROM matches ORDER BY game_id DESC;";
+    $sql_select_num_match = "SELECT MAX(game_id) AS max_id FROM matches;";
     if ($result = mysqli_query($conn2, $sql_select_num_match)) {
         if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_array($result);
-            $row['game_id'] . '.';
-            $last_match_id = $row['game_id'];
+            while ($row = mysqli_fetch_array($result)) {
+                $row['max_id'] . '.';
+                $last_match_id = $row['max_id'];
+            }
         }
     }
 ?>

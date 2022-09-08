@@ -30,6 +30,12 @@ switch ($page) {
         include "components/index_table_football.phtml";
         break;
 
+    case 'futsal':
+        $form = "Futsal/form.phtml";
+        $echo = "Futsal/echo.php";
+        include "components/content_div.phtml";
+        break;
+
     case 'searchtool':
         $form = "SearchTool/form.phtml";
         $echo = "SearchTool/echo.php";

@@ -115,19 +115,13 @@ table.border td {
     padding: 0 5px 0;
 }
 
-table.border {
+table.border{
     border: 1px solid #000;
     border-collapse: collapse;
 }
 
-table.border th {
-    border: 1px solid #000;
-    /* border-right: 1px solid #000; */
-}
-
-table.border td {
-    border: 1px solid #000;
-    /* border-right: 1px solid #000; */
+table.border th, td{
+    border: 1px solid rgb(140, 140, 140);
 }
 
 p {

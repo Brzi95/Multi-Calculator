@@ -8,6 +8,7 @@ $th = "<table class='border'".
     "<th> ASISTENCIJE </th>".
     "</tr>";
 
+// 1. SHOWING TABLES OF BOTH TEAMS WITH PLAYERS AND THEIR GOALS, ASSISTS
 if ($_POST && $_POST['action'] == 'match_result') {
     $game_id_input = $_POST['game_id_input'];
 
@@ -64,6 +65,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
             }
         }
 
+// 2. SUMMARIZED GOALS AND ASSISTS FOR EVERY PLAYER IN DESCENDING ORDER
 } elseif ($_POST && $_POST['action'] == 'top_scorers_or_assists') {
     $list_input = $_POST['list_input'];
     if ($list_input == 'goals') {
@@ -98,7 +100,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
         }
     }
 
-    // store goals/assists in array
+    // store player_id's and goals/assists in associative array
     $goals_or_assists = array();
     for ($i = 1; $i <= $last_player_id; $i++) {
         $sql_select_goals_or_assists = 
@@ -108,27 +110,32 @@ if ($_POST && $_POST['action'] == 'match_result') {
         if ($result = mysqli_query($conn2, $sql_select_goals_or_assists)) {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
-                    $row["$list_input"] . 'player_id ' . $row['player_id'];
-                    array_push($goals_or_assists, $row["$list_input"]);
+                    // inserting player_id as KEY and goal or assist as VALUE
+                    $goals_or_assists[$row['player_id']] = $row["$list_input"];
                 }
             }
         }
     }
 
-    rsort($goals_or_assists);
-    foreach ($goals_or_assists as $goal_or_assist) {
-        echo $goal_or_assist . "<br>";
+    /* Displaying GOALS or ASSISTS in DESC order... 
+
+    arsort($goals_or_assists);
+    foreach ($goals_or_assists as $player_id => $goal_or_assist) {
+        echo "player_id as KEY " . $player_id . ' goal or assist as VALUE ' . $goal_or_assist . "<br>";
     }
     echo "<br><br><br><br><br><br>";
+    */
     
+
+    // Table where data is 
     echo $th;
-    rsort($goals_or_assists);
-    // foreach ($goals_or_assists as $goal_or_assist) { 
-        for ($i = 1; $i <= $last_player_id; $i++) {
+    arsort($goals_or_assists);
+    foreach ($goals_or_assists as $player_id => $goal_or_assist) { 
+        // for ($i = 1; $i <= $last_player_id; $i++) {
         $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as goals, SUM(assists) as assists
         FROM players p
         LEFT JOIN matches m ON p.player_id = m.player_id
-        WHERE p.player_id = $i
+        WHERE p.player_id = $player_id
         ";
         if ($result = mysqli_query($conn2, $sql_select_match)) {
             if (mysqli_num_rows($result) > 0) {
@@ -148,7 +155,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
     echo "</table>";
 
 
-
+// 3. SUMMARIZED ALL GOALS AND ASSISTS FOR EVERY PLAYER SEPARATED
 } elseif ($_POST && $_POST['action'] == 'show_player') {
     $th = 
     "<table class='border'>
@@ -156,10 +163,11 @@ if ($_POST && $_POST['action'] == 'match_result') {
     <th>IME</th>
     <th>PREZIME</th>
     <th>GOLOVI</th>
+    <th>ASISTENCIJE</th>
     </tr>";
 
     $player_id_input = $_POST['player_id_input'];
-    $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as sum_goals
+    $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as sum_goals, SUM(assists) as sum_assists
     FROM players p
     LEFT JOIN matches m ON p.player_id = m.player_id WHERE p.player_id = $player_id_input";
     if ($result = mysqli_query($conn2, $sql_select_match)) {
@@ -170,6 +178,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
                 echo "<td>". $row['first_name']. "</td>";
                 echo "<td>". $row['last_name'] . "</td>";
                 echo "<td>". $row['sum_goals'] . "</td>";
+                echo "<td>". $row['sum_assists'] . "</td>";
                 echo "</tr>";
             }
             echo "</table>";

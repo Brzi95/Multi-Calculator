@@ -21,7 +21,8 @@ if ($_POST && $_POST['action'] == 'showMatch') {
     FROM matches m
     LEFT JOIN players p
     ON m.player_id = p.player_id
-    WHERE game_id = $game_id_input AND team_id = 1";
+    WHERE game_id = $game_id_input AND team_id = 1
+    ORDER BY goals DESC";
         if ($result = mysqli_query($conn2, $sql_submited_match)) {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
@@ -46,7 +47,8 @@ if ($_POST && $_POST['action'] == 'showMatch') {
     FROM matches m
     LEFT JOIN players p
     ON m.player_id = p.player_id
-    WHERE game_id = $game_id_input AND team_id = 2";
+    WHERE game_id = $game_id_input AND team_id = 2
+    ORDER BY goals DESC";
         if ($result = mysqli_query($conn2, $sql_submited_match)) {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {

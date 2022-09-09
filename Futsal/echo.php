@@ -13,58 +13,55 @@ if ($_POST && $_POST['action'] == 'match_result') {
 
     $game_id_input = $_POST['game_id_input'];
 
-    echo "<b>". $game_id_input . ". KOLO</b>
-    <br><br><br>";
 
-    echo "TIM 1
-    <br><br>
-    $th";
-    $sql_submited_match = 
-    "SELECT first_name, last_name, goals, assists 
-    FROM matches m
-    LEFT JOIN players p
-    ON m.player_id = p.player_id
-    WHERE game_id = $game_id_input AND team_id = 1
-    ORDER BY goals DESC";
-        if ($result = mysqli_query($conn2, $sql_submited_match)) {
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<tr>". 
-                    "<td>" . $row['first_name'] . "</td>" . 
-                    "<td>" . $row['last_name'] . "</td>" . 
-                    "<td>" . $row['goals'] . "</td>" .
-                    "<td>" . $row['assists'] . "</td>" .
-                    "</tr>";
+
+
+    for ($team_id = 1; $team_id <= 2; $team_id++) { 
+
+        $sql_sum_goals = 
+        "SELECT team_id, SUM(goals) AS sum_goals
+        FROM matches m
+        WHERE game_id = $game_id_input AND team_id = $team_id";
+            if ($result = mysqli_query($conn2, $sql_sum_goals)) {
+                if (mysqli_num_rows($result) > 0) {
+                    echo "<b>TIM $team_id</b><br><br>";
+                    while ($row = mysqli_fetch_array($result)) {
+                        if ($row['team_id'] == $team_id) {
+                            echo "<b>". $row['sum_goals'] ."</b>";
+                        }
+                    }
+                    echo " <b>GOLOVA</b><br><br>";
                 }
-                echo "</table>";
             }
-        }
-
-    echo "<br><br>";
-
-    echo "TIM 2
-    <br><br>
-    $th";
-    $sql_submited_match = 
-    "SELECT first_name, last_name, goals, assists 
-    FROM matches m
-    LEFT JOIN players p
-    ON m.player_id = p.player_id
-    WHERE game_id = $game_id_input AND team_id = 2
-    ORDER BY goals DESC";
-        if ($result = mysqli_query($conn2, $sql_submited_match)) {
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<tr>". 
-                    "<td>" . $row['first_name'] . "</td>" . 
-                    "<td>" . $row['last_name'] . "</td>" . 
-                    "<td>" . $row['goals'] . "</td>" .
-                    "<td>" . $row['assists'] . "</td>" .
-                    "</tr>";
+    
+        
+        
+        $sql_submited_match = 
+        "SELECT first_name, last_name, goals, assists, team_id
+        FROM matches m
+        LEFT JOIN players p
+        ON m.player_id = p.player_id
+        WHERE game_id = $game_id_input AND team_id = $team_id
+        ORDER BY goals DESC";
+            if ($result = mysqli_query($conn2, $sql_submited_match)) {
+                if (mysqli_num_rows($result) > 0) {
+                    echo $th;
+                    while ($row = mysqli_fetch_array($result)) {
+                        if ($row['team_id'] == $team_id) {
+                            echo "<tr>". 
+                            "<td>" . $row['first_name'] . "</td>" . 
+                            "<td>" . $row['last_name'] . "</td>" . 
+                            "<td>" . $row['goals'] . "</td>" .
+                            "<td>" . $row['assists'] . "</td>" .
+                            "</tr>";
+                        }
+                    }
+                    echo "</table>";
                 }
-                echo "</table>";
             }
-        }
+    
+        echo "<br><br>";
+    }
 
 // 2. SUMMARIZED GOALS AND ASSISTS FOR EVERY SINGLE PLAYER
 } elseif ($_POST && $_POST['action'] == 'top_scorers_and_assists') {

@@ -13,11 +13,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
 
     $game_id_input = $_POST['game_id_input'];
 
-
-
-
-    for ($team_id = 1; $team_id <= 2; $team_id++) { 
-
+    for ($team_id = 1; $team_id <= 2; $team_id++) {
         $sql_sum_goals = 
         "SELECT team_id, SUM(goals) AS sum_goals
         FROM matches m
@@ -26,15 +22,13 @@ if ($_POST && $_POST['action'] == 'match_result') {
                 if (mysqli_num_rows($result) > 0) {
                     echo "<b>TIM $team_id</b><br><br>";
                     while ($row = mysqli_fetch_array($result)) {
-                        if ($row['team_id'] == $team_id) {
-                            echo "<b>". $row['sum_goals'] ."</b>";
+                        if ($row['team_id'] == $team_id) { // ovo izmeniti kako bih mogao da pokupim oba scora i uporedim ih 
+                            echo "<span>". $row['sum_goals'] ."</span>";
                         }
                     }
                     echo " <b>GOLOVA</b><br><br>";
                 }
             }
-    
-        
         
         $sql_submited_match = 
         "SELECT first_name, last_name, goals, assists, team_id

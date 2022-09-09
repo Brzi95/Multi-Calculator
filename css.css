@@ -124,6 +124,10 @@ table.border th, td{
     border: 1px solid rgb(140, 140, 140);
 }
 
+table.border tr:nth-child(even) {
+    background-color: #dea9da;
+}
+
 p {
     margin: 0;
 }

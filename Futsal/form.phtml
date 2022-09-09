@@ -1,9 +1,8 @@
 <h1 style = color:blue; >Mali fudbal</h1>
-<h3>Prikaži rezultate mečeva!</h3><br><br>
 
 <?php // last match ID
-    $sql_select_num_match = "SELECT MAX(game_id) AS max_id FROM matches;";
-    if ($result = mysqli_query($conn2, $sql_select_num_match)) {
+    $sql_select_last_match = "SELECT MAX(game_id) AS max_id FROM matches;";
+    if ($result = mysqli_query($conn2, $sql_select_last_match)) {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
                 $row['max_id'] . '.';
@@ -13,6 +12,7 @@
     }
 ?>
         
+<h3>Prikaži rezultate mečeva!</h3><br><br>
 <form action="index.php?page=futsal" method="post">
     <label>Odaberi kolo:</label>
     <select name="game_id_input">
@@ -31,33 +31,26 @@
         </optgroup>
     </select>
     <br>
-    <input type="hidden" name="action" value="showMatch">
+    <input type="hidden" name="action" value="match_result">
     <input type="submit" value="submit">
 </form>
 
 <br><br><br><br>
 
-<h3>Prikaži listu najboljih strelaca!</h3><br><br>
+<h3>Prikaži listu najboljih strelaca/asistenata!</h3><br><br>
 
 <form action="index.php?page=futsal" method="post">
-    <label>Odaberi kolo:</label>
-    <select name="game_id_input">
-        <optgroup label="Sva kola od 1. do <?= $last_match_id ?>.">
-
+    <label>Odaberi listu:</label>
+    <select name="list_input">
+        <optgroup label="Strelci/Asistenti">
             <?php
-                $sql_select_match = "SELECT DISTINCT game_id FROM matches";
-                if ($result = mysqli_query($conn2, $sql_select_match)) {
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_array($result)) {
-                            echo '<option value="' . $row['game_id'] . '">' . $row['game_id'] . '. Kolo' . '</option>';
-                        }
-                    }
-                }
+                echo '<option value="goals">' . 'Golovi' . '</option>';
+                echo '<option value="assists">' . 'Asistencije' . '</option>';
             ?>
         </optgroup>
     </select>
     <br>
-    <input type="hidden" name="action" value="showMatch">
+    <input type="hidden" name="action" value="top_scorers_or_assists">
     <input type="submit" value="submit">
 </form>
 
@@ -66,16 +59,16 @@
 <h3>Prikaži igrača!</h3><br><br>
 
 <form action="index.php?page=futsal" method="post">
-    <label>Odaberi kolo:</label>
-    <select name="game_id_input">
-        <optgroup label="Sva kola od 1. do <?= $last_match_id ?>.">
+    <label>Odaberi igrača:</label>
+    <select name="player_id_input">
+        <optgroup label="Svi igrači">
 
             <?php
-                $sql_select_match = "SELECT DISTINCT game_id FROM matches";
+                $sql_select_match = "SELECT * FROM players ORDER BY first_name";
                 if ($result = mysqli_query($conn2, $sql_select_match)) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {
-                            echo '<option value="' . $row['game_id'] . '">' . $row['game_id'] . '. Kolo' . '</option>';
+                            echo '<option value="' . $row['player_id'] . '">' . $row['first_name']. ' ' . $row['last_name']. '</option>';
                         }
                     }
                 }
@@ -83,6 +76,6 @@
         </optgroup>
     </select>
     <br>
-    <input type="hidden" name="action" value="showMatch">
+    <input type="hidden" name="action" value="show_player">
     <input type="submit" value="submit">
 </form>

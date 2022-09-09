@@ -10,6 +10,7 @@ $th = "<table class='border'".
 
 // 1. SHOWING TABLES OF BOTH TEAMS WITH PLAYERS AND THEIR GOALS, ASSISTS
 if ($_POST && $_POST['action'] == 'match_result') {
+
     $game_id_input = $_POST['game_id_input'];
 
     echo "<b>". $game_id_input . ". KOLO</b>
@@ -65,8 +66,9 @@ if ($_POST && $_POST['action'] == 'match_result') {
             }
         }
 
-// 2. SUMMARIZED GOALS AND ASSISTS FOR EVERY PLAYER IN DESCENDING ORDER
-} elseif ($_POST && $_POST['action'] == 'top_scorers_or_assists') {
+// 2. SUMMARIZED GOALS AND ASSISTS FOR ALL PLAYERS IN DESCENDING ORDER
+} elseif ($_POST && $_POST['action'] == 'top_scorers_and_assists') {
+
     $list_input = $_POST['list_input'];
     if ($list_input == 'goals') {
         $first_sum_th = 'GOLOVI';
@@ -117,21 +119,10 @@ if ($_POST && $_POST['action'] == 'match_result') {
         }
     }
 
-    /* Displaying GOALS or ASSISTS in DESC order... 
-
-    arsort($goals_or_assists);
-    foreach ($goals_or_assists as $player_id => $goal_or_assist) {
-        echo "player_id as KEY " . $player_id . ' goal or assist as VALUE ' . $goal_or_assist . "<br>";
-    }
-    echo "<br><br><br><br><br><br>";
-    */
-    
-
-    // Table where data is 
+    // Sorted the assoc array above by VALUES in DESC order -> used their KEYS in the query bellow
     echo $th;
     arsort($goals_or_assists);
-    foreach ($goals_or_assists as $player_id => $goal_or_assist) { 
-        // for ($i = 1; $i <= $last_player_id; $i++) {
+    foreach ($goals_or_assists as $player_id => $goal_or_assist) {
         $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as goals, SUM(assists) as assists
         FROM players p
         LEFT JOIN matches m ON p.player_id = m.player_id
@@ -157,6 +148,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
 
 // 3. SUMMARIZED ALL GOALS AND ASSISTS FOR EVERY PLAYER SEPARATED
 } elseif ($_POST && $_POST['action'] == 'show_player') {
+
     $th = 
     "<table class='border'>
     <tr>

@@ -66,32 +66,28 @@ if ($_POST && $_POST['action'] == 'match_result') {
             }
         }
 
-// 2. SUMMARIZED GOALS AND ASSISTS FOR ALL PLAYERS IN DESCENDING ORDER
+// 2. SUMMARIZED GOALS AND ASSISTS FOR EVERY SINGLE PLAYER
 } elseif ($_POST && $_POST['action'] == 'top_scorers_and_assists') {
 
     $list_input = $_POST['list_input'];
     if ($list_input == 'goals') {
-        $first_sum_th = 'GOLOVI';
-        $second_sum_th = 'ASISTENCIJE';
-        $first_sum_td = 'goals';
-        $second_sum_td = 'assists';
+        $first_sum = 'goals';
+        $second_sum = 'assists';
     } else {
-        $first_sum_th = 'ASISTENCIJE';
-        $second_sum_th = 'GOLOVI';
-        $first_sum_td = 'assists';
-        $second_sum_td = 'goals';
+        $first_sum = 'assists';
+        $second_sum = 'goals';
     }
     $th = 
     "<table class='border'>
     <tr>
     <th>PLAYER ID</th>
-    <th>IME</th>
-    <th>PREZIME</th>
-    <th>$first_sum_th</th>
-    <th>$second_sum_th</th>
+    <th>FIRST NAME</th>
+    <th>LAST NAME</th>
+    <th>". strtoupper($first_sum) ."</th>
+    <th>". strtoupper($second_sum) ."</th>
     </tr>";
 
-    // select last/max player ID
+    // select last(max) player ID
     $sql_select_last_player_id = "SELECT MAX(player_id) AS max_id FROM players;";
     if ($result = mysqli_query($conn2, $sql_select_last_player_id)) {
         if (mysqli_num_rows($result) > 0) {
@@ -123,7 +119,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
     echo $th;
     arsort($goals_or_assists);
     foreach ($goals_or_assists as $player_id => $goal_or_assist) {
-        $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as goals, SUM(assists) as assists
+        $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM($first_sum) as $first_sum, SUM($second_sum) as $second_sum
         FROM players p
         LEFT JOIN matches m ON p.player_id = m.player_id
         WHERE p.player_id = $player_id
@@ -135,8 +131,8 @@ if ($_POST && $_POST['action'] == 'match_result') {
                     echo "<td>". $row['player_id']. "</td>";
                     echo "<td>". $row['first_name']. "</td>";
                     echo "<td>". $row['last_name'] . "</td>";
-                    echo "<td>". $row["$first_sum_td"] . "</td>";
-                    echo "<td>". $row["$second_sum_td"] . "</td>";
+                    echo "<td>". $row["$first_sum"] . "</td>";
+                    echo "<td>". $row["$second_sum"] . "</td>";
                     echo "</tr>";
                 }
             }

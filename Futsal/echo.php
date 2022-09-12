@@ -16,7 +16,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
     for ($team_id = 1; $team_id <= 2; $team_id++) {
         $sql_sum_goals = 
         "SELECT team_id, SUM(goals) AS sum_goals
-        FROM matches m
+        FROM games m
         WHERE game_id = $game_id_input AND team_id = $team_id";
             if ($result = mysqli_query($conn2, $sql_sum_goals)) {
                 if (mysqli_num_rows($result) > 0) {
@@ -32,7 +32,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
         
         $sql_submited_match = 
         "SELECT first_name, last_name, goals, assists, team_id
-        FROM matches m
+        FROM games m
         LEFT JOIN players p
         ON m.player_id = p.player_id
         WHERE game_id = $game_id_input AND team_id = $team_id
@@ -64,11 +64,12 @@ if ($_POST && $_POST['action'] == 'match_result') {
     if ($list_input == 'goals') {
         $first_sum = 'goals';
         $second_sum = 'assists';
-        
+
     } else {
         $first_sum = 'assists';
         $second_sum = 'goals';
     }
+
     $th = 
     "<table class='border'>
     <tr>
@@ -77,25 +78,34 @@ if ($_POST && $_POST['action'] == 'match_result') {
     <th>LAST NAME</th>
     <th>". strtoupper($first_sum) ."</th>
     <th>". strtoupper($second_sum) ."</th>
+    <th>GAMES</th>
     </tr>";
 
     // select last(max) player ID
-    $sql_select_last_player_id = "SELECT MAX(player_id) AS max_id FROM players;";
-    if ($result = mysqli_query($conn2, $sql_select_last_player_id)) {
+    $sql_get_max_player_id = "SELECT MAX(player_id) AS max_player_id FROM players;";
+    if ($result = mysqli_query($conn2, $sql_get_max_player_id)) {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
-                $row['max_id'] . '.';
-                $last_player_id = $row['max_id'];
+                $max_player_id = $row['max_player_id'];
+            }
+        }
+    }
+
+    $sql_get_max_game_id = "SELECT MAX(game_id) AS max_game_id FROM games";
+    if ($result = mysqli_query($conn2, $sql_get_max_game_id)) {
+        if (mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                $max_game_id = $row['max_game_id'];
             }
         }
     }
 
     // store player_id's and goals/assists in associative array
     $goals_or_assists = array();
-    for ($i = 1; $i <= $last_player_id; $i++) {
+    for ($i = 1; $i <= $max_player_id; $i++) {
         $sql_select_goals_or_assists = 
         "SELECT SUM($list_input) AS $list_input, player_id 
-        FROM matches
+        FROM games
         WHERE player_id = $i";
         if ($result = mysqli_query($conn2, $sql_select_goals_or_assists)) {
             if (mysqli_num_rows($result) > 0) {
@@ -107,14 +117,38 @@ if ($_POST && $_POST['action'] == 'match_result') {
         }
     }
 
+    // does player ID exist where game ID is between 1 and max_game_id
+    arsort($goals_or_assists);
+    $games_played = 0;
+    $array_with_arrays = array();
+    foreach ($goals_or_assists as $player_id => $goal_or_assist) {
+        for ($i = 1; $i <= $max_game_id; $i++) {
+                $sql_does_id_exist = "SELECT m.player_id AS id 
+                FROM games m
+                LEFT JOIN players p ON p.player_id = m.player_id
+                WHERE game_id = $i
+                AND m.player_id = $player_id";
+                if ($result = mysqli_query($conn2, $sql_does_id_exist)) {
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_array($result)) {
+                            if ($row['id'] != null) {
+                                $games_played++;
+                            }
+                        }
+                    }
+                }
+        }
+        $array_with_games[$player_id] = $games_played;
+        $games_played = 0;
+    }
+
     // Sorted the assoc array above by VALUES in DESC order -> used their KEYS in the query bellow
     echo $th;
-    arsort($goals_or_assists);
     $row_count = 1;
     foreach ($goals_or_assists as $player_id => $goal_or_assist) {
         $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM($first_sum) as $first_sum, SUM($second_sum) as $second_sum
         FROM players p
-        LEFT JOIN matches m ON p.player_id = m.player_id
+        LEFT JOIN games m ON p.player_id = m.player_id
         WHERE p.player_id = $player_id
         ";
         if ($result = mysqli_query($conn2, $sql_select_match)) {
@@ -126,12 +160,13 @@ if ($_POST && $_POST['action'] == 'match_result') {
                     echo "<td>". $row['last_name'] . "</td>";
                     echo "<td>". $row["$first_sum"] . "</td>";
                     echo "<td>". $row["$second_sum"] . "</td>";
+                    echo "<td>". $array_with_games[$player_id] . "</td>";
                     echo "</tr>";
                 }
             }
         }
     }
-    
+
     echo "</table>";
 
 
@@ -139,7 +174,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
 } elseif ($_POST && $_POST['action'] == 'show_player') {
     $player_id_input = $_POST['player_id_input'];
 
-    $sql_get_max_id = "SELECT MAX(game_id) AS max_id FROM matches";
+    $sql_get_max_id = "SELECT MAX(game_id) AS max_id FROM games";
     if ($result = mysqli_query($conn2, $sql_get_max_id)) {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -148,10 +183,10 @@ if ($_POST && $_POST['action'] == 'match_result') {
         }
     }
 
-    $matches_played = 0;
+    $games_played = 0;
     for ($i = 1; $i <= $max_game_id; $i++) {
         $sql_does_id_exist = "SELECT m.player_id AS id 
-        FROM matches m
+        FROM games m
         LEFT JOIN players p ON p.player_id = m.player_id
         WHERE game_id = $i
         AND m.player_id = $player_id_input";
@@ -159,7 +194,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
                     if ($row['id'] != null) {
-                        $matches_played++;
+                        $games_played++;
                     }
                 }
             }
@@ -178,7 +213,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
 
     $sql_select_match = "SELECT p.player_id, p.first_name, p.last_name, SUM(goals) as sum_goals, SUM(assists) as sum_assists
     FROM players p
-    LEFT JOIN matches m ON p.player_id = m.player_id WHERE p.player_id = $player_id_input";
+    LEFT JOIN games m ON p.player_id = m.player_id WHERE p.player_id = $player_id_input";
     if ($result = mysqli_query($conn2, $sql_select_match)) {
         if (mysqli_num_rows($result) > 0) {
             echo $th;
@@ -188,7 +223,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
                 echo "<td>". $row['last_name'] . "</td>";
                 echo "<td>". $row['sum_goals'] . "</td>";
                 echo "<td>". $row['sum_assists'] . "</td>";
-                echo "<td>". $matches_played . "</td>";
+                echo "<td>". $games_played . "</td>";
                 echo "</tr>";
             }
             echo "</table>";

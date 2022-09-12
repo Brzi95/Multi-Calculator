@@ -1,7 +1,7 @@
 <h1 style = color:blue; >Mali fudbal</h1>
 
 <?php // last match ID
-    $sql_select_last_match = "SELECT MAX(game_id) AS max_id FROM matches;";
+    $sql_select_last_match = "SELECT MAX(game_id) AS max_id FROM games;";
     if ($result = mysqli_query($conn2, $sql_select_last_match)) {
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -19,7 +19,7 @@
         <optgroup label="Sva kola od 1. do <?= $last_match_id ?>.">
 
             <?php
-                $sql_select_match = "SELECT DISTINCT game_id FROM matches";
+                $sql_select_match = "SELECT DISTINCT game_id FROM games";
                 if ($result = mysqli_query($conn2, $sql_select_match)) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {

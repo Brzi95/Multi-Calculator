@@ -64,6 +64,7 @@ if ($_POST && $_POST['action'] == 'match_result') {
     if ($list_input == 'goals') {
         $first_sum = 'goals';
         $second_sum = 'assists';
+        
     } else {
         $first_sum = 'assists';
         $second_sum = 'goals';

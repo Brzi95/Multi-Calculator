@@ -1,0 +1,32 @@
+<div class="content-container">
+    
+    <div class="table-tabs">
+        <div class="tab-style tablink active" onclick="openTab(event, 'statistics')">Statistika</div>
+        <div class="tab-style tablink" onclick="openTab(event, 'new_match')">Novi meč</div>
+    </div>
+    
+    <div id="statistics" class="w3-container w3-border tab" style="display: block;">
+        <div class="form-container">
+            <div class="form-input">
+                <?php include 'Futsal/statistics/form.phtml'; ?>
+            </div>
+            <div class="echo-result">
+                <?php include 'databases/mali_Fudbal_DB.php'; ?>
+                <?php include 'Futsal/statistics/echo.php'; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="new_match" class="w3-container w3-border tab" style="display: none;"> 
+        <div class="form-container">
+            <div class="form-input">
+                <?php include 'Futsal/new_match/form.phtml'; ?>
+            </div>
+            <div class="echo-result">
+                <?php include 'databases/mali_Fudbal_DB.php'; ?>
+                <?php include 'Futsal/new_match/echo.php'; ?>
+            </div>
+        </div>
+    </div>
+
+</div>

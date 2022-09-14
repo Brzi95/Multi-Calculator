@@ -79,3 +79,77 @@
     <input type="hidden" name="action" value="show_player">
     <input type="submit" value="submit">
 </form>
+
+<br><br><br><br>
+
+<form action="index.php?page=futsal" method="post">
+    <label>Odaberi igrača:</label>
+    <br>
+    <select name="team1[]" multiple>
+        <optgroup label="Svi igrači">
+            <?php
+                $sql_select_match = "SELECT * FROM players ORDER BY first_name";
+                    if ($result = mysqli_query($conn2, $sql_select_match)) {
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo '<option value="' . $row['player_id'] . '">' . $row['first_name']. ' ' . $row['last_name']. '</option>';
+                            }
+                        }
+                    }
+            ?>
+        </optgroup>
+    </select>
+    <br><br>
+    <br>
+    <select name="team2[]" multiple>
+        <optgroup label="Svi igrači">
+            <?php
+                $sql_select_match = "SELECT * FROM players ORDER BY first_name";
+                    if ($result = mysqli_query($conn2, $sql_select_match)) {
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo '<option value="' . $row['player_id'] . '">' . $row['first_name']. ' ' . $row['last_name']. '</option>';
+                            }
+                        }
+                    }
+            ?>
+        </optgroup>
+    </select>
+    <br><br>
+
+    <input type="hidden" name="action" value="create_teams">
+    <input type="submit" value="submit">
+</form>
+
+
+<br><br>
+
+<!-- 
+<h3>Ukloni igrača iz tima</h3>
+<form action="index.php?page=futsal" method="post">
+    <br>
+    <select name="delete[]" multiple>
+    <optgroup label="Igrači:">';
+    
+    <?php
+    // $sql_get_players_live_game = 
+    // "SELECT first_name, last_name, g.player_id AS player_id
+    // FROM live_game g
+    // LEFT JOIN players p ON p.player_id = g.player_id"
+    // ;
+    // if ($result = mysqli_query($conn2, $sql_get_players_live_game)) {
+    //     if (mysqli_num_rows($result) > 0) {
+    //         while ($row = mysqli_fetch_array($result)) {
+    //             echo '<option value="' . $row['player_id'] . '">' . $row['first_name']. ' ' . $row['last_name']. '</option>';
+    //         }
+    //     }
+    // }
+    ?>
+       
+    <br><br>
+    </optgroup></select>
+    <br>
+    <input type="hidden" name="action" value="delete_row_live_game_table">
+    <input type="submit" value="submit">
+    </form>
+    -->

@@ -5,15 +5,23 @@
 
 body {
     margin: 0 30px;
-    height: 100vh;
+    min-height: 100vh;
+    height: 100%;
     display: grid;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 100px 1fr 100px;
     background: linear-gradient(rgb(255, 255, 255), rgb(238, 141, 253));
 }
 
 .content-container {
-    height: 100%;
+    margin: 50px 100px 20px;
+    width: 100%;
+
+}
+
+.div-content-tab {
+    display: flex;
+    justify-content: space-between;
 }
 
 header, footer {
@@ -74,12 +82,6 @@ header {
     grid-row: 1/2;
 }
 
-.sidebar {
-    display: grid;
-    grid-column: 2/3;
-    grid-row: 1/4;
-}
-
 footer {
     grid-column: 1/2;
     grid-row: 3/4;
@@ -91,9 +93,6 @@ footer {
 }
 
 .form-input {
-    display: grid;
-    justify-content: center;
-    align-content: center;
 }
 
 .echo-result {

@@ -3,7 +3,6 @@ $page = isset($_GET['page']) ? $_GET['page'] : null;
 
 include 'components/head.phtml';
 include 'components/header.phtml';
-include 'components/sidebar.phtml';
 
 switch ($page) {
     case 'age':
@@ -33,7 +32,7 @@ switch ($page) {
     case 'futsal':
         $form = "Futsal/form.phtml";
         $echo = "Futsal/echo.php";
-        include "components/content_div.phtml";
+        include "components/index_futsal.phtml";
         break;
 
     case 'searchtool':

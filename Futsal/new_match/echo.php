@@ -40,12 +40,26 @@ if ($_POST && $_POST['action'] == 'add_or_remove_player') {
         $first_name = '';
         $check_team = '';
     }
-// add/remove goals
+// add/remove goals/assists
 } elseif ($_POST && $_POST['action'] == 'add_or_remove_goal') {
-    $_POST['action_goal'] == 'add_goal' ? $num = 1 : $num = -1;
+    $button_name = 'goals_or_assists';
+    $button_value = $_POST["$button_name"];
+    if ($button_value == 'g+') {
+        $button_name = 'goals';
+        $num = 1;
+    } elseif ($button_value == 'g-') {
+        $button_name = 'goals';
+        $num = -1;
+    } elseif ($button_value == 'as+') {
+        $button_name = 'assists';
+        $num = 1;
+    } elseif ($button_value == 'as-') {
+        $button_name = 'assists';
+        $num = -1;
+    }
     $player_id = $_POST['id'];
     $sql_add_or_remove_goal = "UPDATE `live_game` 
-    SET `goals`= (SELECT goals FROM `live_game` WHERE player_id = $player_id)+$num 
+    SET `$button_name`= (SELECT $button_name FROM `live_game` WHERE player_id = $player_id)+$num 
     WHERE player_id = $player_id;"
     ;
     mysqli_query($conn2, $sql_add_or_remove_goal);
@@ -122,33 +136,29 @@ if (!empty($array_with_IDs)) {
                 }
             }
         }
-        // ADD GOAL BUTTON
+        // ADD/REMOVE GOAL BUTTON
         echo '<form action="index.php?page=futsal" method="post">
         <label>'.$player_name.'</label>
-        <select name="id">
+        <div style="display: none"> <select name="id">
+            
             <optgroup">
                 <option value="' . $id . '" selected> Dodaj gol </option>
             </optgroup>
-        </select>
+            
+        </select></div>
         <input type="hidden" name="action" value="add_or_remove_goal">
-        <input type="hidden" name="action_goal" value="add_goal">
-        <input type="submit" value="+">
+        <br>
+        Gol 
+        <button type="submit" name="goals_or_assists" value="g+">+</button>
+        <button type="submit" name="goals_or_assists" value="g-">-</button>
+        <br>
+        Asistencija 
+        <button type="submit" name="goals_or_assists" value="as+">+</button>
+        <button type="submit" name="goals_or_assists" value="as-">-</button>
         </form>
         <br><br>';
         
-        // REMOVE GOAL BUTTON
-        echo '<form action="index.php?page=futsal" method="post">
-        <label>'.$player_name.'</label>
-        ><select name="id"=>
-            <optgroup>
-                <option value="' . $id . '"selected>Ukloni gol</option>
-            </optgroup>
-        </select>
-        <input type="hidden" name="action" value="add_or_remove_goal">
-        <input type="hidden" name="action_goal" value="remove_goal">
-        <input type="submit" value="-">
-        </form>
-        <br><br>';
+
     }
 }
 

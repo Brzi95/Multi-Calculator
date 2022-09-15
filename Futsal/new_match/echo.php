@@ -1,12 +1,62 @@
-
 <?php
+
+$th = "<table class='border'>
+<tr>
+<th></th>
+<th>TIM</th>
+<th>IME</th>
+<th>PREZIME</th>
+<th>GOLOVI</th>
+<th>ASISTENCIJE</th>
+<th>DATUM</th>
+</tr>";
+
+$form_start = '<form action="index.php?page=futsal" method="post">
+<div style="display: none">
+<select name="id">
+<optgroup">
+<option value="';
+
+$goal_plus = 'g+';
+$goal_minus = 'g-';
+$assist_plus = 'as+';
+$assist_minus = 'as-';
+$form_goals_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value='.$goal_plus.'>+</button>
+<button type="submit" name="goals_or_assists" value='.$goal_minus.'>-</button>
+</form>';
+
+$form_assists_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value='.$assist_plus.'>+</button>
+<button type="submit" name="goals_or_assists" value='.$assist_minus.'>-</button>
+</form>';
+
+$form_remove_player_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_player" value="remove_player">X</button>
+</form>';
+
+$form_remove_whole_team_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_team" value="remove_team">X</button>
+</form>';
+
 
 // add players
 if ($_POST && $_POST['action'] == 'add_player') {
     $team = $_POST['team'];
     $team == 'team_1' ? $team_num = 1 : $team_num = 2;
     $IDs_from_input = $_POST["$team"];
-
     $IDs_from_table = '';
     foreach ($IDs_from_input as $player_id) {
         $sql_inserted_players = "SELECT first_name, team_id, g.player_id
@@ -31,95 +81,36 @@ if ($_POST && $_POST['action'] == 'add_player') {
 // add/remove goals/assists
 } elseif ($_POST && $_POST['action'] == 'add_or_remove_goal') {
     $button_value = $_POST['goals_or_assists'];
-    if ($button_value == 'g+') {
-        $column_name = 'goals';
-        $num = 1;
-    } elseif ($button_value == 'g-') {
-        $column_name = 'goals';
-        $num = -1;
-    } elseif ($button_value == 'as+') {
-        $column_name = 'assists';
-        $num = 1;
-    } elseif ($button_value == 'as-') {
-        $column_name = 'assists';
-        $num = -1;
-    }
+    $substring_first_char = substr($button_value, 0, 1);
+    $substring_last_char = substr($button_value, strlen($button_value) - 1);
+    $substr_goal_plus_first_char = substr($goal_plus, 0, 1);
+    $substr_goal_plus_last_char = substr($goal_plus, strlen($goal_plus)-1);
+    $column_name = '';
+    $num = '';
+    $substring_first_char == $substr_goal_plus_first_char ? $column_name = 'goals' : $column_name = 'assists';
+    $substring_last_char == $substr_goal_plus_last_char ? $num = 1 : $num = -1;
     $player_id = $_POST['id'];
     $sql_add_or_remove_goal = "UPDATE `live_game` 
     SET `$column_name`= (SELECT $column_name FROM `live_game` WHERE player_id = $player_id)+$num 
     WHERE player_id = $player_id"
     ;
     mysqli_query($conn2, $sql_add_or_remove_goal);
+
+// remove player/whole team
 } elseif ($_POST && $_POST['action'] == 'remove') {
     $button_player = $_POST['remove_player'];
     $button_team = $_POST['remove_team'];
     $button_player ? $button_value = $button_player : $button_value = $button_team;
-    if ($button_value == 'remove_player') {
-        $id = $_POST['id'];
-        $sql_delete_player = "DELETE FROM `live_game`  
-        WHERE player_id = $id"
-        ;
-        mysqli_query($conn2, $sql_delete_player);
-        echo "<meta http-equiv='refresh' content='0'>";
-    } else {
-        $id = $_POST['id'];
-        $sql_delete_team = "DELETE FROM `live_game`  
-        WHERE team_id = $id"
-        ;
-        mysqli_query($conn2, $sql_delete_team);
-        echo "<meta http-equiv='refresh' content='0'>";
-    }
+    $where_column = '';
+    $button_value == 'remove_player' ? $where_column = 'player_id' : $where_column = 'team_id';
+    $id = $_POST['id'];
+    $sql_delete = "DELETE FROM `live_game`  
+    WHERE $where_column = $id"
+    ;
+    mysqli_query($conn2, $sql_delete);
+    echo "<meta http-equiv='refresh' content='0'>";
+
 } 
-
-
-
-$th = "<table class='border'>
-<tr>
-<th></th>
-<th>TIM</th>
-<th>IME</th>
-<th>PREZIME</th>
-<th>GOLOVI</th>
-<th>ASISTENCIJE</th>
-<th>DATUM</th>
-</tr>";
-
-$form_start = '<form action="index.php?page=futsal" method="post">
-<div style="display: none">
-<select name="id">
-<optgroup">
-<option value="';
-
-$form_goals_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="add_or_remove_goal">
-<button type="submit" name="goals_or_assists" value="g+">+</button>
-<button type="submit" name="goals_or_assists" value="g-">-</button>
-</form>';
-
-$form_assists_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="add_or_remove_goal">
-<button type="submit" name="goals_or_assists" value="as+">+</button>
-<button type="submit" name="goals_or_assists" value="as-">-</button>
-</form>';
-
-$form_remove_player_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="remove">
-<button type="submit" name="remove_player" value="remove_player">X</button>
-</form>';
-
-$form_remove_whole_team_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="remove">
-<button type="submit" name="remove_team" value="remove_team">X</button>
-</form>';
-
 
 // checking the number of rows after adding/deleting players or goals from table
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";

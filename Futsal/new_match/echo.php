@@ -51,6 +51,13 @@ $form_remove_whole_team_end = '" selected> Dodaj gol </option>
 <button type="submit" name="remove_team" value="remove_team">X</button>
 </form>';
 
+$form_end_game = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="end_game">
+<button type="submit" name="remove_team" value="remove_team">X</button>
+</form>';
+
 
 // add players
 if ($_POST && $_POST['action'] == 'add_player') {
@@ -110,7 +117,10 @@ if ($_POST && $_POST['action'] == 'add_player') {
     mysqli_query($conn2, $sql_delete);
     echo "<meta http-equiv='refresh' content='0'>";
 
-} 
+// end game - moving data from table live_game to games and truncate live_game
+} elseif ($_POST && $_POST['action'] == 'end_game') {
+    
+}
 
 // checking the number of rows after adding/deleting players or goals from table
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
@@ -122,7 +132,7 @@ if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
     }
 }
 
-if ($live_game_rows != 0) {
+if ($live_game_rows > 0) {
     for ($i = 1; $i <= 2; $i++) {
         $array_with_IDs = array();
         $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id
@@ -156,10 +166,13 @@ if ($live_game_rows != 0) {
                     echo "</table>";
                     echo "<br>";
                     echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
-                    echo "<br><br>";
+                    echo "<br><br><br>";
                 } 
             }
         }
+        // form for ending the game - move all data to the games table and truncate live_game table
+        echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
+
 } else {
     echo 'Napravi nove timove!';
 }

@@ -131,7 +131,7 @@ if ($_POST && $_POST['action'] == 'add_player') {
     mysqli_query($conn2, $sql_truncate_live_game);
 }
 
-// checking the number of rows after adding/deleting players or goals from table
+// checking the number of rows after refresh or after adding/deleting players or goals from table 
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
 if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
     if (mysqli_num_rows($result) > 0) {
@@ -178,6 +178,7 @@ if ($live_game_rows > 0) {
                         echo "<td>". $row['date_of_game'] ."</td>";
                         echo "<td>". $row['game_id'] ."</td>";
                         echo "</tr>";
+                        $live_game_date = $row['date_of_game'];
                     }
                     echo "</table>";
                     echo "<br>";
@@ -188,6 +189,19 @@ if ($live_game_rows > 0) {
         }
         // form for ending the game - move all data to the games table and truncate live_game table
         echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
+
+        // data transfers to other collumn automatically the next day
+        if ($live_game_date != date("Y-m-d")) {
+            $sql_push_data_to_games = "INSERT INTO games (team_id, player_id, goals, assists, date_of_game, game_id)
+            SELECT team_id, player_id, goals, assists, date_of_game, game_id
+            FROM live_game"
+            ;
+            mysqli_query($conn2, $sql_push_data_to_games);
+        
+            $sql_truncate_live_game = "TRUNCATE TABLE live_game"
+            ;
+            mysqli_query($conn2, $sql_truncate_live_game);
+        }
 
 } else {
     echo 'Napravi nove timove!';

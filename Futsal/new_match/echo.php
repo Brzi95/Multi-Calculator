@@ -120,7 +120,15 @@ if ($_POST && $_POST['action'] == 'add_player') {
 
 // end game - moving data from table live_game to games and truncate live_game
 } elseif ($_POST && $_POST['action'] == 'end_game') {
-    
+    $sql_push_data_to_games = "INSERT INTO games (team_id, player_id, goals, assists, date_of_game, game_id)
+    SELECT team_id, player_id, goals, assists, date_of_game, game_id
+    FROM live_game"
+    ;
+    mysqli_query($conn2, $sql_push_data_to_games);
+
+    $sql_truncate_live_game = "TRUNCATE TABLE live_game"
+    ;
+    mysqli_query($conn2, $sql_truncate_live_game);
 }
 
 // checking the number of rows after adding/deleting players or goals from table

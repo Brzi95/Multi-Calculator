@@ -9,6 +9,7 @@ $th = "<table class='border'>
 <th>GOLOVI</th>
 <th>ASISTENCIJE</th>
 <th>DATUM</th>
+<th>KOLO</th>
 </tr>";
 
 $form_start = '<form action="index.php?page=futsal" method="post">
@@ -133,9 +134,15 @@ if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
 }
 
 if ($live_game_rows > 0) {
+    // setting the game_id
+    $sql_set_game_id = "UPDATE `live_game` 
+    SET `game_id`= (SELECT MAX(game_id) FROM games)+1"
+    ;
+    mysqli_query($conn2, $sql_set_game_id);
+
     for ($i = 1; $i <= 2; $i++) {
         $array_with_IDs = array();
-        $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id
+        $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id, game_id
         FROM live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
         WHERE team_id = $i
@@ -161,6 +168,7 @@ if ($live_game_rows > 0) {
                         $row['assists']. "$form_start" . $player_id . "$form_assists_end";
                         echo "</td>";
                         echo "<td>". $row['date_of_game'] ."</td>";
+                        echo "<td>". $row['game_id'] ."</td>";
                         echo "</tr>";
                     }
                     echo "</table>";

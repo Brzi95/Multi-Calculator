@@ -35,9 +35,8 @@ if ($_POST && $_POST['action'] == 'add_or_remove_player') {
             mysqli_query($conn2, $sql_query);
             echo "$first_name added to the team $team_num!<br>";
         } else {
-            echo "$first_name is already in a team $check_team!<br><br>";
+            echo "$first_name is already in the team $check_team!<br><br>";
         }
-        $first_name = '';
         $check_team = '';
     }
 // add/remove goals/assists
@@ -68,13 +67,37 @@ if ($_POST && $_POST['action'] == 'add_or_remove_player') {
 
 $th = "<table class='border'>
 <tr>
-<td>TIM</td>
-<td>IME</td>
-<td>PREZIME</td>
-<td>GOLOVI</td>
-<td>ASISTENCIJE</td>
-<td>DATUM</td>
+<th>TIM</th>
+<th>IME</th>
+<th>PREZIME</th>
+<th>GOLOVI</th>
+<th>ASISTENCIJE</th>
+<th>DATUM</th>
 </tr>";
+
+$form_start = '<form action="index.php?page=futsal" method="post">
+<div style="display: none"> <select name="id">
+<optgroup">
+<option value="';
+
+$form_goals_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value="g+">+</button>
+<button type="submit" name="goals_or_assists" value="g-">-</button>
+</form>';
+
+$form_assists_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value="as+">+</button>
+<button type="submit" name="goals_or_assists" value="as-">-</button>
+</form>';
+
+
+
 
 // checking the number of rows after adding/deleting players from table
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
@@ -86,80 +109,43 @@ if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
     }
 }
 
-if ($live_game_rows == 0) {
-    echo "Napravi timove!";
-} else { 
-    // ako je current_date == match_date, prikazujemo tabelu 
-    // -- ako nije (ako je live tabela ostala za dan kasnije), podaci se prebace u games, a live ide truncate
-    $array_with_IDs = array();
-    for ($i = 1; $i <= 2; $i++) { 
+if ($live_game_rows != 0) {
+    for ($i = 1; $i <= 2; $i++) {
+        echo $th;
+        $array_with_IDs = array();
         $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id
         FROM live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
         WHERE team_id = $i"
         ;
-        if ($result = mysqli_query($conn2, $sql_select_live_game)) {
-            if (mysqli_num_rows($result) > 0) {
-                echo $th;
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<tr>";
-                    echo "<td>". $row['team_id'] ."</td>";
-                    echo "<td>". $row['first_name'] ."</td>";
-                    echo "<td>". $row['last_name'] ."</td>";
-                    echo "<td>". $row['goals'] ."</td>";
-                    echo "<td>". $row['assists'] ."</td>";
-                    echo "<td>". $row['date_of_game'] ."</td>";
-                    echo "</tr>";
-                    if ($row['player_id'] != null) {
-                        array_push($array_with_IDs, $row['player_id']);
+            if ($result = mysqli_query($conn2, $sql_select_live_game)) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_array($result)) {
+                        $id = $row['player_id'];
+                        echo "<tr>";
+                        echo "<td>". $row['team_id'] ."</td>";
+                        echo "<td>". $row['first_name'] ."</td>";
+                        echo "<td>". $row['last_name'] ."</td>";
+                        echo "<td>". 
+
+                        $row['goals']. "$form_start" . $id . "$form_goals_end"
+                        ."</td>";
+
+                        echo "<td>". 
+                        $row['goals']. "$form_start" . $id . "$form_assists_end"
+                        ."</td>";
+
+                        echo "<td>". $row['date_of_game'] ."</td>";
+
+                        echo "</tr>";
                     }
-                }
-                echo "</table><br><br>";
-            } 
-        }
-    }
-}
-
-echo "<br><br>";
-
-if (!empty($array_with_IDs)) {
-    foreach ($array_with_IDs as $player_id) {
-        $sql_get_single_player = "SELECT * FROM live_game g
-        LEFT JOIN players p ON g.player_id = p.player_id
-        WHERE g.player_id = $player_id"
-        ;
-        if ($result = mysqli_query($conn2, $sql_get_single_player)) {
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-                    $id = $row['player_id'];
-                    $player_name = $row['first_name'];
-                }
+                    echo "</table>";
+                } 
             }
         }
-        // ADD/REMOVE GOAL BUTTON
-        echo '<form action="index.php?page=futsal" method="post">
-        <label>'.$player_name.'</label>
-        <div style="display: none"> <select name="id">
-            
-            <optgroup">
-                <option value="' . $id . '" selected> Dodaj gol </option>
-            </optgroup>
-            
-        </select></div>
-        <input type="hidden" name="action" value="add_or_remove_goal">
-        <br>
-        Gol 
-        <button type="submit" name="goals_or_assists" value="g+">+</button>
-        <button type="submit" name="goals_or_assists" value="g-">-</button>
-        <br>
-        Asistencija 
-        <button type="submit" name="goals_or_assists" value="as+">+</button>
-        <button type="submit" name="goals_or_assists" value="as-">-</button>
-        </form>
-        <br><br>';
-        
-
-    }
+} else {
+    echo 'Napravi nove timove!';
 }
+
 
 

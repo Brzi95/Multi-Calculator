@@ -1,15 +1,13 @@
 
 <?php
 
-// add/remove players
+// add players
 if ($_POST && $_POST['action'] == 'add_player') {
     $team = $_POST['team'];
     $team == 'team_1' ? $team_num = 1 : $team_num = 2;
     $IDs_from_input = $_POST["$team"];
 
     $IDs_from_table = '';
-    $first_name = '';
-    $check_team = '';
     foreach ($IDs_from_input as $player_id) {
         $sql_inserted_players = "SELECT first_name, team_id, g.player_id
         FROM live_game g
@@ -19,22 +17,15 @@ if ($_POST && $_POST['action'] == 'add_player') {
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_array($result)) {
                     $IDs_from_table = $row['player_id'];
-                    $first_name = $row['first_name'];
-                    $check_team = $row['team_id'];
                 }
             } 
         }
-        if ($IDs_from_table != $player_id) {
-            $current_date = date('Y-m-d');
-            $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
-            VALUES ($team_num, $player_id, 0, 0, $current_date)"
-            ;
-            mysqli_query($conn2, $sql_add_player);
-            echo "<meta http-equiv='refresh' content='0'>";
-        } else {
-            echo "$first_name is already in the team $check_team!<br><br>";
-        }
-        $check_team = '';
+        $current_date = date('Y-m-d');
+        $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
+        VALUES ($team_num, $player_id, 0, 0, '$current_date')"
+        ;
+        mysqli_query($conn2, $sql_add_player);
+        echo "<meta http-equiv='refresh' content='0'>";
     }
 
 // add/remove goals/assists
@@ -130,9 +121,7 @@ $form_remove_whole_team_end = '" selected> Dodaj gol </option>
 </form>';
 
 
-
-
-// checking the number of rows after adding/deleting players from table
+// checking the number of rows after adding/deleting players or goals from table
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
 if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
     if (mysqli_num_rows($result) > 0) {
@@ -157,34 +146,25 @@ if ($live_game_rows != 0) {
                     while ($row = mysqli_fetch_array($result)) {
                         $team_id = $row['team_id'];
                         $player_id = $row['player_id'];
-                        
-                        
                         echo "<tr>";
-
                         echo "<td>";
                         echo "$form_start" . $player_id . "$form_remove_player_end";
                         echo "</td>";
-
                         echo "<td>". $row['team_id'] ."</td>";
                         echo "<td>". $row['first_name'] ."</td>";
                         echo "<td>". $row['last_name'] ."</td>";
-
                         echo "<td>". 
                         $row['goals']. "$form_start" . $player_id . "$form_goals_end";
                         echo "</td>";
-
                         echo "<td>". 
                         $row['assists']. "$form_start" . $player_id . "$form_assists_end";
                         echo "</td>";
-
                         echo "<td>". $row['date_of_game'] ."</td>";
                         echo "</tr>";
                     }
                     echo "</table>";
                     echo "<br>";
                     echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
-                    
-                    
                     echo "<br><br>";
                 } 
             }

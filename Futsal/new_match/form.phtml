@@ -10,7 +10,9 @@
                 if ($result = mysqli_query($conn2, $sql_select_match)) {
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_array($result)) {
+                            if ($row['player_id'] != 2) {
                             echo '<option value="' . $row['player_id'] . '">' . $row['first_name']. ' ' . $row['last_name']. '</option>';
+                        }
                         }
                     }
                 }

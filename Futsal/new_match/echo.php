@@ -6,7 +6,6 @@ if ($_POST && $_POST['action'] == 'add_player') {
     $team = $_POST['team'];
     $team == 'team_1' ? $team_num = 1 : $team_num = 2;
     $IDs_from_input = $_POST["$team"];
-    $input_radio = $_POST['player'];
 
     $IDs_from_table = '';
     $first_name = '';
@@ -31,13 +30,12 @@ if ($_POST && $_POST['action'] == 'add_player') {
             VALUES ($team_num, $player_id, 0, 0, $current_date)"
             ;
             mysqli_query($conn2, $sql_add_player);
-            echo "$first_name added to the team $team_num!<br>";
+            echo "<meta http-equiv='refresh' content='0'>";
         } else {
             echo "$first_name is already in the team $check_team!<br><br>";
         }
         $check_team = '';
     }
-    echo "<meta http-equiv='refresh' content='0'>";
 
 // add/remove goals/assists
 } elseif ($_POST && $_POST['action'] == 'add_or_remove_goal') {
@@ -61,17 +59,26 @@ if ($_POST && $_POST['action'] == 'add_player') {
     WHERE player_id = $player_id"
     ;
     mysqli_query($conn2, $sql_add_or_remove_goal);
-} elseif ($_POST && $_POST['action'] == 'remove_player') {
-    $button_value = $_POST['remove_button'];
-    if ($button_value == 'remove') {
-        $player_id = $_POST['id'];
+} elseif ($_POST && $_POST['action'] == 'remove') {
+    $button_player = $_POST['remove_player'];
+    $button_team = $_POST['remove_team'];
+    $button_player ? $button_value = $button_player : $button_value = $button_team;
+    if ($button_value == 'remove_player') {
+        $id = $_POST['id'];
         $sql_delete_player = "DELETE FROM `live_game`  
-        WHERE player_id = $player_id"
+        WHERE player_id = $id"
         ;
         mysqli_query($conn2, $sql_delete_player);
         echo "<meta http-equiv='refresh' content='0'>";
+    } else {
+        $id = $_POST['id'];
+        $sql_delete_team = "DELETE FROM `live_game`  
+        WHERE team_id = $id"
+        ;
+        mysqli_query($conn2, $sql_delete_team);
+        echo "<meta http-equiv='refresh' content='0'>";
     }
-}
+} 
 
 
 
@@ -111,8 +118,15 @@ $form_assists_end = '" selected> Dodaj gol </option>
 $form_remove_player_end = '" selected> Dodaj gol </option>
 </optgroup>
 </select></div>
-<input type="hidden" name="action" value="remove_player">
-<button type="submit" name="remove_button" value="remove">X</button>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_player" value="remove_player">X</button>
+</form>';
+
+$form_remove_whole_team_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_team" value="remove_team">X</button>
 </form>';
 
 
@@ -130,21 +144,25 @@ if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
 
 if ($live_game_rows != 0) {
     for ($i = 1; $i <= 2; $i++) {
-        echo $th;
         $array_with_IDs = array();
         $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id
         FROM live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
-        WHERE team_id = $i"
+        WHERE team_id = $i
+        ORDER BY goals DESC, assists DESC"
         ;
             if ($result = mysqli_query($conn2, $sql_select_live_game)) {
                 if (mysqli_num_rows($result) > 0) {
+                    echo $th;
                     while ($row = mysqli_fetch_array($result)) {
-                        $id = $row['player_id'];
+                        $team_id = $row['team_id'];
+                        $player_id = $row['player_id'];
+                        
+                        
                         echo "<tr>";
 
                         echo "<td>";
-                        echo "$form_start" . $id . "$form_remove_player_end";
+                        echo "$form_start" . $player_id . "$form_remove_player_end";
                         echo "</td>";
 
                         echo "<td>". $row['team_id'] ."</td>";
@@ -152,17 +170,22 @@ if ($live_game_rows != 0) {
                         echo "<td>". $row['last_name'] ."</td>";
 
                         echo "<td>". 
-                        $row['goals']. "$form_start" . $id . "$form_goals_end";
+                        $row['goals']. "$form_start" . $player_id . "$form_goals_end";
                         echo "</td>";
 
                         echo "<td>". 
-                        $row['assists']. "$form_start" . $id . "$form_assists_end";
+                        $row['assists']. "$form_start" . $player_id . "$form_assists_end";
                         echo "</td>";
 
                         echo "<td>". $row['date_of_game'] ."</td>";
                         echo "</tr>";
                     }
                     echo "</table>";
+                    echo "<br>";
+                    echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
+                    
+                    
+                    echo "<br><br>";
                 } 
             }
         }

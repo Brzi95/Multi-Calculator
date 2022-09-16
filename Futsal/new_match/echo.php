@@ -22,6 +22,7 @@ $goal_plus = 'g+';
 $goal_minus = 'g-';
 $assist_plus = 'as+';
 $assist_minus = 'as-';
+
 $form_goals_end = '" selected> Dodaj gol </option>
 </optgroup>
 </select></div>

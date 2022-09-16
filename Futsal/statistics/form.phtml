@@ -1,22 +1,21 @@
 <h3>Prikaži rezultate mečeva!</h3><br><br>
 <form action="index.php?page=futsal" method="post">
-    <label>Odaberi kolo:</label>
     <select name="game_id_input">
-        <optgroup label="Sva kola od 1. do 2.">
+        <optgroup label="Izaberi kolo">
         <?php
-            // $sql_select_match = "SELECT DISTINCT game_id FROM games";
-            // if ($result = mysqli_query($conn2, $sql_select_match)) {
-            //     if (mysqli_num_rows($result) > 0) {
-            //         while ($row = mysqli_fetch_array($result)) {
-            //             echo '<option value="' . $row['game_id'] . '">' . $row['game_id'] . '. Kolo' . '</option>';
-            //         }
-            //     }
-            // }
+            $sql_select_match = "SELECT DISTINCT game_id FROM games";
+            if ($result = mysqli_query($conn2, $sql_select_match)) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_array($result)) {
+                        echo '<option value="' . $row['game_id'] . '">' . $row['game_id'] . '. Kolo' . '</option>';
+                    }
+                }
+            }
         ?>
         </optgroup>
     </select>
     <br>
-    <input type="hidden" name="action" value="match_result">
+    <input type="hidden" name="action" value="choose_game">
     <input type="submit" value="submit">
 </form>
 

@@ -60,6 +60,8 @@ $form_end_game = '" selected> Dodaj gol </option>
 <button type="submit" name="remove_team" value="remove_team">X</button>
 </form>';
 
+$new_count = $_POST['new_count'] ?? null;
+var_dump($new_count);
 
 // add players
 if ($_POST && $_POST['action'] == 'add_player') {
@@ -84,7 +86,7 @@ if ($_POST && $_POST['action'] == 'add_player') {
         VALUES ($team_num, $player_id, 0, 0, '$current_date')"
         ;
         mysqli_query($conn2, $sql_add_player);
-        echo "<meta http-equiv='refresh' content='0'>";
+        // echo "<meta http-equiv='refresh' content='0'>";
     }
 
 // add/remove goals/assists

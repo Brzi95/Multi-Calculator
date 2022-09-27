@@ -4,7 +4,7 @@ $page = $_GET['page'] ?? NULL;
 include 'components/head.phtml';
 include 'components/header.phtml';
 $get_content_tab = $_GET['content_tab'] ?? '';
-echo $get_content_tab;
+// echo $get_content_tab;
 
 switch ($page) {
     case 'age':

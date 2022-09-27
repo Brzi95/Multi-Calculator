@@ -5,6 +5,8 @@
         <li><p>&copy; All rights reserved</p></li>
   </ul>
 </footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
 function openTab(evt, tabName) {
   var i, x, tablinks;
@@ -21,7 +23,13 @@ function openTab(evt, tabName) {
 
 }
 
-
+var count = 2;
+$("#new_count").click(function() {
+  count += 2;
+  $("#players_t1").load("Futsal/new_match/echo.php", {
+    new_count: count
+  });
+})
 
 
 </script>

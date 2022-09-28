@@ -3,7 +3,8 @@
     <select onchange="showUser(this.value)">
         <option value="">izaberi igraca</option>
         <?php
-            $sql_select_player = "SELECT * FROM players"
+            $sql_select_player = "SELECT * FROM players
+            ORDER BY first_name"
             ;
             if ($result = mysqli_query($conn2, $sql_select_player)) {
                 if (mysqli_num_rows($result) > 0) {

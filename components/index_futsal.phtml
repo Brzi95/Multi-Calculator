@@ -8,13 +8,12 @@
     <div id="statistics" class="w3-container w3-border tab" style="display: block;">
         <div class="form-container">
             <div class="form-input">
-                <?php include 'databases/mali_Fudbal_DB.php'; ?>
-                <?php include 'Futsal/statistics/form.phtml'; ?>
-                <?php include 'Futsal/statistics/form2.phtml'; ?>
+                <?php include $form_statistics; ?>
+                <?php include $form_statistics_2; ?>
             </div>
             <div class="echo-result">
-                <?php include 'databases/mali_Fudbal_DB.php'; ?>
-                <?php include 'Futsal/statistics/echo.php'; ?>
+                <?php include $echo_statistics; ?>
+                <?php include $echo_statistics_2; ?>
             </div>
         </div>
     </div>
@@ -22,12 +21,10 @@
     <div id="new_match" class="w3-container w3-border tab" style="display: none;"> 
         <div class="form-container">
             <div class="form-input">
-                <?php include 'databases/mali_Fudbal_DB.php'; ?>
-                <?php include 'Futsal/new_match/form.phtml'; ?>
+                <?php include $form_new_match; ?>
             </div>
             <div class="echo-result">
-                <?php include 'databases/mali_Fudbal_DB.php'; ?>
-                <?php include 'Futsal/new_match/echo.php'; ?>
+                <?php include $echo_new_match; ?>
             </div>
         </div>
     </div>

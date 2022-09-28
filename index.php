@@ -1,10 +1,8 @@
 <?php
 $page = $_GET['page'] ?? NULL;
-
+include 'databases/mali_Fudbal_DB.php';
 include 'components/head.phtml';
 include 'components/header.phtml';
-$get_content_tab = $_GET['content_tab'] ?? '';
-// echo $get_content_tab;
 
 switch ($page) {
     case 'age':
@@ -32,8 +30,12 @@ switch ($page) {
         break;
 
     case 'futsal':
-        $form = "Futsal/form.phtml";
-        $echo = "Futsal/echo.php";
+        $form_statistics = "Futsal/statistics/form.phtml";
+        $echo_statistics = "Futsal/statistics/echo.php";
+        $form_statistics_2 = "Futsal/statistics/form2.phtml";
+        $echo_statistics_2 = "Futsal/statistics/echo2.php";
+        $form_new_match = "Futsal/new_match/form.phtml";
+        $echo_new_match = "Futsal/new_match/echo.php";
         include "components/index_futsal.phtml";
         break;
 

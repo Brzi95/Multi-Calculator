@@ -1,7 +1,7 @@
 <h3>Prikaži igrače!</h3><br><br>
-<form action="index.php?page=futsal" method="post">
-    <select name="player_id_input">
-        <optgroup label="Izaberi igrača">
+<form>
+    <select onchange="showUser(this.value)">
+        <option value="">izaberi igraca</option>
         <?php
             $sql_select_player = "SELECT * FROM players"
             ;
@@ -16,6 +16,35 @@
         </optgroup>
     </select>
     <br>
+</form>
+
+<br><br>
+
+<div id="txtHint">odaberi igraca</div>
+
+
+
+
+
+<!-- 
+<h3>Prikaži igrače!</h3><br><br>
+<form action="index.php?page=futsal" method="post">
+    <select name="player_id_input">
+        <optgroup label="Izaberi igrača">
+        <?php
+            $sql_select_player = "SELECT * FROM players"
+            ;
+            if ($result = mysqli_query($conn2, $sql_select_player)) {
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_array($result)) {
+                        // echo '<option value="' . $row['player_id'] . '">' . $row['first_name'] . ' ' . $row['last_name'] . '</option>';
+                    }
+                }
+            }
+        ?>
+        </optgroup>
+    </select>
+    <br>
     <input type="hidden" name="action" value="choose_player">
     <input type="submit" value="submit">
-</form>
+</form> -->

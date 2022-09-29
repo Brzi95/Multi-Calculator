@@ -38,9 +38,21 @@ function showUser(str) {
   }
 }
 
-ajaxComplete(function() {
-  yourFunction();
-});
+function add_player_to_live_game_table(opt_value) {
+  if (opt_value == "") {
+    document.getElementById("first_team").innerHTML = "";
+    return;
+  } else {
+  var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("first_team").innerHTML = this.responseText;
+      }
+    };
+    xmlhttp.open("GET","Futsal/new_match/echo.php?y=" + opt_value, true);
+    xmlhttp.send();
+  }
+}
 
 </script>
 </body>

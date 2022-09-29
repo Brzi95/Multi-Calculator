@@ -1,0 +1,61 @@
+<?php
+
+$th = "<table class='border'>
+<tr>
+<th></th>
+<th>TIM</th>
+<th>IME</th>
+<th>PREZIME</th>
+<th>GOLOVI</th>
+<th>ASISTENCIJE</th>
+<th>DATUM</th>
+<th>KOLO</th>
+</tr>";
+
+$form_start = '<form action="index.php?page=futsal" method="post">
+<div style="display: none">
+<select name="id">
+<optgroup">
+<option value="';
+
+$goal_plus = 'g+';
+$goal_minus = 'g-';
+$assist_plus = 'as+';
+$assist_minus = 'as-';
+
+$form_goals_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value='.$goal_plus.'>+</button>
+<button type="submit" name="goals_or_assists" value='.$goal_minus.'>-</button>
+</form>';
+
+$form_assists_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="add_or_remove_goal">
+<button type="submit" name="goals_or_assists" value='.$assist_plus.'>+</button>
+<button type="submit" name="goals_or_assists" value='.$assist_minus.'>-</button>
+</form>';
+
+$form_remove_player_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_player" value="remove_player">X</button>
+</form>';
+
+$form_remove_whole_team_end = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="remove">
+<button type="submit" name="remove_team" value="remove_team">X</button>
+</form>';
+
+$form_end_game = '" selected> Dodaj gol </option>
+</optgroup>
+</select></div>
+<input type="hidden" name="action" value="end_game">
+<button type="submit" name="remove_team" value="remove_team">X</button>
+</form>';

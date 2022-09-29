@@ -1,64 +1,6 @@
 <?php
 
-$th = "<table class='border'>
-<tr>
-<th></th>
-<th>TIM</th>
-<th>IME</th>
-<th>PREZIME</th>
-<th>GOLOVI</th>
-<th>ASISTENCIJE</th>
-<th>DATUM</th>
-<th>KOLO</th>
-</tr>";
-
-$form_start = '<form action="index.php?page=futsal" method="post">
-<div style="display: none">
-<select name="id">
-<optgroup">
-<option value="';
-
-$goal_plus = 'g+';
-$goal_minus = 'g-';
-$assist_plus = 'as+';
-$assist_minus = 'as-';
-
-$form_goals_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="add_or_remove_goal">
-<button type="submit" name="goals_or_assists" value='.$goal_plus.'>+</button>
-<button type="submit" name="goals_or_assists" value='.$goal_minus.'>-</button>
-</form>';
-
-$form_assists_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="add_or_remove_goal">
-<button type="submit" name="goals_or_assists" value='.$assist_plus.'>+</button>
-<button type="submit" name="goals_or_assists" value='.$assist_minus.'>-</button>
-</form>';
-
-$form_remove_player_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="remove">
-<button type="submit" name="remove_player" value="remove_player">X</button>
-</form>';
-
-$form_remove_whole_team_end = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="remove">
-<button type="submit" name="remove_team" value="remove_team">X</button>
-</form>';
-
-$form_end_game = '" selected> Dodaj gol </option>
-</optgroup>
-</select></div>
-<input type="hidden" name="action" value="end_game">
-<button type="submit" name="remove_team" value="remove_team">X</button>
-</form>';
+include 'forms.phtml';
 
 // add players
 if ($_POST && $_POST['action'] == 'add_player') {
@@ -67,17 +9,6 @@ if ($_POST && $_POST['action'] == 'add_player') {
     $IDs_from_input = $_POST["$team"];
     $IDs_from_table = '';
     foreach ($IDs_from_input as $player_id) {
-        $sql_inserted_players = "SELECT first_name, team_id, g.player_id
-        FROM live_game g
-        LEFT JOIN players p ON p.player_id = g.player_id
-        WHERE g.player_id = $player_id";
-        if ($result = mysqli_query($conn2, $sql_inserted_players)) {
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-                    $IDs_from_table = $row['player_id'];
-                }
-            } 
-        }
         $current_date = date('Y-m-d');
         $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
         VALUES ($team_num, $player_id, 0, 0, '$current_date')"
@@ -153,7 +84,7 @@ if ($live_game_rows > 0) {
         FROM live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
         WHERE team_id = $i
-        ORDER BY goals DESC, assists DESC"
+        ORDER BY goals DESC, assists DESC, first_name"
         ;
             if ($result = mysqli_query($conn2, $sql_select_live_game)) {
                 if (mysqli_num_rows($result) > 0) {

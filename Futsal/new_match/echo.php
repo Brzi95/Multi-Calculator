@@ -1,21 +1,18 @@
 <?php
 
-include 'forms.phtml';
+include 'forms-buttons_in_live_table.phtml';
 
 // add players
-if ($_POST && $_POST['action'] == 'add_player') {
-    $team = $_POST['team'];
-    $team == 'team_1' ? $team_num = 1 : $team_num = 2;
-    $IDs_from_input = $_POST["$team"];
-    $IDs_from_table = '';
-    foreach ($IDs_from_input as $player_id) {
-        $current_date = date('Y-m-d');
-        $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
-        VALUES ($team_num, $player_id, 0, 0, '$current_date')"
-        ;
-        mysqli_query($conn2, $sql_add_player);
-        echo "<meta http-equiv='refresh' content='0'>";
-    }
+$player_id = $_GET['y'] ?? null;
+$team = $_GET['z'] ?? null;
+if (!is_null($player_id)) {
+    include '../../databases/mali_Fudbal_DB.php';
+    $team == '1' ? $team_num = 1 : $team_num = 2;
+    $current_date = date('Y-m-d');
+    $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
+    VALUES ($team_num, $player_id, 0, 0, '$current_date')"
+    ;
+    mysqli_query($conn2, $sql_add_player);
 
 // add/remove goals/assists
 } elseif ($_POST && $_POST['action'] == 'add_or_remove_goal') {
@@ -62,6 +59,7 @@ if ($_POST && $_POST['action'] == 'add_player') {
     mysqli_query($conn2, $sql_truncate_live_game);
 }
 
+
 // checking the number of rows after refresh or after adding/deleting players or goals from table 
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
 if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
@@ -84,7 +82,7 @@ if ($live_game_rows > 0) {
         FROM live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
         WHERE team_id = $i
-        ORDER BY goals DESC, assists DESC, first_name"
+        ORDER BY goals DESC, assists DESC, first_name, last_name"
         ;
             if ($result = mysqli_query($conn2, $sql_select_live_game)) {
                 if (mysqli_num_rows($result) > 0) {
@@ -92,6 +90,7 @@ if ($live_game_rows > 0) {
                     while ($row = mysqli_fetch_array($result)) {
                         $team_id = $row['team_id'];
                         $player_id = $row['player_id'];
+
                         echo "<tr>";
                         echo "<td>";
                         echo "$form_start" . $player_id . "$form_remove_player_end";

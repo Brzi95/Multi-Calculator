@@ -142,7 +142,6 @@ if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
 }
 
 if ($live_game_rows > 0) {
-    // setting the game_id
     $sql_set_game_id = "UPDATE `live_game` 
     SET `game_id`= (SELECT MAX(game_id) FROM games)+1"
     ;

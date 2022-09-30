@@ -84,45 +84,44 @@ if ($live_game_rows > 0) {
         WHERE team_id = $i
         ORDER BY goals DESC, assists DESC, first_name, last_name"
         ;
-            if ($result = mysqli_query($conn2, $sql_select_live_game)) {
-                if (mysqli_num_rows($result) > 0) {
-                    echo $th;
-                    while ($row = mysqli_fetch_array($result)) {
-                        $team_id = $row['team_id'];
-                        $player_id = $row['player_id'];
-
-                        echo "<tr>";
-                        echo "<td>";
-                        echo "$form_start" . $player_id . "$form_remove_player_end";
-                        echo "</td>";
-                        echo "<td>". $row['team_id'] ."</td>";
-                        echo "<td>". $row['first_name'] ."</td>";
-                        echo "<td>". $row['last_name'] ."</td>";
-                        echo "<td>". 
-                        $row['goals']. "$form_start" . $player_id . "$form_goals_end";
-                        echo "</td>";
-                        echo "<td>". 
-                        $row['assists']. "$form_start" . $player_id . "$form_assists_end";
-                        echo "</td>";
-                        echo "<td>". $row['date_of_game'] ."</td>";
-                        echo "<td>". $row['game_id'] ."</td>";
-                        echo "</tr>";
-                        $live_game_date = $row['date_of_game'];
-                    }
-                    echo "</table>";
-                    echo "<br>";
-                    echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
-                    echo "<br><br><br>";
-                } 
-            }
+        if ($result = mysqli_query($conn2, $sql_select_live_game)) {
+            if (mysqli_num_rows($result) > 0) {
+                echo $th;
+                while ($row = mysqli_fetch_array($result)) {
+                    $team_id = $row['team_id'];
+                    $player_id = $row['player_id'];
+                    echo "<tr>";
+                    echo "<td>";
+                    echo "$form_start" . $player_id . "$form_remove_player_end";
+                    echo "</td>";
+                    echo "<td>". $row['team_id'] ."</td>";
+                    echo "<td>". $row['first_name'] ."</td>";
+                    echo "<td>". $row['last_name'] ."</td>";
+                    echo "<td>". 
+                    $row['goals']. "$form_start" . $player_id . "$form_goals_end";
+                    echo "</td>";
+                    echo "<td>". 
+                    $row['assists']. "$form_start" . $player_id . "$form_assists_end";
+                    echo "</td>";
+                    echo "<td>". $row['date_of_game'] ."</td>";
+                    echo "<td>". $row['game_id'] ."</td>";
+                    echo "</tr>";
+                    $live_game_date = $row['date_of_game'];
+                }
+                echo "</table>";
+                echo "<br>";
+                echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
+                echo "<br><br><br>";
+            } 
         }
+    }
 
-        
+
 
         // form for ending the game - move all data to the games table and truncate live_game table
         echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
 
-        // data transfers to other collumn automatically the next day
+        // data transfers to other collumn automatically the next day - works only when I open the page and refresh it
         if ($live_game_date != date("Y-m-d")) {
             $sql_push_data_to_games = "INSERT INTO games (team_id, player_id, goals, assists, date_of_game, game_id)
             SELECT team_id, player_id, goals, assists, date_of_game, game_id

@@ -54,20 +54,19 @@ function add_player_to_live_game_table(opt_value, team) {
     }
 }
 
-function re_run_query_list(opt_value) {
-  if (opt_value == "") {
-    document.getElementById("first_team").innerHTML = "";
-    return;
-  } else {
+function add_remove_goal_assist(one_goal_or_assist) {
   var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("live_game").innerHTML = this.responseText;
-      }
-    };
-    xmlhttp.open("GET","Futsal/new_match/echo.php?y=" + opt_value + "&z=" + team, true);
+    // xmlhttp.onreadystatechange = function() {
+    //   if (this.readyState == 4 && this.status == 200) {
+    //     document.getElementById("live_game").innerHTML = this.responseText;
+    //   }
+    // };
+    xmlhttp.open("POST","Futsal/new_match/echo.php?g=" + one_goal_or_assist, true);
     xmlhttp.send();
-    }
+
+    $("form").submit(function add_remove_goal_assist(one_goal_or_assist) {
+      event.preventDefault();
+    })
 }
 
 </script>

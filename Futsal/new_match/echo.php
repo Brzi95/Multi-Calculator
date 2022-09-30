@@ -5,7 +5,7 @@ include 'forms-buttons_in_live_table.phtml';
 // add players
 $player_id = $_GET['y'] ?? null;
 $team = $_GET['z'] ?? null;
-if (!is_null($player_id)) {
+if ($player_id) {
     include '../../databases/mali_Fudbal_DB.php';
     $team == '1' ? $team_num = 1 : $team_num = 2;
     $current_date = date('Y-m-d');
@@ -15,7 +15,7 @@ if (!is_null($player_id)) {
     mysqli_query($conn2, $sql_add_player);
 
 // add/remove goals/assists
-} elseif ($_POST && $_POST['action'] == 'add_or_remove_goal') {
+} if ($_POST && $_POST['action'] == 'add_or_remove_goal') {
     $button_value = $_POST['goals_or_assists'];
     $substring_first_char = substr($button_value, 0, 1);
     $substring_last_char = substr($button_value, strlen($button_value) - 1);
@@ -33,7 +33,7 @@ if (!is_null($player_id)) {
     mysqli_query($conn2, $sql_add_or_remove_goal);
 
 // remove player/whole team
-} elseif ($_POST && $_POST['action'] == 'remove') {
+} if ($_POST && $_POST['action'] == 'remove') {
     $button_player = $_POST['remove_player'];
     $button_team = $_POST['remove_team'];
     $button_player ? $button_value = $button_player : $button_value = $button_team;

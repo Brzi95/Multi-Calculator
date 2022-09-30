@@ -2,7 +2,7 @@
     <br>
     <label>Tim 1:</label>
     <br>
-    <select name="1" multiple onchange="add_player_to_live_game_table(this.value, this.name); re_run_query_list(this.value)">
+    <select name="1" multiple onchange="add_player_to_live_game_table(this.value, this.name)">
         <optgroup label="Svi igrači">
             <?php
                 $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p

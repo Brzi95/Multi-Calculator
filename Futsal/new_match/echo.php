@@ -116,6 +116,9 @@ if ($live_game_rows > 0) {
                 } 
             }
         }
+
+        
+
         // form for ending the game - move all data to the games table and truncate live_game table
         echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
 

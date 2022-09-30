@@ -23,8 +23,8 @@ if ($player_id) {
     $substr_goal_plus_last_char = substr($goal_plus, strlen($goal_plus)-1);
     $column_name = '';
     $num = '';
-    $substring_first_char == $substr_goal_plus_first_char ? $column_name = 'goals' : $column_name = 'assists';
-    $substring_last_char == $substr_goal_plus_last_char ? $num = 1 : $num = -1;
+    $column_name = $substring_first_char == $substr_goal_plus_first_char ? 'goals' : 'assists';
+    $num = $substring_last_char == $substr_goal_plus_last_char ? 1 : -1;
     $player_id = $_POST['id'];
     $sql_add_or_remove_goal = "UPDATE `live_game` 
     SET `$column_name`= (SELECT $column_name FROM `live_game` WHERE player_id = $player_id)+$num 

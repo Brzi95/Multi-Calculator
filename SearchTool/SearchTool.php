@@ -68,13 +68,12 @@ class SearchTool {
                     echo " ($count_searched_char_in_single_word". 'x)'; // counter
                     echo "<br>";
                 } else {
-                    echo '. ';
                     for ($i = 0; $i < $word_length; $i++) {
                         if (strtolower(substr($word, $i, $search_length)) == strtolower($this->search_for)) {
                             echo "<span>" . strtolower($this->search_for) . "</span>";
                             $i += strlen($this->search_for) - 1;
                         } else {
-                            echo substr($word, $i + $search_length - 1, 1);
+                            echo substr($word, $i, 1);
                         }
                     }
                     echo "<br>";

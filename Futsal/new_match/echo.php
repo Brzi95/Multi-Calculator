@@ -28,6 +28,8 @@ if ($fetch) {
         echo "</form>";
         echo "<br><br>";
     }
+
+    return;
 }
 
 // insert players into live_game table
@@ -41,9 +43,10 @@ if ($player_id) {
     VALUES ($team_num, $player_id, 0, 0, '$current_date')"
     ;
     mysqli_query($conn2, $sql_add_player);
+} 
 
 // add/remove goals/assists
-} if ($_POST && $_POST['action'] == 'add_or_remove_goal') {
+if ($_POST && $_POST['action'] == 'add_or_remove_goal') {
     $button_value = $_POST['goals_or_assists'];
     $player_id = $_POST['id'];
     $column_name = '';
@@ -60,8 +63,10 @@ if ($player_id) {
     ;
     mysqli_query($conn2, $sql_add_or_remove_goal);
 
+
+} 
 // remove player/whole team
-} if ($_POST && $_POST['action'] == 'remove') {
+if ($_POST && $_POST['action'] == 'remove') {
     $button_player = $_POST['remove_player'];
     $button_team = $_POST['remove_team'];
     $button_player ? $button_value = $button_player : $button_value = $button_team;

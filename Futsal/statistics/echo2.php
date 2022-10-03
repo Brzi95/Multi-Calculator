@@ -9,8 +9,8 @@ $th = "<table class='border'>
 </tr>";
 
 $q = $_GET['q'] ?? null;
-if (!is_null($q)) {
-    include '../../databases/mali_Fudbal_DB.php'; // ??????????
+if ($q) {
+    include '../../databases/mali_Fudbal_DB.php';
     $sql_get_player = "SELECT first_name, last_name, SUM(goals) AS sum_goals, SUM(assists) AS sum_assists 
     FROM games g
     LEFT JOIN players p ON p.player_id = g.player_id

@@ -2,7 +2,35 @@
 
 include 'forms-buttons_in_live_table.phtml';
 
-// add players
+// fetch players from table after page load
+$fetch = $_GET['f'] ?? null;
+if ($fetch) {
+    include '../../databases/mali_Fudbal_DB.php';
+    for ($i = 1; $i <= 2; $i++) {
+        echo "<form>";
+        echo "<br>";
+        echo "<label>Tim $i:</label>";
+        echo "<br>";
+        echo "<select name='$i' multiple onchange='insert_player_to_live_game_table(this.value, this.name)'>";
+        echo "<optgroup label='Svi igrači'>";
+        $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p
+        LEFT JOIN live_game g ON p.player_id = g.player_id
+        WHERE team_id IS NULL -- select players who aren't in a team
+        ORDER BY first_name";
+        if ($result = mysqli_query($conn2, $sql_select_match)) {
+            if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_array($result)) {
+                    echo '<option value="' . $row['pp_id'] . '">' .  $row['first_name']. ' ' . $row['last_name']. '</option>';
+                }
+            }
+        }
+        echo "</select>";
+        echo "</form>";
+        echo "<br><br>";
+    }
+}
+
+// insert players into live_game table
 $player_id = $_GET['y'] ?? null;
 $team = $_GET['z'] ?? null;
 if ($player_id) {
@@ -58,7 +86,6 @@ if ($player_id) {
     ;
     mysqli_query($conn2, $sql_truncate_live_game);
 }
-
 
 // checking the number of rows after refresh or after adding/deleting players or goals from table 
 $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";

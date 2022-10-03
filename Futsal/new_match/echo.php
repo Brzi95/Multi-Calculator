@@ -31,9 +31,9 @@ foreach ($_GET as $key => $value) {
             return; // ?? ukloni da vidis problem
             break;
 
-        case 'player_id':
+        case 'insert_player':
             include '../../databases/mali_Fudbal_DB.php';
-            $player_id = $_GET['player_id'] ?? null;
+            $player_id = $_GET['insert_player'] ?? null;
             $team = $_GET['team_id'] ?? null;
             $team == '1' ? $team_num = 1 : $team_num = 2;
             $current_date = date('Y-m-d');

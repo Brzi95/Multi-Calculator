@@ -2,48 +2,100 @@
 
 include 'forms-buttons_in_live_table.phtml';
 
-// fetch_players(), called after page load, add/remove player/goal/assist
-$fetch = $_GET['f'] ?? null;
-if ($fetch) {
-    include '../../databases/mali_Fudbal_DB.php';
-    for ($i = 1; $i <= 2; $i++) {
-        echo "<form>";
-        echo "<br>";
-        echo "<label>Tim $i:</label>";
-        echo "<br>";
-        echo "<select name='$i' multiple onchange='insert_player_to_live_game_table(this.value, this.name)'>";
-        echo "<optgroup label='Svi igrači'>";
-        $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p
-        LEFT JOIN live_game g ON p.player_id = g.player_id
-        WHERE team_id IS NULL -- select players who aren't in a team
-        ORDER BY first_name";
-        if ($result = mysqli_query($conn2, $sql_select_match)) {
-            if (mysqli_num_rows($result) > 0) {
-                while ($row = mysqli_fetch_array($result)) {
-                    echo '<option value="' . $row['pp_id'] . '">' .  $row['first_name']. ' ' . $row['last_name']. '</option>';
+foreach ($_GET as $key => $value) {
+    switch ($key) {
+        case 'f':
+            include '../../databases/mali_Fudbal_DB.php';
+            for ($i = 1; $i <= 2; $i++) {
+                echo "<form>";
+                echo "<br>";
+                echo "<label>Tim $i:</label>";
+                echo "<br>";
+                echo "<select name='$i' multiple onchange='insert_player_to_live_game_table(this.value, this.name)'>";
+                echo "<optgroup label='Svi igrači'>";
+                $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p
+                LEFT JOIN live_game g ON p.player_id = g.player_id
+                WHERE team_id IS NULL -- select players who aren't in a team
+                ORDER BY first_name";
+                if ($result = mysqli_query($conn2, $sql_select_match)) {
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo '<option value="' . $row['pp_id'] . '">' .  $row['first_name']. ' ' . $row['last_name']. '</option>';
+                        }
+                    }
                 }
+                echo "</select>";
+                echo "</form>";
+                echo "<br><br>";
             }
-        }
-        echo "</select>";
-        echo "</form>";
-        echo "<br><br>";
-    }
+        
+            return;
+            break;
 
-    return;
+        case 'y':
+            $player_id = $_GET['y'] ?? null;
+            $team = $_GET['z'] ?? null;
+            include '../../databases/mali_Fudbal_DB.php';
+            $team == '1' ? $team_num = 1 : $team_num = 2;
+            $current_date = date('Y-m-d');
+            $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
+            VALUES ($team_num, $player_id, 0, 0, '$current_date')"
+            ;
+            mysqli_query($conn2, $sql_add_player);
+            break;
+
+        case 'y':
+
+            break;
+
+        default:
+            # code...
+            break;
+    }
 }
 
+// fetch_players(), called after page load, add/remove player/goal/assist
+// $fetch = $_GET['f'] ?? null;
+// if ($fetch) {
+//     include '../../databases/mali_Fudbal_DB.php';
+//     for ($i = 1; $i <= 2; $i++) {
+//         echo "<form>";
+//         echo "<br>";
+//         echo "<label>Tim $i:</label>";
+//         echo "<br>";
+//         echo "<select name='$i' multiple onchange='insert_player_to_live_game_table(this.value, this.name)'>";
+//         echo "<optgroup label='Svi igrači'>";
+//         $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p
+//         LEFT JOIN live_game g ON p.player_id = g.player_id
+//         WHERE team_id IS NULL -- select players who aren't in a team
+//         ORDER BY first_name";
+//         if ($result = mysqli_query($conn2, $sql_select_match)) {
+//             if (mysqli_num_rows($result) > 0) {
+//                 while ($row = mysqli_fetch_array($result)) {
+//                     echo '<option value="' . $row['pp_id'] . '">' .  $row['first_name']. ' ' . $row['last_name']. '</option>';
+//                 }
+//             }
+//         }
+//         echo "</select>";
+//         echo "</form>";
+//         echo "<br><br>";
+//     }
+
+//     return;
+// }
+
 // insert players into live_game table
-$player_id = $_GET['y'] ?? null;
-$team = $_GET['z'] ?? null;
-if ($player_id) {
-    include '../../databases/mali_Fudbal_DB.php';
-    $team == '1' ? $team_num = 1 : $team_num = 2;
-    $current_date = date('Y-m-d');
-    $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
-    VALUES ($team_num, $player_id, 0, 0, '$current_date')"
-    ;
-    mysqli_query($conn2, $sql_add_player);
-} 
+// $player_id = $_GET['y'] ?? null;
+// $team = $_GET['z'] ?? null;
+// if ($player_id) {
+//     include '../../databases/mali_Fudbal_DB.php';
+//     $team == '1' ? $team_num = 1 : $team_num = 2;
+//     $current_date = date('Y-m-d');
+//     $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
+//     VALUES ($team_num, $player_id, 0, 0, '$current_date')"
+//     ;
+//     mysqli_query($conn2, $sql_add_player);
+// } 
 
 // add/remove goals/assists
 if ($_POST && $_POST['action'] == 'add_or_remove_goal') {

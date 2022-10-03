@@ -2,7 +2,7 @@
 
 include 'forms-buttons_in_live_table.phtml';
 
-// fetch players from table after page load
+// fetch_players(), called after page load, add/remove player/goal/assist
 $fetch = $_GET['f'] ?? null;
 if ($fetch) {
     include '../../databases/mali_Fudbal_DB.php';
@@ -45,15 +45,15 @@ if ($player_id) {
 // add/remove goals/assists
 } if ($_POST && $_POST['action'] == 'add_or_remove_goal') {
     $button_value = $_POST['goals_or_assists'];
+    $player_id = $_POST['id'];
+    $column_name = '';
+    $num = '';
     $substring_first_char = substr($button_value, 0, 1);
     $substring_last_char = substr($button_value, strlen($button_value) - 1);
     $substr_goal_plus_first_char = substr($goal_plus, 0, 1);
     $substr_goal_plus_last_char = substr($goal_plus, strlen($goal_plus)-1);
-    $column_name = '';
-    $num = '';
     $column_name = $substring_first_char == $substr_goal_plus_first_char ? 'goals' : 'assists';
     $num = $substring_last_char == $substr_goal_plus_last_char ? 1 : -1;
-    $player_id = $_POST['id'];
     $sql_add_or_remove_goal = "UPDATE `live_game` 
     SET `$column_name`= (SELECT $column_name FROM `live_game` WHERE player_id = $player_id)+$num 
     WHERE player_id = $player_id"

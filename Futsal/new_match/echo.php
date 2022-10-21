@@ -1,53 +1,41 @@
 <?php
+// include '../../databases/mali_Fudbal_DB.php';
 
 include 'forms-buttons_in_live_table.phtml';
 
-foreach ($_GET as $key => $value) {
-    switch ($key) {
-        case 'fetch_list':
-            include '../../databases/mali_Fudbal_DB.php';
-            for ($i = 1; $i <= 2; $i++) {
-                echo "<form>";
-                echo "<br>";
-                echo "<label>Tim $i:</label>";
-                echo "<br>";
-                echo "<select name='$i' multiple onchange='insert_player_to_live_game_table(this.value, this.name)'>";
-                echo "<optgroup label='Svi igrači'>";
-                $sql_select_match = "SELECT first_name, last_name, g.player_id, p.player_id AS pp_id, team_id FROM players p
-                LEFT JOIN live_game g ON p.player_id = g.player_id
-                WHERE team_id IS NULL -- select players who aren't in a team
-                ORDER BY first_name";
-                if ($result = mysqli_query($conn2, $sql_select_match)) {
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_array($result)) {
-                            echo '<option value="' . $row['pp_id'] . '">' .  $row['first_name']. ' ' . $row['last_name']. '</option>';
-                        }
-                    }
-                }
-                echo "</select>";
-                echo "</form>";
-                echo "<br><br>";
-            }
-            return; // ?? ukloni da vidis problem
-            break;
+$sql_select_match = "SELECT first_name, last_name, goals, g.player_id, p.player_id AS pp_id, team_id FROM players p
+LEFT JOIN live_game g ON p.player_id = g.player_id
+WHERE team_id IS NULL -- select players who aren't in a team
+ORDER BY first_name";
+if ($result = mysqli_query($conn2, $sql_select_match)) {
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_array($result)) {
+            $id = $row['pp_id'];
+            $first_name = $row['first_name'];
+            $last_name = $row['last_name'];
 
-        case 'insert_player':
-            include '../../databases/mali_Fudbal_DB.php';
-            $player_id = $_GET['insert_player'] ?? null;
-            $team = $_GET['team_id'] ?? null;
-            $team == '1' ? $team_num = 1 : $team_num = 2;
-            $current_date = date('Y-m-d');
-            $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
-            VALUES ($team_num, $player_id, 0, 0, '$current_date')"
-            ;
-            mysqli_query($conn2, $sql_add_player);
-            break;
-
-        default:
-            # code...
-            break;
+            $return_arr[] = array(
+                "id" => $id,
+                "first_name" => $first_name,
+                "last_name" => $last_name
+            );
+        }
+        json_encode($return_arr);
     }
 }
+return;
+
+// $player_id = $_GET['insert_player'] ?? null;
+// $team = $_GET['team_id'] ?? null;
+// // $team == '1' ? $team_num = 1 : $team_num = 2;
+// $team_num = $team == '1' ? 1 : 2;
+// $current_date = date('Y-m-d');
+// $sql_add_player = "INSERT INTO `live_game`(`team_id`, `player_id`, `goals`, `assists`, `date_of_game`) 
+// VALUES ($team_num, $player_id, 0, 0, '$current_date')"
+// ;
+// mysqli_query($conn2, $sql_add_player);
+
+
 
 // add/remove goals/assists
 if ($_POST && $_POST['action'] == 'add_or_remove_goal') {
@@ -97,79 +85,84 @@ if ($_POST && $_POST['action'] == 'remove') {
 }
 
 // checking the number of rows after refresh or after adding/deleting players or goals from table 
-$sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
-if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            $live_game_rows = $row['num_of_rows'];
-        }
-    }
-}
+// $sql_live_game_rows = "SELECT COUNT(player_id) AS num_of_rows FROM live_game";
+// if ($result = mysqli_query($conn2, $sql_live_game_rows)) {
+//     if (mysqli_num_rows($result) > 0) {
+//         while ($row = mysqli_fetch_array($result)) {
+//             $live_game_rows = $row['num_of_rows'];
+//         }
+//     }
+// }
 
-if ($live_game_rows > 0) {
-    $sql_set_game_id = "UPDATE `live_game` 
-    SET `game_id`= (SELECT MAX(game_id) FROM games)+1"
-    ;
-    mysqli_query($conn2, $sql_set_game_id);
+// if ($live_game_rows > 0) {
+//     $sql_set_game_id = "UPDATE `live_game` 
+//     SET `game_id`= (SELECT MAX(game_id) FROM games)+1"
+//     ;
+//     mysqli_query($conn2, $sql_set_game_id);
 
-    for ($i = 1; $i <= 2; $i++) {
-        $array_with_IDs = array();
-        $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id, game_id
-        FROM live_game g
-        LEFT JOIN players p ON g.player_id = p.player_id
-        WHERE team_id = $i
-        ORDER BY goals DESC, assists DESC, first_name, last_name"
-        ;
-        if ($result = mysqli_query($conn2, $sql_select_live_game)) {
-            if (mysqli_num_rows($result) > 0) {
-                echo $th;
-                while ($row = mysqli_fetch_array($result)) {
-                    $team_id = $row['team_id'];
-                    $player_id = $row['player_id'];
-                    echo "<tr>";
-                    echo "<td>";
-                    echo "$form_start" . $player_id . "$form_remove_player_end";
-                    echo "</td>";
-                    echo "<td>". $row['team_id'] ."</td>";
-                    echo "<td>". $row['first_name'] ."</td>";
-                    echo "<td>". $row['last_name'] ."</td>";
-                    echo "<td>". 
-                    $row['goals']. "$form_start" . $player_id . "$form_goals_end";
-                    echo "</td>";
-                    echo "<td>". 
-                    $row['assists']. "$form_start" . $player_id . "$form_assists_end";
-                    echo "</td>";
-                    echo "<td>". $row['date_of_game'] ."</td>";
-                    echo "<td>". $row['game_id'] ."</td>";
-                    echo "</tr>";
-                    $live_game_date = $row['date_of_game'];
-                }
-                echo "</table>";
-                echo "<br>";
-                echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
-                echo "<br><br><br>";
-            } 
-        }
-    }
+//     for ($i = 1; $i <= 2; $i++) {
+//         $array_with_IDs = array();
+//         $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id, game_id
+//         FROM live_game g
+//         LEFT JOIN players p ON g.player_id = p.player_id
+//         WHERE team_id = $i
+//         ORDER BY goals DESC, assists DESC, first_name, last_name"
+//         ;
+//         if ($result = mysqli_query($conn2, $sql_select_live_game)) {
+//             if (mysqli_num_rows($result) > 0) {
+//                 echo $th;
+//                 while ($row = mysqli_fetch_array($result)) {
+//                     $team_id = $row['team_id'];
+//                     $player_id = $row['player_id'];
+//                     echo "<tr>";
+//                     echo "<td>";
+//                     echo "$form_start" . $player_id . "$form_remove_player_end";
+//                     echo "</td>";
+//                     echo "<td>". $row['team_id'] ."</td>";
+//                     echo "<td>". $row['first_name'] ."</td>";
+//                     echo "<td>". $row['last_name'] ."</td>";
+//                     echo "<td>". 
+//                     $row['goals']. "$form_start" . $player_id . "$form_goals_end";
+//                     echo "</td>";
+//                     echo "<td>". 
+//                     $row['assists']. "$form_start" . $player_id . "$form_assists_end";
+//                     echo "</td>";
+//                     echo "<td>". $row['date_of_game'] ."</td>";
+//                     echo "<td>". $row['game_id'] ."</td>";
+//                     echo "</tr>";
+//                     $live_game_date = $row['date_of_game'];
+//                 }
+//                 echo "</table>";
+//                 echo "<br>";
+//                 echo $form_start . $team_id . $form_remove_whole_team_end . " Obriši ceo tim";
+//                 echo "<br><br><br>";
+//             } 
+//         }
+//     }
 
 
 
-        // form for ending the game - move all data to the games table and truncate live_game table
-        echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
+//         // form for ending the game - move all data to the games table and truncate live_game table
+//         echo "Završi utakmicu! <br>" . $form_start . $form_end_game;
 
-        // data transfers to other collumn automatically the next day - works only when I open the page and refresh it
-        if ($live_game_date != date("Y-m-d")) {
-            $sql_push_data_to_games = "INSERT INTO games (team_id, player_id, goals, assists, date_of_game, game_id)
-            SELECT team_id, player_id, goals, assists, date_of_game, game_id
-            FROM live_game"
-            ;
-            mysqli_query($conn2, $sql_push_data_to_games);
+//         // data transfers to other collumn automatically the next day - works only when I open the page and refresh it
+//         if ($live_game_date != date("Y-m-d")) {
+//             $sql_push_data_to_games = "INSERT INTO games (team_id, player_id, goals, assists, date_of_game, game_id)
+//             SELECT team_id, player_id, goals, assists, date_of_game, game_id
+//             FROM live_game"
+//             ;
+//             mysqli_query($conn2, $sql_push_data_to_games);
         
-            $sql_truncate_live_game = "TRUNCATE TABLE live_game"
-            ;
-            mysqli_query($conn2, $sql_truncate_live_game);
-        }
+//             $sql_truncate_live_game = "TRUNCATE TABLE live_game"
+//             ;
+//             mysqli_query($conn2, $sql_truncate_live_game);
+//         }
 
-} else {
-    echo 'Napravi nove timove!';
-}
+// } else {
+//     echo 'Napravi nove timove!';
+// }
+
+// echo "<table id='live_game_table'>";
+
+// echo "<tbody></tbody>";
+// echo "</table>";

@@ -1,10 +1,10 @@
-<h3>Prikaži igrače!</h3><br><br>
+<h3>Prikaži igrače!</h3>
 <form>
-    <select onchange="showUser(this.value)">
-        <option value="">izaberi igraca</option>
+    <select onchange="showPlayer(this.value)">
+        <option value="">Izaberi igrača</option>
         <?php
-            $sql_select_player = "SELECT * FROM players
-            ORDER BY first_name"
+            $sql_select_player = "SELECT * FROM futsal_players
+            ORDER BY first_name, last_name"
             ;
             if ($result = mysqli_query($conn2, $sql_select_player)) {
                 if (mysqli_num_rows($result) > 0) {
@@ -14,7 +14,11 @@
                 }
             }
         ?>
-        </optgroup>
     </select>
     <br>
 </form>
+
+<div id="player_stats">
+    <p style="font-style: italic;">Tabela će se prikazati ovde:</p>
+</div>
+<br>

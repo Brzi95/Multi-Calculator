@@ -1,1 +1,40 @@
-<div id="fetch_players"></div>
+<!-- <div id="fetch_players"></div> -->
+<h3>TIM 1</h3>
+<div class="container">
+   <form class="player_form">
+        <select name="1" multiple onchange='insert_player_into_live_game_table(this.value, this.name)'>
+            <optgroup label="Svi igrači"></optgroup>
+        </select>
+    </form>
+</div>
+
+<br><br>
+
+<h3>TIM 2</h3>
+<div class="container">
+   <form class="player_form">
+        <select name="2" multiple onchange='insert_player_into_live_game_table(this.value, this.name)'>
+            <optgroup label="Svi igrači"></optgroup>
+        </select>
+    </form>
+</div>
+
+<br><br>
+
+<div class="container">
+   <table class='live_game_table'>
+      <tr>
+        <th>Team ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Goals</th>
+        <th>Assists</th>
+        <th>Date of game</th>
+        <th>Game ID</th>
+      </tr>
+   </table>
+</div>
+
+<br><br>
+
+

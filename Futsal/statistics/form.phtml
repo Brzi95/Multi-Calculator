@@ -1,9 +1,10 @@
-<h3>Prikaži rezultate mečeva!</h3><br><br>
-<form action="index.php?page=futsal" method="post">
-    <select name="game_id_input">
-        <optgroup label="Izaberi kolo">
+<h3>Prikaži rezultate mečeva!</h3>
+<form>
+    <select onchange="showGame(this.value)">
+        <option value="">Izaberi igrača</option>
         <?php
-            $sql_select_match = "SELECT DISTINCT game_id FROM games";
+            $sql_select_match = "SELECT DISTINCT game_id FROM futsal_games"
+            ;
             if ($result = mysqli_query($conn2, $sql_select_match)) {
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_array($result)) {
@@ -12,9 +13,10 @@
                 }
             }
         ?>
-        </optgroup>
     </select>
-    <br>
-    <input type="hidden" name="action" value="choose_game">
-    <input type="submit" value="submit">
 </form>
+
+<div id="game_stats">
+    <p style="font-style: italic;">Tabela će se prikazati ovde:</p>
+</div>
+<br>

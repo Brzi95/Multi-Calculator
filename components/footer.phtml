@@ -42,6 +42,41 @@ function showPlayer(str) {
     }
 }
 
+// function basic() {
+
+//   $(document).delegate("#btnBasicResponse", "click", function() {
+
+//     $.ajax({
+//       url: 'Futsal/statistics/echo2.php',
+//       type: 'get',
+//       dataType: 'JSON',
+//       success: function(response){
+//         var len = response.length;
+//         for(var i=0; i<len; i++){
+//           var first_name = response[i].first_name;
+//           var last_name = response[i].last_name;
+//           var sum_goals = response[i].sum_goals;
+//           var sum_assists = response[i].sum_assists;
+//           // var date = response[i].date;
+//           var tr_str = 
+//           // "<table>" +
+//           "<tr>" + 
+//           "<td>" + first_name + "</td>" + 
+//           "<td>" + last_name + "</td>" + 
+//           "<td>" + sum_goals + "</td>" + 
+//           "<td>" + sum_assists + "</td>" + 
+//           // "<td>" + date + "</td>" +
+//           "</tr>";
+//           // "</table>";
+//           $(".player_stats tbody").append(tr_str);
+//         }
+//       }
+//     });
+
+//   }
+
+// }
+
 // Show game stats
 function showGame(str) {
   if (str == "") {
@@ -63,69 +98,69 @@ function showGame(str) {
 // New Match
 
 // showing live game table
-$.ajax({
-  url: 'Futsal/new_match/show_live_game_table.php',
-  type: 'get',
-  dataType: 'JSON',
-  success: function(response){
-    var len = response.length;
-    for(var i=0; i<len; i++){
-      var player_id = response[i].player_id;
-      var team_id = response[i].team_id;
-      var first_name = response[i].first_name;
-      var last_name = response[i].last_name;
-      var goals = response[i].goals;
-      var assists = response[i].assists;
-      var live_game_date = response[i].live_game_date;
-      var game_id = response[i].game_id;
-      var tr_str = 
-      "<tr>" + 
-      "<td>" + team_id + "</td>" + 
-      "<td>" + first_name + "</td>" + 
-      "<td>" + last_name + "</td>" + 
-      "<td>" + goals + "</td>" + 
-      "<td>" + assists + "</td>" + 
-      "<td>" + live_game_date + "</td>" +
-      "<td>" + game_id + "</td>" + 
-      "</tr>";
-      $(".live_game_table tbody").append(tr_str);
-    }
-  }
-});
+// $.ajax({
+//   url: 'Futsal/new_match/show_live_game_table.php',
+//   type: 'get',
+//   dataType: 'JSON',
+//   success: function(response){
+//     var len = response.length;
+//     for(var i=0; i<len; i++){
+//       var player_id = response[i].player_id;
+//       var team_id = response[i].team_id;
+//       var first_name = response[i].first_name;
+//       var last_name = response[i].last_name;
+//       var goals = response[i].goals;
+//       var assists = response[i].assists;
+//       var live_game_date = response[i].live_game_date;
+//       var game_id = response[i].game_id;
+//       var tr_str = 
+//       "<tr>" + 
+//       "<td>" + team_id + "</td>" + 
+//       "<td>" + first_name + "</td>" + 
+//       "<td>" + last_name + "</td>" + 
+//       "<td>" + goals + "</td>" + 
+//       "<td>" + assists + "</td>" + 
+//       "<td>" + live_game_date + "</td>" +
+//       "<td>" + game_id + "</td>" + 
+//       "</tr>";
+//       $(".live_game_table tbody").append(tr_str);
+//     }
+//   }
+// });
 
 // fetching players who aren't in a team
-$.ajax({
-  url: 'Futsal/new_match/show_player_form.php',
-  type: 'get',
-  dataType: 'JSON',
-  success: function(response){
-    var len = response.length;
-    for(var i=0; i<len; i++){
-      var id = response[i].id;
-      var first_name = response[i].first_name;
-      var last_name = response[i].last_name;
-      var option_str = "<option value=" + id + ">" + first_name + " " + last_name + "</option>";
-      $(".player_form optgroup").append(option_str);
-    }
-  }
-});
+// $.ajax({
+//   url: 'Futsal/new_match/show_player_form.php',
+//   type: 'get',
+//   dataType: 'JSON',
+//   success: function(response){
+//     var len = response.length;
+//     for(var i=0; i<len; i++){
+//       var id = response[i].id;
+//       var first_name = response[i].first_name;
+//       var last_name = response[i].last_name;
+//       var option_str = "<option value=" + id + ">" + first_name + " " + last_name + "</option>";
+//       $(".player_form optgroup").append(option_str);
+//     }
+//   }
+// });
 
 // onchange event in form above
-function insert_player_into_live_game_table(opt_value, team) {
-  if (opt_value == "") {
-    document.getElementById("live_game").innerHTML = "";
-    return;
-  } else {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("live_game").innerHTML = this.responseText;
-        }
-      };
-      xmlhttp.open("GET","Futsal/new_match/insert_player_into_live_game_table.php?insert_player=" + opt_value + "&team_id=" + team, true);
-      xmlhttp.send();
-    }
-}
+// function insert_player_into_live_game_table(opt_value, team) {
+//   if (opt_value == "") {
+//     document.getElementById("live_game").innerHTML = "";
+//     return;
+//   } else {
+//       var xmlhttp = new XMLHttpRequest();
+//       xmlhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//           document.getElementById("live_game").innerHTML = this.responseText;
+//         }
+//       };
+//       xmlhttp.open("GET","Futsal/new_match/insert_player_into_live_game_table.php?insert_player=" + opt_value + "&team_id=" + team, true);
+//       xmlhttp.send();
+//     }
+// }
 
 // function add_remove_goal_assist() {
 //   var xmlhttp = new XMLHttpRequest();

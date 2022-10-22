@@ -4,12 +4,12 @@
         <option value="">Izaberi igrača</option>
         <?php
             $sql_select_player = "SELECT * FROM futsal_players
-            ORDER BY first_name, last_name"
+            ORDER BY nick_name"
             ;
             if ($result = mysqli_query($conn2, $sql_select_player)) {
                 if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_array($result)) {
-                        echo '<option value="' . $row['player_id'] . '">' . $row['first_name'] . ' ' . $row['last_name'] . '</option>';
+                        echo '<option value="' . $row['player_id'] . '">' . $row['nick_name'] . '</option>';
                     }
                 }
             }
@@ -18,9 +18,7 @@
     <br>
 </form>
 
-<div id="player_stats">
+<div id="player_table">
     <p style="font-style: italic;">Tabela će se prikazati ovde:</p>
 </div>
 <br>
-
-<!-- <button type="button" class="btn btn-primary" id="btnBasicResponse">Basic JSON Response</button> -->

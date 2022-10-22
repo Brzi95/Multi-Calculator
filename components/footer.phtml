@@ -26,56 +26,68 @@ function openTab(evt, tabName) {
 // Statistics
 
 // Show single player and his stats
-function showPlayer(str) {
-  if (str == "") {
-    document.getElementById("player_stats").innerHTML = "";
+// function showPlayer(str) {
+//   if (str == "") {
+//     document.getElementById("player_stats").innerHTML = "";
+//     return;
+//   } else {
+//       var xmlhttp = new XMLHttpRequest();
+//       xmlhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//           document.getElementById("player_stats").innerHTML = this.responseText;
+//         }
+//       };
+//       xmlhttp.open("GET","Futsal/statistics/echo2.php?q="+str, true);
+//       xmlhttp.send();
+//     }
+// }
+
+function showPlayer(player_id_form){
+  if (player_id_form == "") {
+    document.getElementById("player_table").innerHTML = "";
     return;
   } else {
-      var xmlhttp = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-          document.getElementById("player_stats").innerHTML = this.responseText;
+    $.ajax({
+      url: 'Futsal/statistics/echo2.php?player_id=' + player_id_form,
+      type: 'GET',
+      dataType: 'JSON',
+      success: function(response){
+        var len = response.length;
+        for(var i=0; i<len; i++){
+          var player_id_sql_table = response[i].player_id;
+          var first_name = response[i].first_name;
+          var last_name = response[i].last_name;
+          var nick_name = response[i].nick_name;
+          var goals = response[i].goals;
+          var assists = response[i].assists; 
+          var date = response[i].date;
+
+          var table = 
+            "<table>" +
+            "<thead>" +
+            "<td>First name</td>" +
+            "<td>Last name</td>" +
+            "<td>Nick name</td>" +
+            "<td>Goals</td>" +
+            "<td>Assists</td>" +
+            "<td>Date</td>" +
+            "</thead>" +
+            "<tbody>" +
+            "<td>" + first_name + "</td>" +
+            "<td>" + last_name + "</td>" +
+            "<td>" + nick_name + "</td>" +
+            "<td>" + goals + "</td>" +
+            "<td>" + assists + "</td>" +
+            "<td>" + date + "</td>" +
+            "</tbody>" +
+            "</table>";
+
+          document.getElementById("player_table").innerHTML = table;
         }
-      };
-      xmlhttp.open("GET","Futsal/statistics/echo2.php?q="+str, true);
-      xmlhttp.send();
-    }
+      }
+    });
+  }
 }
-
-// function basic() {
-
-//   $(document).delegate("#btnBasicResponse", "click", function() {
-
-//     $.ajax({
-//       url: 'Futsal/statistics/echo2.php',
-//       type: 'get',
-//       dataType: 'JSON',
-//       success: function(response){
-//         var len = response.length;
-//         for(var i=0; i<len; i++){
-//           var first_name = response[i].first_name;
-//           var last_name = response[i].last_name;
-//           var sum_goals = response[i].sum_goals;
-//           var sum_assists = response[i].sum_assists;
-//           // var date = response[i].date;
-//           var tr_str = 
-//           // "<table>" +
-//           "<tr>" + 
-//           "<td>" + first_name + "</td>" + 
-//           "<td>" + last_name + "</td>" + 
-//           "<td>" + sum_goals + "</td>" + 
-//           "<td>" + sum_assists + "</td>" + 
-//           // "<td>" + date + "</td>" +
-//           "</tr>";
-//           // "</table>";
-//           $(".player_stats tbody").append(tr_str);
-//         }
-//       }
-//     });
-
-//   }
-
-// }
 
 // Show game stats
 function showGame(str) {

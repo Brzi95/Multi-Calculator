@@ -1,0 +1,24 @@
+<h3>TIM 1</h3>
+<form>
+    <select class="unselected_players" id="1" multiple onchange="insert_player_into_live_game_table(this.value, this.id);">
+        <optgroup label="Svi igrači"></optgroup>
+    </select>
+</form>
+
+<br><br>
+
+<h3>TIM 2</h3>
+<form>
+    <select class="unselected_players" id="2" multiple onchange="insert_player_into_live_game_table(this.value, this.id);">
+        <optgroup label="Svi igrači"></optgroup>
+    </select>
+</form>
+
+<br><br><br><br>
+
+<div id="live_game_table">
+    <table id="table">
+        <thead></thead>
+        <tbody id="tbody"></tbody>
+    </table>
+</div>

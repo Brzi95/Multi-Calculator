@@ -30,12 +30,13 @@ switch ($page) {
         break;
 
     case 'futsal':
-        $form_statistics = "Futsal/statistics/form.phtml";
-        $echo_statistics = "Futsal/statistics/echo.php";
-        $form_statistics_2 = "Futsal/statistics/form2.phtml";
-        $echo_statistics_2 = "Futsal/statistics/echo2.php";
+        $form_statistics = "Futsal/statistics/show_Player_Form.phtml";
+        // $echo_statistics = "Futsal/statistics/echo.php";
+        $form_statistics_2 = "Futsal/statistics/show_Game_Form.phtml";
+        // $echo_statistics_2 = "Futsal/statistics/echo2.php";
         $form_new_match = "Futsal/new_match/form.phtml";
-        $echo_new_match = "Futsal/new_match/echo.php";
+        $form_new_match_2 = "Futsal/new_match/team_1_team_2_form.phtml";
+        $echo_new_match = "Futsal/new_match/show_player_form.php";
         include "components/index_futsal.phtml";
         break;
 

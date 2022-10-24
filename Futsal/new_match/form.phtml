@@ -3,7 +3,20 @@
 <div class="container">
    <form class="player_form">
         <select name="1" multiple onchange='insert_player_into_live_game_table(this.value, this.name)'>
-            <optgroup label="Svi igrači"></optgroup>
+            <optgroup label="Svi igrači">
+                <?php
+                    $sql_select_player = "SELECT * FROM futsal_players
+                    ORDER BY nick_name"
+                    ;
+                    if ($result = mysqli_query($conn2, $sql_select_player)) {
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo '<option value="' . $row['player_id'] . '">' . $row['nick_name'] . '</option>';
+                            }
+                        }
+                    }
+                ?>
+            </optgroup>
         </select>
     </form>
 </div>
@@ -14,27 +27,25 @@
 <div class="container">
    <form class="player_form">
         <select name="2" multiple onchange='insert_player_into_live_game_table(this.value, this.name)'>
-            <optgroup label="Svi igrači"></optgroup>
+            <optgroup label="Svi igrači">
+                <?php
+                    $sql_select_player = "SELECT * FROM futsal_players
+                    ORDER BY nick_name"
+                    ;
+                    if ($result = mysqli_query($conn2, $sql_select_player)) {
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                echo '<option value="' . $row['player_id'] . '">' . $row['nick_name'] . '</option>';
+                            }
+                        }
+                    }
+                ?>
+            </optgroup>
         </select>
     </form>
 </div>
 
 <br><br>
-
-<div class="container">
-   <table class='live_game_table'>
-      <tr>
-        <th>Team ID</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Goals</th>
-        <th>Assists</th>
-        <th>Date of game</th>
-        <th>Game ID</th>
-      </tr>
-   </table>
-</div>
-
 <br><br>
 
 

@@ -18,7 +18,7 @@ if ($live_game_rows > 0) {
 
     $insert_player = $_GET['insert_player'] ?? null;
         $sql_select_live_game = "SELECT `team_id`, `first_name`, `last_name`, `goals`, `assists`, `date_of_game`, g.player_id AS player_id, game_id
-        FROM live_game g
+        FROM futsal_live_game g
         LEFT JOIN players p ON g.player_id = p.player_id
         WHERE team_id = 1
         ORDER BY goals DESC, assists DESC, first_name, last_name"

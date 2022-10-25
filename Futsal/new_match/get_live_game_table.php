@@ -3,9 +3,11 @@
 include '../../databases/mali_Fudbal_DB.php';
 
 // GETTING WHOLE LIVE GAME TABLE
+$team_id_key = $_GET['team_id'] ?? null;
 $sql_select_everything_from_live_game_table = 
 "SELECT `team_id`, `player_id`, `first_name`, `last_name`, `nick_name`, `goals`, `assists`, `date_of_game`, `game_id` 
 FROM `futsal_live_game`
+WHERE `team_id` = $team_id_key
 "
 ;
 

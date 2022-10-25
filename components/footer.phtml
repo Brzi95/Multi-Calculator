@@ -127,12 +127,12 @@ function insert_player_into_live_game_table(player, team) {
   }).done(
     function get_live_game_table_after_selecting_player() {
       $.ajax({
-        url: 'Futsal/new_match/get_live_game_table.php',
+        url: 'Futsal/new_match/get_live_game_table.php?team_id=' + team,
         type: 'get',
         dataType: 'JSON',
         success: function(response){
           var table =
-          "<thead>" +
+          "<thead id='thead_" + team + "'>" +
           "<tr>" +
           "<td>TIM</td>" +
           "<td>PLAYER_ID</td>" +
@@ -146,10 +146,10 @@ function insert_player_into_live_game_table(player, team) {
           "</tr>" +
           "</thead>" +
 
-          "<tbody id='tbody'>" +
+          "<tbody id='tbody_" + team + "'>" +
           "</tbody>";
 
-          document.getElementById("table").innerHTML = table;
+          document.getElementById("table_" + team).innerHTML = table;
 
           $.each(response, function(key,value) {
             var tr =
@@ -165,7 +165,7 @@ function insert_player_into_live_game_table(player, team) {
             "<td>" + value.game_id + "</td>"
             "</tr>";
 
-            $("#table tbody").append(tr);
+            $("#table_" + team + " tbody").append(tr);
           });
             },
         error: function() {
@@ -184,7 +184,7 @@ function insert_player_into_live_game_table(player, team) {
 
               var all_forms = document.querySelectorAll(".unselected_players");
               for (let i = 0; i < all_forms.length; i++) {
-              all_forms[i].innerHTML = optgroup_empty;
+                all_forms[i].innerHTML = optgroup_empty;
               }
 
               $.each(response, function(key,value) {
@@ -206,47 +206,48 @@ function insert_player_into_live_game_table(player, team) {
 
 // live game table on page load
 $(document).ready(function(){
-  $.ajax({
-    url: 'Futsal/new_match/get_live_game_table.php',
-    type: 'get',
-    dataType: 'JSON',
-    success: function(response){
-      var tr_head =
-      "<tr>" +
-      "<td>TIM</td>" +
-      "<td>PLAYER_ID</td>" +
-      "<td>IME</td>" +
-      "<td>PREZIME</td>" +
-      "<td>NADIMAK</td>" +
-      "<td>GOLOVI</td>" +
-      "<td>ASISTENCIJE</td>" +
-      "<td>DATUM</td>" +
-      "<td>GAME_ID</td>" +
-      "</tr>";
-
-      $("#table thead").append(tr_head);
-
-      $.each(response, function(key,value) {
-        var tr =
+  for (let i = 1; i <= 2; i++) {
+    $.ajax({
+      url: 'Futsal/new_match/get_live_game_table.php?team_id=' + i,
+      type: 'get',
+      dataType: 'JSON',
+      success: function(response){
+        var tr_head =
         "<tr>" +
-        "<td>" + value.team_id + "</td>" +
-        "<td>" + value.player_id + "</td>" +
-        "<td>" + value.first_name + "</td>" +
-        "<td>" + value.last_name + "</td>" +
-        "<td>" + value.nick_name + "</td>" +
-        "<td>" + value.goals + "</td>" +
-        "<td>" + value.assists + "</td>" +
-        "<td>" + value.date_of_game + "</td>" +
-        "<td>" + value.game_id + "</td>"
+        "<td>TIM</td>" +
+        "<td>PLAYER_ID</td>" +
+        "<td>IME</td>" +
+        "<td>PREZIME</td>" +
+        "<td>NADIMAK</td>" +
+        "<td>GOLOVI</td>" +
+        "<td>ASISTENCIJE</td>" +
+        "<td>DATUM</td>" +
+        "<td>GAME_ID</td>" +
         "</tr>";
 
-        $("#table tbody").append(tr);
-      });
-    },
-    error: function() {
-      alert("live table onload ERROR");
-    }
-  });
+        $("#table_" + i + " thead").append(tr_head);
+        $.each(response, function(key,value) {
+          var tr =
+          "<tr>" +
+          "<td>" + value.team_id + "</td>" +
+          "<td>" + value.player_id + "</td>" +
+          "<td>" + value.first_name + "</td>" +
+          "<td>" + value.last_name + "</td>" +
+          "<td>" + value.nick_name + "</td>" +
+          "<td>" + value.goals + "</td>" +
+          "<td>" + value.assists + "</td>" +
+          "<td>" + value.date_of_game + "</td>" +
+          "<td>" + value.game_id + "</td>"
+          "</tr>";
+
+          $("#table_" + i + " tbody").append(tr);
+        });
+      },
+      error: function() {
+        alert("live table onload ERROR");
+      }
+    });
+  }
 });
 
 

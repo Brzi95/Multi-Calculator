@@ -8,7 +8,7 @@ $team_id = $_GET['team_id'] ?? null;
 $current_date = date_timestamp_get(date_create(date('Y-m-d')));
 
 $sql_insert_player = 
-"INSERT INTO `futsal_live_game`(`team_id`, `player_id`, `first_name`, `last_name`, `nick_name`, `goals`, `assists`, `date_of_game`, `game_id`) 
+"INSERT INTO `futsal_live_game` (`team_id`, `player_id`, `first_name`, `last_name`, `nick_name`, `goals`, `assists`, `date_of_game`, `game_id`) 
 VALUES (
     $team_id, 
     $player_id, 

@@ -131,11 +131,25 @@ function insert_player_into_live_game_table(player, team) {
         type: 'get',
         dataType: 'JSON',
         success: function(response){
-          var tbody_empty =
+          var table =
+          "<thead>" +
           "<tr>" +
-          "</tr>";
+          "<td>TIM</td>" +
+          "<td>PLAYER_ID</td>" +
+          "<td>IME</td>" +
+          "<td>PREZIME</td>" +
+          "<td>NADIMAK</td>" +
+          "<td>GOLOVI</td>" +
+          "<td>ASISTENCIJE</td>" +
+          "<td>DATUM</td>" +
+          "<td>GAME_ID</td>" +
+          "</tr>" +
+          "</thead>" +
 
-          document.getElementById("tbody").innerHTML = tbody_empty;
+          "<tbody id='tbody'>" +
+          "</tbody>";
+
+          document.getElementById("table").innerHTML = table;
 
           $.each(response, function(key,value) {
             var tr =
@@ -230,7 +244,7 @@ $(document).ready(function(){
       });
     },
     error: function() {
-      alert("error2");
+      alert("live table onload ERROR");
     }
   });
 });

@@ -3,6 +3,7 @@
 include '../../databases/mali_Fudbal_DB.php';
 
 
+
 $sql_select_match = "SELECT p.first_name, p.last_name, p.nick_name, p.player_id AS pp_id 
 FROM futsal_players p
 LEFT JOIN futsal_live_game l
@@ -18,7 +19,8 @@ if ($result = mysqli_query($conn2, $sql_select_match)) {
 
             $return_arr[] = array(
                 "id" => $id,
-                "nick_name" => $nick_name
+                "nick_name" => $nick_name,
+                "check_if_rows_exist" => 1
             );
         }
         echo json_encode($return_arr);

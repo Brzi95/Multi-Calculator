@@ -103,10 +103,20 @@ $(document).ready(function(){
     dataType: 'JSON',
     success: function(response){
       $.each(response, function(key,value) {
-        for(var i=1; i<=2; i++) {
-          var option = "<option value='" + value.id + "'>" + "<span>" + value.nick_name + "</span>" + "</option>";
-          $("#"+ i + " optgroup").append(option);
-        }
+        if (value.check_if_rows_exist) {
+          for(var i=1; i<=2; i++) {
+            var option = "<option value='" + value.id + "'>" + "<span>" + value.nick_name + "</span>" + "</option>";
+            $("#"+ i + " optgroup").append(option);
+          }
+        } else {
+            var table_empty =
+            "<div>" +
+            "</div>";
+            var all_forms = document.querySelectorAll(".players");
+            for (let i = 0; i < all_forms.length; i++) {
+              all_forms[i].innerHTML = table_empty;
+            }
+          }
       });
     }
   });
@@ -178,22 +188,35 @@ function insert_player_into_live_game_table(player, team) {
             type: 'GET',
             dataType: 'JSON',
             success: function(response){
-              var optgroup_empty =
-              "<optgroup label='Svi igrači'>" +
-              "</optgroup>";
-
-              var all_forms = document.querySelectorAll(".unselected_players");
-              for (let i = 0; i < all_forms.length; i++) {
-                all_forms[i].innerHTML = optgroup_empty;
-              }
-
               $.each(response, function(key,value) {
-                  for(var i=1; i<=2; i++) {
-                    var option = "<option value='" + value.id + "'>" + "<span>" + value.nick_name + "</span>" + "</option>";
-                    $("#"+ i + " optgroup").append(option);
+                if (value.check_if_rows_exist) {
+                  var optgroup_empty =
+                  "<optgroup label='Svi igrači'>" +
+                  "</optgroup>";
+                  var all_forms = document.querySelectorAll(".unselected_players");
+                  for (let i = 0; i < all_forms.length; i++) {
+                    all_forms[i].innerHTML = optgroup_empty;
                   }
+
+                  $.each(response, function(key,value) {
+                    for(var i=1; i<=2; i++) {
+                      var option = "<option value='" + value.id + "'>" + "<span>" + value.nick_name + "</span>" + "</option>";
+                      $("#"+ i + " optgroup").append(option);
+                    }
+                  });
+
+                } else {
+                    var table_empty =
+                    "<div>" +
+                    "</div>";
+                    var all_forms = document.querySelectorAll(".players");
+                    for (let i = 0; i < all_forms.length; i++) {
+                      all_forms[i].innerHTML = table_empty;
+                    }
+                }
               });
             },
+
             error: function() {
               alert("function 'fetch_players_again()' ERROR");
               }
@@ -244,7 +267,7 @@ $(document).ready(function(){
         });
       },
       error: function() {
-        alert("live table onload ERROR");
+        alert("live table onload ERROR - empty table");
       }
     });
   }

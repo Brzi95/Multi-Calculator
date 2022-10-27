@@ -20,8 +20,10 @@ VALUES (
     $current_date,
     (SELECT MAX(game_id) FROM `futsal_games`)+1)"
 ;
-mysqli_query($conn2, $sql_insert_player);
 
+if ($player_id_key && $team_id_key) {
+    mysqli_query($conn2, $sql_insert_player);
+}
 
 
 ?>
